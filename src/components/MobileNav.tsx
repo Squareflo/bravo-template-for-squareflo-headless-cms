@@ -1,3 +1,26 @@
+/**
+ * Mobile Navigation — SquarefloCMS Bravo Template
+ * ==================================================
+ * Powered by SquarefloCMS (https://squareflo.com)
+ *
+ * Client component ("use client") for the mobile hamburger menu.
+ * This is the only client component in the header — everything else
+ * is a server component for better performance and SEO.
+ *
+ * Features:
+ *   - Hamburger button (hidden on desktop, visible on mobile via CSS)
+ *   - Full-screen overlay with slide-in drawer from the right
+ *   - Expandable sub-items for nav items with children
+ *   - Auto-closes when a link is clicked
+ *
+ * The mobile nav design is custom — it wasn't taken from a specific HTML
+ * mockup file, but follows the dark-drawer pattern common in the Bravo
+ * template's mobile breakpoints (see html-reference/styles-r4m7t9w2qx.css
+ * responsive sections).
+ *
+ * CSS: src/styles/header.css (mobile-nav-overlay, mobile-nav__* classes)
+ */
+
 "use client";
 
 import { useState } from "react";
@@ -23,6 +46,7 @@ export default function MobileNav({ nav, businessName }: MobileNavProps) {
 
   return (
     <>
+      {/* Hamburger button — hidden on desktop, shown on mobile (via CSS) */}
       <button
         className="nv3-hamburger"
         aria-label="Menu"
@@ -32,6 +56,7 @@ export default function MobileNav({ nav, businessName }: MobileNavProps) {
         <i className={open ? "fas fa-times" : "fas fa-bars"} />
       </button>
 
+      {/* Mobile menu overlay + drawer */}
       {open && (
         <div className="mobile-nav-overlay" onClick={() => setOpen(false)}>
           <nav
@@ -44,6 +69,7 @@ export default function MobileNav({ nav, businessName }: MobileNavProps) {
                 <li key={item.id} className="mobile-nav__item">
                   {item.children.length > 0 ? (
                     <>
+                      {/* Parent item — tap to expand/collapse children */}
                       <button
                         className="mobile-nav__link mobile-nav__link--parent"
                         onClick={() => toggleExpanded(item.id)}
@@ -54,6 +80,7 @@ export default function MobileNav({ nav, businessName }: MobileNavProps) {
                           className={`fas fa-chevron-${expandedIds.has(item.id) ? "up" : "down"} mobile-nav__chevron`}
                         />
                       </button>
+                      {/* Sub-items — shown when parent is expanded */}
                       {expandedIds.has(item.id) && (
                         <ul className="mobile-nav__sub">
                           {item.url && item.url !== "#" && (
@@ -84,6 +111,7 @@ export default function MobileNav({ nav, businessName }: MobileNavProps) {
                       )}
                     </>
                   ) : (
+                    /* Simple nav link */
                     <a
                       href={item.url}
                       className="mobile-nav__link"

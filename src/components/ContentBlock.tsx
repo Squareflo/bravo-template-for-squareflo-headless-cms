@@ -1,3 +1,35 @@
+/**
+ * CMS Content Block Renderer — SquarefloCMS Bravo Template
+ * ===========================================================
+ * Powered by SquarefloCMS (https://squareflo.com)
+ *
+ * This component renders the headless content blocks that come from the CMS
+ * page editor. When a user creates a page in SquarefloCMS, they build it
+ * using blocks (headings, paragraphs, images, buttons, etc.). This component
+ * takes those blocks and renders them as HTML.
+ *
+ * Supported block types:
+ *   - heading    → <h1>–<h6> with dynamic level
+ *   - paragraph  → Rich HTML text
+ *   - image      → <figure> with <img>
+ *   - video      → <video> with controls
+ *   - button     → Styled link (solid or outline)
+ *   - spacer     → Empty div with configurable height
+ *   - columns    → CSS grid with nested blocks in each column
+ *   - section    → Placeholder for reusable CMS sections
+ *
+ * Also exports TwoColumnLayout — renders the CMS page's two-column structure
+ * (main content on the left, optional sidebar on the right).
+ *
+ * Design Reference:
+ *   - Block styling comes from src/styles/pages.css
+ *   - The two-column layout matches the interior page pattern used across
+ *     all Bravo template pages (see html-reference/index-r4m7t9w2qx.html)
+ *   - Button styles (.btn, .btn--outline) match the button patterns in
+ *     html-reference/styles-r4m7t9w2qx.css
+ */
+
+/** Shape of a content block from the CMS headless_content API response */
 interface Block {
   id: string;
   type: string;
@@ -10,23 +42,28 @@ interface Block {
   clickAction?: string;
   linkType?: string;
   linkValue?: string;
-  style?: string;
-  align?: string;
-  height?: number;
-  level?: number;
-  count?: number;
-  columns?: { blocks: Block[] }[];
+  style?: string;        // Button style: "solid" | "outline"
+  align?: string;        // Button alignment: "left" | "center" | "right"
+  height?: number;       // Spacer height in pixels
+  level?: number;        // Heading level: 1–6
+  count?: number;        // Number of columns
+  columns?: { blocks: Block[] }[];  // Nested blocks within each column
   section_slug?: string;
   section_name?: string;
   fields?: { key: string; label: string; type: string; value: string; locked: boolean; source_field?: string }[];
 }
 
+/** Renders a dynamic heading tag (h1–h6) based on the block's level property */
 function HeadingBlock({ block }: { block: Block }) {
   const level = block.level || 2;
   const Tag = `h${level}` as "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
   return <Tag dangerouslySetInnerHTML={{ __html: block.text || "" }} />;
 }
 
+/**
+ * Main block renderer — takes a single CMS block and returns the
+ * appropriate React element. Add new block types here as the CMS evolves.
+ */
 export default function ContentBlock({ block }: { block: Block }) {
   switch (block.type) {
     case "heading":
@@ -101,11 +138,24 @@ export default function ContentBlock({ block }: { block: Block }) {
   }
 }
 
+/**
+ * Two-Column Layout
+ * ===================
+ * Renders the CMS page's headless_content structure, which supports
+ * two columns: left (main content) and right (sidebar).
+ *
+ * If there are no right-column blocks, it renders a single full-width column.
+ * If both columns have blocks, it uses a CSS grid layout (see pages.css).
+ *
+ * This matches the standard interior page layout used across all Bravo
+ * template HTML mockups.
+ */
 export function TwoColumnLayout({ content }: { content: { left?: { blocks: Block[] }; right?: { blocks: Block[] } } }) {
   const left = content?.left?.blocks || [];
   const right = content?.right?.blocks || [];
   const hasRight = right.length > 0;
 
+  // Single column — no sidebar content
   if (!hasRight) {
     return (
       <div>
@@ -116,6 +166,7 @@ export function TwoColumnLayout({ content }: { content: { left?: { blocks: Block
     );
   }
 
+  // Two columns — main content + sidebar
   return (
     <div className="page__layout">
       <div className="page__main">

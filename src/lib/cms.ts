@@ -1,3 +1,31 @@
+/**
+ * SquarefloCMS Headless API Client
+ * =================================
+ * Powered by SquarefloCMS (https://squareflo.com) — a free headless CMS for developers.
+ *
+ * This is the single API client used by all server components to fetch data from
+ * the SquarefloCMS headless API. It handles authentication via API key and uses
+ * Next.js ISR (Incremental Static Regeneration) with a 60-second revalidation
+ * so content updates in the CMS appear on the live site within a minute.
+ *
+ * Environment variables used:
+ *   - SQUAREFLO_API_URL   → CMS API base URL
+ *   - SQUAREFLO_API_KEY   → Your site's API key
+ *   - SQUAREFLO_DRAFT_KEY → (optional) For draft/preview content
+ *
+ * These are automatically pushed to your Vercel project by SquarefloCMS.
+ * In the CMS dashboard go to: Integrations → Frontend Hosting → connect
+ * your Vercel account (API token, Project ID, Team ID) → click
+ * "Push Env Vars to Vercel". The CMS also sets up a Deploy Hook URL so
+ * content changes in the CMS can trigger a redeploy.
+ * For local development, copy these values into a .env.local file.
+ *
+ * Usage:
+ *   const { pages } = await cms<{ pages: Page[] }>("/pages");
+ *   const settings = await cms<SiteSettings>("/settings");
+ *   const { navigation } = await cms<{ navigation: NavItem[] }>("/navigation", { location: "header" });
+ */
+
 const API_URL = process.env.SQUAREFLO_API_URL!;
 const API_KEY = process.env.SQUAREFLO_API_KEY!;
 
@@ -12,7 +40,7 @@ export async function cms<T>(
 
   const res = await fetch(url.toString(), {
     headers: { "x-api-key": API_KEY },
-    next: { revalidate: 60 },
+    next: { revalidate: 60 }, // ISR: re-fetch from CMS every 60 seconds
   });
 
   if (!res.ok) {

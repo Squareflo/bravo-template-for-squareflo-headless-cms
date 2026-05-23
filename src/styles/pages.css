@@ -1,5 +1,22 @@
 /* ==========================================================================
-   Page Content Styles
+   Page Content & CMS Block Styles — SquarefloCMS Bravo Template
+   Powered by SquarefloCMS (https://squareflo.com) — free headless CMS.
+   ==========================================================================
+
+   Styles for CMS-rendered page content including:
+     - Page title with accent-colored rule
+     - Two-column layout (main content + optional sidebar)
+     - CMS content blocks: paragraphs, images, videos, buttons, columns
+     - Button presets (solid + outline) driven by CSS custom properties
+
+   Button styling uses CSS variables (--btn-primary-*) that are set dynamically
+   from the CMS design tokens in layout.tsx. Change button styles in the CMS
+   dashboard → Settings → Design → Buttons, and they update site-wide.
+
+   Design Reference:
+     - Page layout from html-reference/index-r4m7t9w2qx.html
+     - Button styles from html-reference/styles-r4m7t9w2qx.css (search ".btn")
+     - Column layouts from html-reference/styles-r4m7t9w2qx.css (search ".cms-columns")
    ========================================================================== */
 
 .page {

@@ -1,7 +1,20 @@
 /* ==========================================================================
    Bravo Template — Global Styles
-   Design tokens are injected as CSS custom properties via the layout
-   from the CMS /settings API. These fallbacks match the template defaults.
+   Powered by SquarefloCMS (https://squareflo.com) — free headless CMS.
+   ==========================================================================
+
+   HOW DESIGN TOKENS WORK:
+   The CMS /settings API returns design configuration (colors, fonts, etc.).
+   The root layout (src/app/layout.tsx) converts these into CSS custom
+   properties and applies them to the <html> element. The values below in
+   :root are FALLBACK defaults — they're overridden at runtime by the CMS.
+
+   If you change colors/fonts in the CMS dashboard, the site updates
+   automatically — no code changes needed.
+
+   Design Reference:
+     - Base styles ported from html-reference/styles-r4m7t9w2qx.css
+       (RESET & BASE section)
    ========================================================================== */
 
 :root {

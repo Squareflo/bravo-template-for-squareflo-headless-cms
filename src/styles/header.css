@@ -1,6 +1,22 @@
 /* ==========================================================================
-   NAV V3: Two-Tier (Utility + Main)
-   Ported from Bravo template, with dropdown + mobile nav additions
+   Site Header Navigation — SquarefloCMS Bravo Template
+   Powered by SquarefloCMS (https://squareflo.com) — free headless CMS.
+   ==========================================================================
+
+   HYBRID NAVIGATION: Combines two variations from the Bravo template:
+     - TOP TIER (utility bar): Nav Variation #3 — dark strip with phone, hours, social
+     - MAIN BAR: Nav Variation #6 — "Dark Solid" with white text on dark background
+
+   We combined these because V3's utility bar adds useful business context
+   while V6's dark solid main bar provides a premium look. The CSS class
+   names all use the "nv3-" prefix for consistency.
+
+   Design Reference:
+     - html-reference/nav-showcase-r4m7t9w2qx.html (all 10+ nav variations)
+     - html-reference/styles-r4m7t9w2qx.css (search for "NAV 3" and "NAV 6")
+
+   To switch to a different nav variation, update the classes and styles here
+   and update the markup in src/components/Header.tsx accordingly.
    ========================================================================== */
 
 .nav-v3 {
