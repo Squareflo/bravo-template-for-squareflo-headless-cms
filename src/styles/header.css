@@ -143,16 +143,18 @@
   font-size: 0.65rem;
 }
 
-/* CTA button style for last nav item if needed */
+/* CTA button — last nav item rendered as a button (V6 style).
+   Uses CMS button presets (--btn-primary-*) from design tokens. */
 .nv3-link--cta {
-  background: var(--color-accent, #e6307a);
-  color: #ffffff;
-  border-radius: 4px;
+  background: var(--btn-primary-bg, var(--color-accent, #e6307a));
+  color: var(--btn-primary-text, #ffffff);
+  border-radius: var(--btn-primary-radius, 4px);
   margin-left: 10px;
+  padding: 10px 24px;
 }
 .nv3-link--cta:hover {
-  background: var(--color-accent-hover, #c81f63);
-  color: #ffffff;
+  background: var(--btn-primary-bg-hover, var(--color-accent-hover, #c81f63));
+  color: var(--btn-primary-text, #ffffff);
 }
 
 /* --- Dropdown --- */

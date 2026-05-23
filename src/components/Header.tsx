@@ -124,49 +124,52 @@ export default function Header({ nav, settings }: HeaderProps) {
           {/* Desktop navigation — items come from CMS GET /navigation?location=header */}
           <nav className="nv3-nav">
             <ul className="nv3-list">
-              {nav.map((item) => (
-                <li key={item.id} className="nv3-item">
-                  {item.children.length > 0 ? (
-                    <>
-                      {/* Parent item with dropdown — shows caret icon */}
+              {nav.map((item, index) => {
+                const isLast = index === nav.length - 1;
+                return (
+                  <li key={item.id} className="nv3-item">
+                    {item.children.length > 0 ? (
+                      <>
+                        {/* Parent item with dropdown — shows caret icon */}
+                        <a
+                          href={item.url || "#"}
+                          className={`nv3-link${isLast ? " nv3-link--cta" : ""}`}
+                          target={item.open_in_new_tab ? "_blank" : undefined}
+                          rel={item.open_in_new_tab ? "noopener noreferrer" : undefined}
+                        >
+                          {item.label}{" "}
+                          <i className="fas fa-caret-down nv3-caret" />
+                        </a>
+                        {/* Dropdown menu — appears on hover (CSS-driven) */}
+                        <ul className="nv3-dropdown">
+                          {item.children.map((child) => (
+                            <li key={child.id}>
+                              <a
+                                href={child.url}
+                                className="nv3-dropdown__link"
+                                target={child.open_in_new_tab ? "_blank" : undefined}
+                                rel={child.open_in_new_tab ? "noopener noreferrer" : undefined}
+                              >
+                                {child.label}
+                              </a>
+                            </li>
+                          ))}
+                        </ul>
+                      </>
+                    ) : (
+                      /* Last item renders as CTA button (V6 style), rest are plain links */
                       <a
-                        href={item.url || "#"}
-                        className="nv3-link"
+                        href={item.url}
+                        className={`nv3-link${isLast ? " nv3-link--cta" : ""}`}
                         target={item.open_in_new_tab ? "_blank" : undefined}
                         rel={item.open_in_new_tab ? "noopener noreferrer" : undefined}
                       >
-                        {item.label}{" "}
-                        <i className="fas fa-caret-down nv3-caret" />
+                        {item.label}
                       </a>
-                      {/* Dropdown menu — appears on hover (CSS-driven) */}
-                      <ul className="nv3-dropdown">
-                        {item.children.map((child) => (
-                          <li key={child.id}>
-                            <a
-                              href={child.url}
-                              className="nv3-dropdown__link"
-                              target={child.open_in_new_tab ? "_blank" : undefined}
-                              rel={child.open_in_new_tab ? "noopener noreferrer" : undefined}
-                            >
-                              {child.label}
-                            </a>
-                          </li>
-                        ))}
-                      </ul>
-                    </>
-                  ) : (
-                    /* Simple nav link — no children */
-                    <a
-                      href={item.url}
-                      className="nv3-link"
-                      target={item.open_in_new_tab ? "_blank" : undefined}
-                      rel={item.open_in_new_tab ? "noopener noreferrer" : undefined}
-                    >
-                      {item.label}
-                    </a>
-                  )}
-                </li>
-              ))}
+                    )}
+                  </li>
+                );
+              })}
             </ul>
           </nav>
 
