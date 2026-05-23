@@ -34,14 +34,29 @@ Everything you see on the site is managed through the CMS — no hardcoded conte
 
 ## Quick Start (Clone This Site)
 
-### 1. Create your site in SquarefloCMS
+### 1. Create your site in SquarefloCMS and complete the checklist
 
 1. Go to [squareflo.com](https://squareflo.com) and sign up (free)
 2. Create a new site
-3. Configure your site using the CMS documentation:
+3. **Complete the onboarding checklist on your site's dashboard first!** SquarefloCMS
+   requires you to connect the following services before doing anything else. All have
+   generous free tiers:
+
+   | Service | Purpose | Options |
+   |---------|---------|---------|
+   | **Supabase** | Database & backend | [supabase.com](https://supabase.com) (free) |
+   | **Vercel** | Frontend hosting | [vercel.com](https://vercel.com) (free) |
+   | **Email delivery** | Transactional emails | [Resend](https://resend.com) (recommended), [Mailgun](https://mailgun.com), or similar |
+   | **Image CDN** | Media storage & optimization | [Cloudinary](https://cloudinary.com) (recommended), [ImageKit](https://imagekit.io), [Bunny.net](https://bunny.net), or similar |
+   | **AI assistant** | Help with content creation | [Claude](https://claude.ai) (recommended) or other AI |
+
+4. **Connect your custom domain** — go to Settings → Domain, enter your domain,
+   and configure the DNS records shown (CNAME → `cname.vercel-dns.com.`)
+5. Once the checklist is complete and your domain is connected, configure your site:
    - **Settings** — business info, logos, design tokens (colors, typography, buttons)
    - **Navigation** — add your menu items
    - **Pages** — create pages with the headless content editor
+
 ### 2. Connect your Vercel project
 
 1. Push this repo to your own GitHub account
