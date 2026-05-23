@@ -56,9 +56,10 @@
   color: #ffffff;
 }
 
-/* --- Main bar (bottom) --- */
+/* --- Main bar (bottom) — Dark Solid (V6 style) --- */
 .nav-v3__main {
-  border-bottom: 1px solid var(--color-border, #e5e5e5);
+  background: var(--color-dark, #2b2b2b);
+  border-bottom: 1px solid var(--color-border-dark, #3a3a3a);
 }
 .nav-v3__main-inner {
   max-width: 1200px;
@@ -85,7 +86,7 @@
   font-weight: 800;
   font-size: 1.6rem;
   letter-spacing: 0.02em;
-  color: var(--color-text, #333333);
+  color: var(--color-white, #ffffff);
 }
 
 /* Nav list */
@@ -109,7 +110,7 @@
   font-family: var(--font-heading, "Quicksand", sans-serif);
   font-weight: 700;
   font-size: 0.9rem;
-  color: var(--color-text, #333333);
+  color: var(--color-white, #ffffff);
   text-decoration: none;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -184,7 +185,7 @@
   padding: 8px;
   cursor: pointer;
   font-size: 1.3rem;
-  color: var(--color-text, #333333);
+  color: var(--color-white, #ffffff);
 }
 
 /* --- Mobile nav overlay --- */
