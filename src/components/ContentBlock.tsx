@@ -23,7 +23,7 @@ interface Block {
 
 function HeadingBlock({ block }: { block: Block }) {
   const level = block.level || 2;
-  const Tag = `h${level}` as keyof JSX.IntrinsicElements;
+  const Tag = `h${level}` as "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
   return <Tag dangerouslySetInnerHTML={{ __html: block.text || "" }} />;
 }
 
