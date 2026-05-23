@@ -1,0 +1,124 @@
+/* ==========================================================================
+   Page Content Styles
+   ========================================================================== */
+
+.page {
+  padding: 50px 20px 80px;
+}
+
+.page-title {
+  font-size: 2rem;
+  margin-bottom: 8px;
+}
+
+.page-title-rule {
+  border: none;
+  border-top: 3px solid var(--color-accent, #e6307a);
+  width: 60px;
+  margin: 0 0 30px;
+}
+
+/* Two-column layout */
+.page__layout {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 40px;
+}
+
+.page__main {
+  min-width: 0;
+}
+
+/* Sidebar */
+.sidebar {
+  min-width: 0;
+}
+
+/* CMS content blocks */
+.cms-paragraph {
+  margin-bottom: 1em;
+  line-height: 1.7;
+}
+
+.cms-paragraph p {
+  margin-bottom: 1em;
+}
+
+.cms-image {
+  margin: 0 0 1.5em;
+}
+
+.cms-image img {
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
+
+.cms-video video {
+  width: 100%;
+  border-radius: 4px;
+  margin-bottom: 1.5em;
+}
+
+.cms-button-wrap {
+  margin-bottom: 1.5em;
+}
+
+.cms-button-wrap--center {
+  text-align: center;
+}
+
+.cms-button-wrap--right {
+  text-align: right;
+}
+
+/* Button base */
+.btn {
+  display: inline-block;
+  padding: var(--btn-primary-pv, 14px) var(--btn-primary-ph, 32px);
+  background: var(--btn-primary-bg, var(--color-accent, #e6307a));
+  color: var(--btn-primary-text, #ffffff);
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 0.95rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  border: none;
+  border-radius: var(--btn-primary-radius, 2px);
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.2s ease;
+}
+
+.btn:hover {
+  background: var(--btn-primary-bg-hover, var(--color-accent-hover, #c81f63));
+  color: var(--btn-primary-text, #ffffff);
+}
+
+.btn--outline {
+  background: transparent;
+  color: var(--color-text, #333);
+  border: 2px solid var(--color-text, #333);
+}
+
+.btn--outline:hover {
+  background: var(--color-text, #333);
+  color: #ffffff;
+}
+
+.btn--block {
+  display: block;
+  width: 100%;
+  text-align: center;
+}
+
+/* Columns responsive */
+@media (max-width: 767px) {
+  .page__layout {
+    grid-template-columns: 1fr;
+  }
+
+  .cms-columns {
+    grid-template-columns: 1fr !important;
+  }
+}

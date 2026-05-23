@@ -1,0 +1,79 @@
+/* ==========================================================================
+   Bravo Template — Global Styles
+   Design tokens are injected as CSS custom properties via the layout
+   from the CMS /settings API. These fallbacks match the template defaults.
+   ========================================================================== */
+
+:root {
+  --color-accent: #e6307a;
+  --color-accent-hover: #c81f63;
+  --color-dark: #2b2b2b;
+  --color-dark-alt: #1f1f1f;
+  --color-light: #f7f5f1;
+  --color-white: #ffffff;
+  --color-text: #333333;
+  --color-text-muted: #666666;
+  --color-text-on-dark: #ffffff;
+  --color-text-on-dark-muted: #cccccc;
+  --color-border: #e5e5e5;
+  --color-border-dark: #3a3a3a;
+  --font-heading: "Quicksand", "Helvetica Neue", Arial, sans-serif;
+  --font-body: "Open Sans", "Helvetica Neue", Arial, sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--color-text);
+  background: var(--color-page-bg, var(--color-white));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 0 0 0.6em;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  line-height: 1.2;
+  color: inherit;
+}
+
+p {
+  margin: 0 0 1em;
+}
+
+a {
+  color: var(--color-text);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: var(--color-accent);
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
