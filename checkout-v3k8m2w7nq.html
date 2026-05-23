@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout — Bravo</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700;800&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="styles-v3k8m2w7nq.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="site-header__inner">
+      <a href="/" class="site-logo">
+        <span class="site-logo__text">BR<span style="color: var(--color-accent);">A</span>VO</span>
+      </a>
+      <nav class="primary-nav" aria-label="Primary">
+        <ul class="primary-nav__list">
+          <li class="primary-nav__item"><a href="/" class="primary-nav__link">Home</a></li>
+          <li class="primary-nav__item">
+            <a href="/events" class="primary-nav__link">Events <i class="fas fa-caret-down primary-nav__caret"></i></a>
+            <ul class="primary-nav__dropdown">
+              <li><a href="/events" class="primary-nav__dropdown-link">All Events</a></li>
+              <li><a href="/events/calendar" class="primary-nav__dropdown-link">Calendar</a></li>
+            </ul>
+          </li>
+          <li class="primary-nav__item"><a href="/blog" class="primary-nav__link">Blog</a></li>
+          <li class="primary-nav__item primary-nav__item--active"><a href="/products" class="primary-nav__link">Products</a></li>
+          <li class="primary-nav__item">
+            <a href="/more" class="primary-nav__link">More <i class="fas fa-caret-down primary-nav__caret"></i></a>
+            <ul class="primary-nav__dropdown">
+              <li><a href="/about" class="primary-nav__dropdown-link">About Us</a></li>
+              <li><a href="/services" class="primary-nav__dropdown-link">Services</a></li>
+              <li><a href="/team" class="primary-nav__dropdown-link">Our Team</a></li>
+            </ul>
+          </li>
+          <li class="primary-nav__item"><a href="/contact" class="primary-nav__link">Contact</a></li>
+        </ul>
+        <div class="header-utils">
+          <button class="header-utils__btn" aria-label="Search"><i class="fas fa-search"></i></button>
+          <a href="cart-v3k8m2w7nq.html" class="header-utils__btn" aria-label="Cart"><i class="fas fa-shopping-cart"></i></a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page">
+    <div class="container">
+      <h1 class="page-title">Checkout</h1>
+      <hr class="page-title-rule">
+
+      <div class="checkout-layout">
+
+        <div>
+
+          <!-- Step 1: Contact -->
+          <section class="checkout-section">
+            <div class="checkout-section__header">
+              <span class="checkout-section__step">1</span>
+              <h2 class="checkout-section__title">Contact information</h2>
+            </div>
+            <div class="checkout-grid">
+              <div class="form-field form-field--span-2">
+                <label for="co-email" class="form-field__label">E-mail</label>
+                <input id="co-email" type="email" class="form-field__input" placeholder="you@example.com">
+              </div>
+              <div class="form-field form-field--span-2">
+                <label class="auth-card__checkbox-label" style="font-size: 0.9rem;">
+                  <input type="checkbox" checked> E-mail me with news and offers
+                </label>
+              </div>
+            </div>
+          </section>
+
+          <!-- Step 2: Shipping address -->
+          <section class="checkout-section">
+            <div class="checkout-section__header">
+              <span class="checkout-section__step">2</span>
+              <h2 class="checkout-section__title">Shipping address</h2>
+            </div>
+            <div class="checkout-grid">
+              <div class="form-field">
+                <label for="co-fname" class="form-field__label">First name</label>
+                <input id="co-fname" type="text" class="form-field__input" autocomplete="given-name">
+              </div>
+              <div class="form-field">
+                <label for="co-lname" class="form-field__label">Last name</label>
+                <input id="co-lname" type="text" class="form-field__input" autocomplete="family-name">
+              </div>
+              <div class="form-field form-field--span-2">
+                <label for="co-addr1" class="form-field__label">Address</label>
+                <input id="co-addr1" type="text" class="form-field__input" placeholder="Street address" autocomplete="address-line1">
+              </div>
+              <div class="form-field form-field--span-2">
+                <label for="co-addr2" class="form-field__label">Apartment, suite, etc. (optional)</label>
+                <input id="co-addr2" type="text" class="form-field__input" autocomplete="address-line2">
+              </div>
+              <div class="form-field">
+                <label for="co-city" class="form-field__label">City</label>
+                <input id="co-city" type="text" class="form-field__input" autocomplete="address-level2">
+              </div>
+              <div class="form-field">
+                <label for="co-state" class="form-field__label">State / Province</label>
+                <input id="co-state" type="text" class="form-field__input" autocomplete="address-level1">
+              </div>
+              <div class="form-field">
+                <label for="co-zip" class="form-field__label">ZIP / Postal code</label>
+                <input id="co-zip" type="text" class="form-field__input" autocomplete="postal-code">
+              </div>
+              <div class="form-field">
+                <label for="co-country" class="form-field__label">Country</label>
+                <select id="co-country" class="form-field__select">
+                  <option>Canada</option>
+                  <option>United States</option>
+                  <option>United Kingdom</option>
+                </select>
+              </div>
+              <div class="form-field form-field--span-2">
+                <label for="co-phone" class="form-field__label">Phone (for delivery updates)</label>
+                <input id="co-phone" type="tel" class="form-field__input" autocomplete="tel">
+              </div>
+            </div>
+          </section>
+
+          <!-- Step 3: Shipping method -->
+          <section class="checkout-section">
+            <div class="checkout-section__header">
+              <span class="checkout-section__step">3</span>
+              <h2 class="checkout-section__title">Shipping method</h2>
+            </div>
+            <div class="checkout-radio-group">
+              <label class="checkout-radio checkout-radio--active">
+                <input type="radio" name="shipping" checked>
+                <span class="checkout-radio__label">Standard shipping <span style="color: var(--color-text-muted); font-weight: 400; font-size: 0.85rem;">· 5–7 business days</span></span>
+                <span class="checkout-radio__price">Free</span>
+              </label>
+              <label class="checkout-radio">
+                <input type="radio" name="shipping">
+                <span class="checkout-radio__label">Express shipping <span style="color: var(--color-text-muted); font-weight: 400; font-size: 0.85rem;">· 2–3 business days</span></span>
+                <span class="checkout-radio__price">$14.99</span>
+              </label>
+              <label class="checkout-radio">
+                <input type="radio" name="shipping">
+                <span class="checkout-radio__label">Overnight <span style="color: var(--color-text-muted); font-weight: 400; font-size: 0.85rem;">· next business day</span></span>
+                <span class="checkout-radio__price">$29.99</span>
+              </label>
+            </div>
+          </section>
+
+          <!-- Step 4: Payment -->
+          <section class="checkout-section">
+            <div class="checkout-section__header">
+              <span class="checkout-section__step">4</span>
+              <h2 class="checkout-section__title">Payment</h2>
+            </div>
+            <div class="checkout-radio-group" style="margin-bottom: 18px;">
+              <label class="checkout-radio checkout-radio--active">
+                <input type="radio" name="payment" checked>
+                <span class="checkout-radio__label">Credit / Debit card</span>
+                <i class="fas fa-credit-card"></i>
+              </label>
+              <label class="checkout-radio">
+                <input type="radio" name="payment">
+                <span class="checkout-radio__label">PayPal</span>
+                <i class="fab fa-paypal"></i>
+              </label>
+              <label class="checkout-radio">
+                <input type="radio" name="payment">
+                <span class="checkout-radio__label">Apple Pay</span>
+                <i class="fab fa-apple-pay"></i>
+              </label>
+            </div>
+            <div class="checkout-grid">
+              <div class="form-field form-field--span-2">
+                <label for="co-card" class="form-field__label">Card number</label>
+                <input id="co-card" type="text" class="form-field__input" placeholder="1234 5678 9012 3456" autocomplete="cc-number">
+              </div>
+              <div class="form-field">
+                <label for="co-exp" class="form-field__label">Expiration</label>
+                <input id="co-exp" type="text" class="form-field__input" placeholder="MM / YY" autocomplete="cc-exp">
+              </div>
+              <div class="form-field">
+                <label for="co-cvc" class="form-field__label">CVC</label>
+                <input id="co-cvc" type="text" class="form-field__input" placeholder="123" autocomplete="cc-csc">
+              </div>
+              <div class="form-field form-field--span-2">
+                <label for="co-cardname" class="form-field__label">Name on card</label>
+                <input id="co-cardname" type="text" class="form-field__input" autocomplete="cc-name">
+              </div>
+            </div>
+          </section>
+
+          <a href="checkout-success-v3k8m2w7nq.html" class="btn btn--block">Place Order · $400.68</a>
+
+        </div>
+
+        <aside class="order-summary">
+          <h2 class="order-summary__title">Order Summary</h2>
+
+          <div class="order-summary__items">
+
+            <div class="order-summary__line">
+              <div class="order-summary__line-image-wrap">
+                <img src="https://images.pexels.com/photos/934070/pexels-photo-934070.jpeg?auto=compress&cs=tinysrgb&w=120" alt="" class="order-summary__line-image">
+                <span class="order-summary__line-qty">1</span>
+              </div>
+              <div>
+                <div class="order-summary__line-name">Premium Leather Tote</div>
+                <div class="order-summary__line-variant">Cognac · Medium</div>
+              </div>
+              <div class="order-summary__line-price">$189.00</div>
+            </div>
+
+            <div class="order-summary__line">
+              <div class="order-summary__line-image-wrap">
+                <img src="https://images.pexels.com/photos/701877/pexels-photo-701877.jpeg?auto=compress&cs=tinysrgb&w=120" alt="" class="order-summary__line-image">
+                <span class="order-summary__line-qty">2</span>
+              </div>
+              <div>
+                <div class="order-summary__line-name">Vintage Aviator Sunglasses</div>
+                <div class="order-summary__line-variant">Gold frame</div>
+              </div>
+              <div class="order-summary__line-price">$158.00</div>
+            </div>
+
+            <div class="order-summary__line">
+              <div class="order-summary__line-image-wrap">
+                <img src="https://images.pexels.com/photos/302899/pexels-photo-302899.jpeg?auto=compress&cs=tinysrgb&w=120" alt="" class="order-summary__line-image">
+                <span class="order-summary__line-qty">1</span>
+              </div>
+              <div>
+                <div class="order-summary__line-name">Handcrafted Ceramic Mug</div>
+                <div class="order-summary__line-variant">Ivory · 12oz</div>
+              </div>
+              <div class="order-summary__line-price">$24.00</div>
+            </div>
+
+          </div>
+
+          <div class="order-summary__row">
+            <span class="order-summary__label">Subtotal</span>
+            <span class="order-summary__value">$371.00</span>
+          </div>
+          <div class="order-summary__row">
+            <span class="order-summary__label">Shipping</span>
+            <span class="order-summary__value">Free</span>
+          </div>
+          <div class="order-summary__row">
+            <span class="order-summary__label">Tax</span>
+            <span class="order-summary__value">$29.68</span>
+          </div>
+          <div class="order-summary__row order-summary__row--total">
+            <span class="order-summary__label">Total</span>
+            <span class="order-summary__value">$400.68</span>
+          </div>
+
+          <p class="order-summary__hint">
+            <i class="fas fa-lock" style="margin-right: 4px;"></i> Secure encrypted checkout
+          </p>
+        </aside>
+
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="site-footer__grid">
+        <div class="footer-block">
+          <h3 class="footer-block__title">Contact Us</h3>
+          <p><strong>Company 2 Name Goes Here.</strong></p>
+          <address>4321 Street Name<br>Florida , FL 654321</address>
+          <ul class="footer-contact-list">
+            <li><i class="fas fa-phone-alt"></i> <a href="tel:1234567890">(123) 456-7890</a></li>
+            <li><i class="fas fa-envelope"></i> <a href="mailto:info@example.com">E-mail Us</a></li>
+          </ul>
+        </div>
+        <div class="footer-block">
+          <h3 class="footer-block__title">Our Locations</h3>
+          <iframe class="footer-map" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d10000!2d-104.6189!3d50.4452!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNTDCsDI2JzQyLjcyTiAxMDTCsDM3JzA4LjA0Ilc!5e0!3m2!1sen!2sca!4v1700000000000" loading="lazy" title="Our Location"></iframe>
+        </div>
+        <div class="footer-block">
+          <h3 class="footer-block__title">Quick Links</h3>
+          <p><a href="products-v3k8m2w7nq.html" style="color: white;">Shop All</a></p>
+          <p><a href="cart-v3k8m2w7nq.html" style="color: white;">My Cart</a></p>
+          <p><a href="sign-in-v3k8m2w7nq.html" style="color: white;">Sign In</a></p>
+          <p><a href="sign-up-v3k8m2w7nq.html" style="color: white;">Create Account</a></p>
+        </div>
+        <div class="footer-block">
+          <h3 class="footer-block__title">Subscribe</h3>
+          <p>Join our mailing list below.</p>
+          <form class="newsletter-form" onsubmit="event.preventDefault();">
+            <input type="email" class="newsletter-form__input" placeholder="enter email address" aria-label="Email">
+            <button type="submit" class="btn">Sign Up!</button>
+          </form>
+        </div>
+      </div>
+      <div class="site-footer__bottom">
+        <div>© 2026 Filler - Bravo - A - All rights reserved.</div>
+        <div><i class="fas fa-times"></i> Compass Advertising</div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.querySelectorAll('.primary-nav__item .primary-nav__caret').forEach(function (caret) {
+      caret.parentElement.addEventListener('click', function (e) {
+        if (window.matchMedia('(max-width: 767px)').matches) {
+          e.preventDefault();
+          this.parentElement.classList.toggle('primary-nav__item--open');
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>
