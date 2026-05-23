@@ -46,7 +46,8 @@ Everything you see on the site is managed through the CMS — no hardcoded conte
 
 1. Push this repo to your own GitHub account
 2. Go to [vercel.com](https://vercel.com) and import the repo as a new project
-3. Note your **Project ID** (found in Vercel → Project Settings → General) and **Team ID**
+3. **IMPORTANT: Set the Framework Preset to "Next.js"** in Vercel → Project Settings → General → Framework Preset. If this is left as "Other" or auto-detected incorrectly, the site will build but return 404 on all pages.
+4. Note your **Project ID** (found in Vercel → Project Settings → General) and **Team ID**
 
 ### 3. Connect SquarefloCMS to Vercel
 
@@ -85,7 +86,21 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000) to see your site.
 
-### 5. Deploy
+### 5. Set up your custom domain
+
+You can configure a custom domain for your site through the CMS:
+
+1. In the CMS dashboard, go to **Settings → Domain**
+2. Enter your custom domain (e.g., `yourbusiness.com`)
+3. Expand **DNS Settings** — it will show you the DNS records to add:
+   - Add a **CNAME** record pointing `@` to `cname.vercel-dns.com.`
+   - Or click **"Auto-configure via Cloudflare"** if your DNS is on Cloudflare
+4. Also add the domain in **Vercel → Project Settings → Domains**
+
+The CMS settings page also lets you configure Business Info, Logos, Site Style
+(colors, typography, buttons & forms), AI Context, and enabled Modules.
+
+### 6. Deploy
 
 Your site deploys automatically in two ways:
 - **Code changes:** Every push to `main` triggers a Vercel production deploy
@@ -218,6 +233,39 @@ To add a new section (e.g., blog, services, testimonials):
 3. Create a new route in `src/app/` and a component in `src/components/`
 4. Fetch data from the appropriate CMS API endpoint
 5. Style it using classes from `html-reference/styles-r4m7t9w2qx.css`
+
+---
+
+## Troubleshooting
+
+### Site returns 404 after deploying
+
+**Cause:** The Vercel project's Framework Preset is not set to "Next.js".
+
+**Fix:** Go to Vercel → Project Settings → General → Framework Preset → select
+**Next.js**, then redeploy. This is the #1 issue when setting up the project for
+the first time, especially if the repo was initially created with static HTML files
+before being converted to Next.js.
+
+### Pages show "No home page has been created yet"
+
+**Cause:** No pages exist in the CMS yet, or no page is flagged as the home page.
+
+**Fix:** In the CMS dashboard, go to Pages → create a page and set it as the home page.
+
+### Styles look wrong / no brand colors
+
+**Cause:** The CMS design tokens haven't been configured, so CSS fallback values are used.
+
+**Fix:** In the CMS dashboard, go to Settings → Site Style and configure your brand
+colors, typography, and button presets.
+
+### Environment variables not working
+
+**Cause:** Env vars haven't been pushed to Vercel from the CMS.
+
+**Fix:** In the CMS dashboard, go to Integrations → Frontend Hosting → click
+**"Push Env Vars to Vercel"**. For local development, copy them into `.env.local`.
 
 ---
 
