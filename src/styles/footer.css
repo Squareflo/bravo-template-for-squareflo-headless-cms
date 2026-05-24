@@ -97,7 +97,7 @@
   margin: 0 auto;
   padding: 60px 24px 40px;
   display: grid;
-  grid-template-columns: 1.4fr 1fr 1fr 1.2fr;
+  grid-template-columns: 1.4fr 1fr 1fr 1fr 1.2fr;
   gap: 40px;
 }
 .ft1__heading {
@@ -160,6 +160,36 @@
 .ft1__contact-line a:hover {
   color: var(--color-accent);
 }
+.ft1__contact-line--name {
+  display: block;
+  margin-bottom: 4px;
+}
+
+/* Hours */
+.ft1__hours {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.ft1__hours-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 0.88rem;
+  color: rgba(255, 255, 255, 0.78);
+  padding: 4px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+.ft1__hours-row:last-child {
+  border-bottom: none;
+}
+.ft1__hours-day {
+  white-space: nowrap;
+}
+.ft1__hours-time {
+  white-space: nowrap;
+  text-align: right;
+}
 
 /* Bottom bar */
 .ft1__bottom {
@@ -187,13 +217,19 @@
   gap: 6px;
 }
 .ft1__sqf-logo {
-  height: 25px;
+  height: 18px;
   width: auto;
   display: inline-block;
   vertical-align: middle;
 }
 
 /* Responsive */
+@media (max-width: 1199px) {
+  .ft1__inner {
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 32px;
+  }
+}
 @media (max-width: 991px) {
   .ft1__inner {
     grid-template-columns: 1fr 1fr;
