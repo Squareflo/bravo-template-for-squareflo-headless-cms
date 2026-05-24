@@ -4,7 +4,8 @@
  * Powered by SquarefloCMS (https://squareflo.com)
  *
  * Right-side drawer that opens when the Navigation section is clicked
- * in edit mode. Allows adjusting nav style, logo height, and bar padding.
+ * in edit mode. Allows adjusting nav variation (layout), background
+ * color (from CMS presets), logo height, and bar padding.
  */
 
 "use client";
@@ -12,17 +13,22 @@
 import { useEditMode } from "./EditModeProvider";
 
 const VARIATIONS = [
-  { value: "classic", label: "Classic", desc: "Two-tier: utility bar + dark nav" },
-  { value: "minimal", label: "Minimal", desc: "Dark solid single bar" },
-  { value: "light", label: "Light", desc: "Light background, dark text" },
-  { value: "floating", label: "Floating Pill", desc: "Rounded pill with shadow" },
+  { value: "classic", label: "Classic — Two-tier with utility bar" },
+  { value: "minimal", label: "Minimal — Single bar" },
+  { value: "floating", label: "Floating Pill — Rounded with shadow" },
 ] as const;
 
 export default function NavSettingsDrawer() {
   const ctx = useEditMode();
   if (!ctx) return null;
 
-  const { activeSection, setActiveSection, settings, updateNavSettings } = ctx;
+  const {
+    activeSection,
+    setActiveSection,
+    settings,
+    updateNavSettings,
+    colorPresets,
+  } = ctx;
   const open = activeSection === "navigation";
   const nav = settings.navigation;
 
@@ -45,16 +51,49 @@ export default function NavSettingsDrawer() {
 
         <div className="section-drawer__body">
           <div className="drawer-field">
-            <label className="drawer-field__label">Variation</label>
-            <div className="drawer-variations">
+            <label className="drawer-field__label" htmlFor="nav-variation">
+              Variation
+            </label>
+            <select
+              id="nav-variation"
+              className="drawer-select"
+              value={nav.variation}
+              onChange={(e) =>
+                updateNavSettings({
+                  variation: e.target.value as NavSettings["variation"],
+                })
+              }
+            >
               {VARIATIONS.map((v) => (
+                <option key={v.value} value={v.value}>
+                  {v.label}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="drawer-field">
+            <label className="drawer-field__label">Background Color</label>
+            <div className="drawer-swatches">
+              <button
+                className={`drawer-swatch drawer-swatch--default${!nav.bgColor ? " drawer-swatch--active" : ""}`}
+                onClick={() => updateNavSettings({ bgColor: "" })}
+                title="Default"
+              >
+                <span className="drawer-swatch__label">Default</span>
+              </button>
+              {colorPresets.map((c) => (
                 <button
-                  key={v.value}
-                  className={`drawer-variation${nav.variation === v.value ? " drawer-variation--active" : ""}`}
-                  onClick={() => updateNavSettings({ variation: v.value })}
+                  key={c.key}
+                  className={`drawer-swatch${nav.bgColor === c.value ? " drawer-swatch--active" : ""}`}
+                  onClick={() => updateNavSettings({ bgColor: c.value })}
+                  title={c.label}
                 >
-                  <span className="drawer-variation__name">{v.label}</span>
-                  <span className="drawer-variation__desc">{v.desc}</span>
+                  <span
+                    className="drawer-swatch__color"
+                    style={{ background: c.value }}
+                  />
+                  <span className="drawer-swatch__label">{c.label}</span>
                 </button>
               ))}
             </div>
@@ -98,3 +137,5 @@ export default function NavSettingsDrawer() {
     </>
   );
 }
+
+type NavSettings = import("./EditModeProvider").NavSettings;

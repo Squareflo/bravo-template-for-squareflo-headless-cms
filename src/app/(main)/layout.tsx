@@ -11,7 +11,7 @@
 import { cms } from "@/lib/cms";
 import { NavItem, SiteSettings } from "@/lib/types";
 import Header from "@/components/Header";
-import EditModeProvider from "@/components/EditModeProvider";
+import EditModeProvider, { type ColorPreset } from "@/components/EditModeProvider";
 import EditableSection from "@/components/EditableSection";
 import NavSettingsDrawer from "@/components/NavSettingsDrawer";
 import AuthBar from "@/components/AuthBar";
@@ -33,8 +33,21 @@ export default async function MainLayout({
     console.error("Failed to fetch CMS data:", e);
   }
 
+  const colorPresets: ColorPreset[] = settings
+    ? [
+        { key: "brand", label: "Brand", value: settings.design.colors.brand },
+        { key: "accentLight", label: "Accent Light", value: settings.design.colors.accentLight },
+        { key: "accentDark", label: "Accent Dark", value: settings.design.colors.accentDark },
+        { key: "bgTextLight", label: "Light", value: settings.design.colors.bgTextLight },
+        { key: "bgTextDark", label: "Dark", value: settings.design.colors.bgTextDark },
+        { key: "pageBg", label: "Page BG", value: settings.design.colors.pageBg },
+        { key: "white", label: "White", value: "#ffffff" },
+        { key: "black", label: "Black", value: "#1a1a1a" },
+      ].filter((c) => c.value)
+    : [];
+
   return (
-    <EditModeProvider>
+    <EditModeProvider colorPresets={colorPresets}>
       <AuthBar />
       {settings && (
         <EditableSection id="navigation" label="Navigation">
