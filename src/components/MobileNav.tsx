@@ -88,7 +88,7 @@ export default function MobileNav({ nav, businessName, phone, hoursText, socialL
             aria-label={`${businessName} mobile navigation`}
           >
             <ul className="mobile-nav__list">
-              {nav.map((item) => (
+              {nav.slice(0, -1).map((item) => (
                 <li key={item.id} className="mobile-nav__item">
                   {item.children.length > 0 ? (
                     <>
@@ -156,6 +156,27 @@ export default function MobileNav({ nav, businessName, phone, hoursText, socialL
                   )}
                 </li>
               ))}
+              {/* CTA button — last nav item rendered as full-width button */}
+              {nav.length > 0 && (() => {
+                const cta = nav[nav.length - 1];
+                return (
+                  <li className="mobile-nav__item mobile-nav__cta">
+                    {cta.url ? (
+                      <a
+                        href={cta.url}
+                        className="btn btn--block"
+                        target={cta.open_in_new_tab ? "_blank" : undefined}
+                        rel={cta.open_in_new_tab ? "noopener noreferrer" : undefined}
+                        onClick={() => setOpen(false)}
+                      >
+                        {cta.label}
+                      </a>
+                    ) : (
+                      <span className="btn btn--block btn--disabled">{cta.label}</span>
+                    )}
+                  </li>
+                );
+              })()}
             </ul>
 
             {/* Utility bar info — phone, hours, social links (from top tier) */}
