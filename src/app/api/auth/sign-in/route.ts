@@ -45,28 +45,33 @@ export async function POST(req: Request) {
     );
   }
 
-  // Log the full response so we can verify the token field name
-  console.log("[sign-in] CMS response keys:", Object.keys(data));
+  // Log the full CMS response so we can see the exact structure
+  console.log("[sign-in] CMS response:", JSON.stringify(data));
 
   // Try access_token first, fall back to token
   const token = data.access_token || data.token;
   if (!token) {
-    console.error("[sign-in] No token found in CMS response:", JSON.stringify(data));
+    console.error("[sign-in] No token found in CMS response");
     return NextResponse.json(
       { error: "Sign-in succeeded but no token was returned." },
       { status: 500 },
     );
   }
 
+  console.log("[sign-in] Token found, length:", token.length, "Setting cookie...");
+
   // Set the access token as an httpOnly cookie on the response object
   const response = NextResponse.json({ user: data.user });
   response.cookies.set("sqf_token", token, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
+    secure: true,
     sameSite: "lax",
     path: "/",
-    maxAge: 60 * 60 * 72, // 72 hours (matches CMS token expiry)
+    maxAge: 60 * 60 * 72,
   });
+
+  // Log the Set-Cookie header to verify it's present
+  console.log("[sign-in] Response Set-Cookie:", response.headers.get("set-cookie"));
 
   return response;
 }

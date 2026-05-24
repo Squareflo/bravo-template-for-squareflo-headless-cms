@@ -15,9 +15,15 @@ import { NextResponse } from "next/server";
 const API_URL = process.env.SQUAREFLO_API_URL!;
 const API_KEY = process.env.SQUAREFLO_API_KEY!;
 
-export async function GET() {
+export async function GET(req: Request) {
+  // Log all cookies to see what's actually present
+  const cookieHeader = req.headers.get("cookie");
+  console.log("[auth/me] Cookie header:", cookieHeader || "(none)");
+
   const cookieStore = await cookies();
   const token = cookieStore.get("sqf_token")?.value;
+
+  console.log("[auth/me] sqf_token present:", !!token);
 
   if (!token) {
     return NextResponse.json({ user: null }, { status: 401 });
