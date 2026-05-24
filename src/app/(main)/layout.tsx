@@ -10,7 +10,7 @@
 
 import { cms } from "@/lib/cms";
 import { NavItem, SiteSettings } from "@/lib/types";
-import Header from "@/components/Header";
+import NavRenderer from "@/components/NavRenderer";
 import EditModeProvider, { type ColorPreset } from "@/components/EditModeProvider";
 import EditableSection from "@/components/EditableSection";
 import NavSettingsDrawer from "@/components/NavSettingsDrawer";
@@ -51,7 +51,7 @@ export default async function MainLayout({
       <AuthBar />
       {settings && (
         <EditableSection id="navigation" label="Navigation">
-          <Header nav={headerNav} settings={settings} />
+          <NavRenderer nav={headerNav} settings={settings} />
         </EditableSection>
       )}
       <main>{children}</main>

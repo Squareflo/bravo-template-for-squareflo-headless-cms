@@ -50,9 +50,11 @@ interface MobileNavProps {
   phone?: string;
   hoursText?: string;
   socialLinks: SocialLink[];
+  ctaCount?: number;
+  hamburgerClass?: string;
 }
 
-export default function MobileNav({ nav, businessName, phone, hoursText, socialLinks }: MobileNavProps) {
+export default function MobileNav({ nav, businessName, phone, hoursText, socialLinks, ctaCount = 1, hamburgerClass = "nv3-hamburger" }: MobileNavProps) {
   const [open, setOpen] = useState(false);
   const [expandedIds, setExpandedIds] = useState<Set<string>>(new Set());
 
@@ -69,7 +71,7 @@ export default function MobileNav({ nav, businessName, phone, hoursText, socialL
     <>
       {/* Hamburger button — hidden on desktop, shown on mobile (via CSS) */}
       <button
-        className="nv3-hamburger"
+        className={hamburgerClass}
         aria-label="Menu"
         aria-expanded={open}
         aria-controls={MOBILE_NAV_ID}
@@ -88,93 +90,96 @@ export default function MobileNav({ nav, businessName, phone, hoursText, socialL
             aria-label={`${businessName} mobile navigation`}
           >
             <ul className="mobile-nav__list">
-              {nav.slice(0, -1).map((item) => (
-                <li key={item.id} className="mobile-nav__item">
-                  {item.children.length > 0 ? (
-                    <>
-                      {/* Parent item — tap to expand/collapse children */}
-                      <button
-                        className="mobile-nav__link mobile-nav__link--parent"
-                        onClick={() => toggleExpanded(item.id)}
-                        aria-expanded={expandedIds.has(item.id)}
-                      >
-                        {item.label}
-                        <i
-                          className={`fas fa-chevron-${expandedIds.has(item.id) ? "up" : "down"} mobile-nav__chevron`}
-                        />
-                      </button>
-                      {/* Sub-items — shown when parent is expanded */}
-                      {expandedIds.has(item.id) && (
-                        <ul className="mobile-nav__sub">
-                          {item.url && item.url !== "#" && (
-                            <li>
-                              <a
-                                href={item.url}
-                                className="mobile-nav__sub-link"
-                                onClick={() => setOpen(false)}
-                              >
-                                All {item.label}
-                              </a>
-                            </li>
-                          )}
-                          {item.children.map((child) => (
-                            <li key={child.id}>
-                              {child.url ? (
-                                <a
-                                  href={child.url}
-                                  className="mobile-nav__sub-link"
-                                  target={child.open_in_new_tab ? "_blank" : undefined}
-                                  rel={child.open_in_new_tab ? "noopener noreferrer" : undefined}
-                                  onClick={() => setOpen(false)}
-                                >
-                                  {child.label}
-                                </a>
-                              ) : (
-                                <span className="mobile-nav__sub-link mobile-nav__sub-link--disabled">
-                                  {child.label}
-                                </span>
-                              )}
-                            </li>
-                          ))}
-                        </ul>
-                      )}
-                    </>
-                  ) : item.url ? (
-                    <a
-                      href={item.url}
-                      className="mobile-nav__link"
-                      target={item.open_in_new_tab ? "_blank" : undefined}
-                      rel={item.open_in_new_tab ? "noopener noreferrer" : undefined}
-                      onClick={() => setOpen(false)}
-                    >
-                      {item.label}
-                    </a>
-                  ) : (
-                    <span className="mobile-nav__link mobile-nav__link--disabled">
-                      {item.label}
-                    </span>
-                  )}
-                </li>
-              ))}
-              {/* CTA button — last nav item rendered as full-width button */}
-              {nav.length > 0 && (() => {
-                const cta = nav[nav.length - 1];
+              {(() => {
+                const safeCtaCount = Math.min(ctaCount, nav.length);
+                const regularItems = safeCtaCount > 0 ? nav.slice(0, nav.length - safeCtaCount) : nav;
+                const ctaItems = safeCtaCount > 0 ? nav.slice(nav.length - safeCtaCount) : [];
                 return (
-                  <li className="mobile-nav__item mobile-nav__cta">
-                    {cta.url ? (
-                      <a
-                        href={cta.url}
-                        className="btn btn--block"
-                        target={cta.open_in_new_tab ? "_blank" : undefined}
-                        rel={cta.open_in_new_tab ? "noopener noreferrer" : undefined}
-                        onClick={() => setOpen(false)}
-                      >
-                        {cta.label}
-                      </a>
-                    ) : (
-                      <span className="btn btn--block btn--disabled">{cta.label}</span>
-                    )}
-                  </li>
+                  <>
+                    {regularItems.map((item) => (
+                      <li key={item.id} className="mobile-nav__item">
+                        {item.children.length > 0 ? (
+                          <>
+                            <button
+                              className="mobile-nav__link mobile-nav__link--parent"
+                              onClick={() => toggleExpanded(item.id)}
+                              aria-expanded={expandedIds.has(item.id)}
+                            >
+                              {item.label}
+                              <i
+                                className={`fas fa-chevron-${expandedIds.has(item.id) ? "up" : "down"} mobile-nav__chevron`}
+                              />
+                            </button>
+                            {expandedIds.has(item.id) && (
+                              <ul className="mobile-nav__sub">
+                                {item.url && item.url !== "#" && (
+                                  <li>
+                                    <a
+                                      href={item.url}
+                                      className="mobile-nav__sub-link"
+                                      onClick={() => setOpen(false)}
+                                    >
+                                      All {item.label}
+                                    </a>
+                                  </li>
+                                )}
+                                {item.children.map((child) => (
+                                  <li key={child.id}>
+                                    {child.url ? (
+                                      <a
+                                        href={child.url}
+                                        className="mobile-nav__sub-link"
+                                        target={child.open_in_new_tab ? "_blank" : undefined}
+                                        rel={child.open_in_new_tab ? "noopener noreferrer" : undefined}
+                                        onClick={() => setOpen(false)}
+                                      >
+                                        {child.label}
+                                      </a>
+                                    ) : (
+                                      <span className="mobile-nav__sub-link mobile-nav__sub-link--disabled">
+                                        {child.label}
+                                      </span>
+                                    )}
+                                  </li>
+                                ))}
+                              </ul>
+                            )}
+                          </>
+                        ) : item.url ? (
+                          <a
+                            href={item.url}
+                            className="mobile-nav__link"
+                            target={item.open_in_new_tab ? "_blank" : undefined}
+                            rel={item.open_in_new_tab ? "noopener noreferrer" : undefined}
+                            onClick={() => setOpen(false)}
+                          >
+                            {item.label}
+                          </a>
+                        ) : (
+                          <span className="mobile-nav__link mobile-nav__link--disabled">
+                            {item.label}
+                          </span>
+                        )}
+                      </li>
+                    ))}
+                    {ctaItems.map((cta) => (
+                      <li key={cta.id} className="mobile-nav__item mobile-nav__cta">
+                        {cta.url ? (
+                          <a
+                            href={cta.url}
+                            className="btn btn--block"
+                            target={cta.open_in_new_tab ? "_blank" : undefined}
+                            rel={cta.open_in_new_tab ? "noopener noreferrer" : undefined}
+                            onClick={() => setOpen(false)}
+                          >
+                            {cta.label}
+                          </a>
+                        ) : (
+                          <span className="btn btn--block btn--disabled">{cta.label}</span>
+                        )}
+                      </li>
+                    ))}
+                  </>
                 );
               })()}
             </ul>

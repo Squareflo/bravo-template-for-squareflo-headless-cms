@@ -1,14 +1,6 @@
 /**
  * Edit Mode Provider — SquarefloCMS Bravo Template
- * ==================================================
  * Powered by SquarefloCMS (https://squareflo.com)
- *
- * Client-side context provider that manages:
- *   - Edit mode toggle (on/off)
- *   - Active section (which section's drawer is open)
- *   - Section settings (nav variation, bg color, logo height, padding)
- *   - Persists settings to localStorage
- *   - Applies settings as CSS custom properties on :root
  */
 
 "use client";
@@ -23,9 +15,14 @@ import {
 } from "react";
 import "@/styles/edit-mode.css";
 
+export type NavVariation =
+  | "v1" | "v2" | "v3" | "v4" | "v5"
+  | "v6" | "v7" | "v8" | "v10" | "v11" | "v12";
+
 export interface NavSettings {
-  variation: "classic" | "minimal" | "floating";
+  variation: NavVariation;
   bgColor: string;
+  utilityBgColor: string;
   logoHeight: number;
   navPadding: number;
 }
@@ -42,11 +39,20 @@ export interface ColorPreset {
 
 const DEFAULTS: SectionSettings = {
   navigation: {
-    variation: "classic",
+    variation: "v3",
     bgColor: "",
+    utilityBgColor: "",
     logoHeight: 50,
     navPadding: 18,
   },
+};
+
+/** Map legacy variation names to new IDs */
+const LEGACY_MAP: Record<string, NavVariation> = {
+  classic: "v3",
+  minimal: "v6",
+  light: "v1",
+  floating: "v12",
 };
 
 interface EditModeCtx {
@@ -63,14 +69,6 @@ const Ctx = createContext<EditModeCtx | null>(null);
 export const useEditMode = () => useContext(Ctx);
 
 const STORAGE_KEY = "sqf_section_settings";
-
-function getLuminance(hex: string): number {
-  const h = hex.replace("#", "");
-  const r = parseInt(h.slice(0, 2), 16) / 255;
-  const g = parseInt(h.slice(2, 4), 16) / 255;
-  const b = parseInt(h.slice(4, 6), 16) / 255;
-  return 0.299 * r + 0.587 * g + 0.114 * b;
-}
 
 export default function EditModeProvider({
   children,
@@ -89,10 +87,12 @@ export default function EditModeProvider({
       const raw = localStorage.getItem(STORAGE_KEY);
       if (raw) {
         const parsed = JSON.parse(raw);
-        setSettings((s) => ({
-          ...s,
-          navigation: { ...s.navigation, ...parsed.navigation },
-        }));
+        const nav = { ...DEFAULTS.navigation, ...parsed.navigation };
+        // Migrate legacy variation names
+        if (LEGACY_MAP[nav.variation]) {
+          nav.variation = LEGACY_MAP[nav.variation];
+        }
+        setSettings((s) => ({ ...s, navigation: nav }));
       }
     } catch {}
     setMounted(true);
@@ -104,18 +104,6 @@ export default function EditModeProvider({
     const { navigation: nav } = settings;
     root.style.setProperty("--nav-logo-height", `${nav.logoHeight}px`);
     root.style.setProperty("--nav-main-padding", `${nav.navPadding}px`);
-    root.dataset.navVariation = nav.variation;
-
-    if (nav.bgColor) {
-      root.style.setProperty("--nav-bg-override", nav.bgColor);
-      const textColor = getLuminance(nav.bgColor) > 0.5 ? "#333333" : "#ffffff";
-      root.style.setProperty("--nav-text-override", textColor);
-      root.dataset.navBgOverride = "true";
-    } else {
-      root.style.removeProperty("--nav-bg-override");
-      root.style.removeProperty("--nav-text-override");
-      delete root.dataset.navBgOverride;
-    }
   }, [settings, mounted]);
 
   useEffect(() => {

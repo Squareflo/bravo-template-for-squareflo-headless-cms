@@ -153,8 +153,7 @@ export default function NavRenderer({ nav, settings }: NavRendererProps) {
   const variation =
     (editCtx?.settings.navigation.variation as string) || "v3";
   const bgColor = editCtx?.settings.navigation.bgColor || "";
-  const utilityBgColor =
-    (editCtx?.settings.navigation as Record<string, unknown>).utilityBgColor as string || "";
+  const utilityBgColor = editCtx?.settings.navigation.utilityBgColor || "";
 
   // --- Compute navigation data ---
   const { business } = settings;
