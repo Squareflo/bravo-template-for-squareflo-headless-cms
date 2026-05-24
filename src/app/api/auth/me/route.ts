@@ -42,7 +42,10 @@ export async function GET(req: Request) {
   console.log("[auth/me] CMS response status:", res.status, "body:", JSON.stringify(data));
 
   if (!res.ok) {
-    return NextResponse.json({ user: null }, { status: 401 });
+    return NextResponse.json(
+      { user: null, _debug: { cmsStatus: res.status, cmsError: data?.error || data, tokenLength: token.length } },
+      { status: 401 },
+    );
   }
 
   return NextResponse.json({ user: data.user });
