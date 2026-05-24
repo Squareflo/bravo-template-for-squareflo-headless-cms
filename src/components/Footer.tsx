@@ -2,18 +2,22 @@
  * Site Footer — SquarefloCMS Bravo Template
  * Powered by SquarefloCMS (https://squareflo.com)
  *
- * Classic 4-column footer (FT1 from footer-showcase):
- *   Col 1: Logo, description, social links
- *   Col 2: Quick Links (footer nav from CMS)
- *   Col 3: Contact info (default location)
- *   Col 4: Newsletter signup
+ * Classic 5-column footer (FT1 from footer-showcase):
+ *   Col 1: Logo, social links
+ *   Col 2: Navigate (footer nav from CMS)
+ *   Col 3: Contact info (selected location)
+ *   Col 4: Hours (selected location)
+ *   Col 5: Newsletter signup
  *   Bottom bar: copyright + credit
+ *
+ * Multi-location: shows location selector tabs when > 1 location.
  *
  * CSS: src/styles/footer.css
  */
 
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { NavItem, SiteSettings, SocialLink, Location } from "@/lib/types";
 import { useEditMode } from "./EditModeProvider";
@@ -39,26 +43,10 @@ interface FooterProps {
   settings: SiteSettings;
 }
 
-function getDefaultLocation(locations: Location[]): Location | null {
-  if (!locations.length) return null;
-  return locations.find((l) => l.is_default) || locations[0];
-}
-
-function getHoursText(location: Location | null): string {
-  if (!location?.google_places?.hours) return "";
-  const dayNames = [
-    "Sunday", "Monday", "Tuesday", "Wednesday",
-    "Thursday", "Friday", "Saturday",
-  ];
-  const today = dayNames[new Date().getDay()];
-  const todayHours = location.google_places.hours.find((h) =>
-    h.startsWith(today)
-  );
-  if (!todayHours) return "";
-  const timeRange = todayHours.split(": ")[1];
-  if (!timeRange || timeRange === "Closed") return "Closed today";
-  const closingTime = timeRange.split(" – ")[1] || timeRange.split(" - ")[1];
-  return closingTime ? `Open until ${closingTime} today` : timeRange;
+function getDefaultIndex(locations: Location[]): number {
+  if (!locations.length) return -1;
+  const idx = locations.findIndex((l) => l.is_default);
+  return idx >= 0 ? idx : 0;
 }
 
 export default function Footer({ nav, settings }: FooterProps) {
@@ -67,10 +55,14 @@ export default function Footer({ nav, settings }: FooterProps) {
   const bgColor = footerSettings?.bgColor || "";
 
   const { business } = settings;
-  const location = getDefaultLocation(business.locations);
+  const locations = business.locations || [];
+  const hasMultiple = locations.length > 1;
+
+  const [selectedIdx, setSelectedIdx] = useState(() => getDefaultIndex(locations));
+
+  const location = selectedIdx >= 0 ? locations[selectedIdx] : null;
   const phone = location?.phone || business.phone;
   const email = location?.email || "";
-  const hoursText = getHoursText(location);
   const socialLinks = settings.social_links || [];
   const year = new Date().getFullYear();
 
@@ -120,9 +112,9 @@ export default function Footer({ nav, settings }: FooterProps) {
           )}
         </div>
 
-        {/* Column 2: Quick Links */}
+        {/* Column 2: Navigate */}
         <div className="ft1__col">
-          <h3 className="ft1__heading">Quick Links</h3>
+          <h3 className="ft1__heading">Navigate</h3>
           <ul className="ft1__list">
             {nav.map((item) => (
               <li key={item.id}>
@@ -147,17 +139,38 @@ export default function Footer({ nav, settings }: FooterProps) {
         {/* Column 3: Contact */}
         <div className="ft1__col">
           <h3 className="ft1__heading">Contact</h3>
+          {hasMultiple && (
+            <div className="ft1-loc-tabs">
+              {locations.map((loc, i) => (
+                <button
+                  key={loc.name}
+                  type="button"
+                  className={`ft1-loc-tabs__btn${i === selectedIdx ? " ft1-loc-tabs__btn--active" : ""}`}
+                  onClick={() => setSelectedIdx(i)}
+                >
+                  {loc.name}
+                </button>
+              ))}
+            </div>
+          )}
           {location && (
-            <p className="ft1__contact-line">
-              <i className="fas fa-map-marker-alt" />
-              <span>
-                {location.street_address}
-                {location.unit ? `, ${location.unit}` : ""}
-                <br />
-                {location.city}, {location.state_province}{" "}
-                {location.postal_code}
-              </span>
-            </p>
+            <>
+              {!hasMultiple && (
+                <p className="ft1__contact-line ft1__contact-line--name">
+                  <strong>{location.name}</strong>
+                </p>
+              )}
+              <p className="ft1__contact-line">
+                <i className="fas fa-map-marker-alt" />
+                <span>
+                  {location.street_address}
+                  {location.unit ? `, ${location.unit}` : ""}
+                  <br />
+                  {location.city}, {location.state_province}{" "}
+                  {location.postal_code}
+                </span>
+              </p>
+            </>
           )}
           {phone && (
             <p className="ft1__contact-line">
@@ -171,15 +184,27 @@ export default function Footer({ nav, settings }: FooterProps) {
               <a href={`mailto:${email}`}>{email}</a>
             </p>
           )}
-          {hoursText && (
-            <p className="ft1__contact-line">
-              <i className="far fa-clock" />
-              <span>{hoursText}</span>
-            </p>
-          )}
         </div>
 
-        {/* Column 4: Newsletter */}
+        {/* Column 4: Hours */}
+        {location?.google_places?.hours && (
+          <div className="ft1__col">
+            <h3 className="ft1__heading">Hours</h3>
+            <ul className="ft1__hours">
+              {location.google_places.hours.map((line) => {
+                const [day, time] = line.split(": ");
+                return (
+                  <li key={day} className="ft1__hours-row">
+                    <span className="ft1__hours-day">{day}</span>
+                    <span className="ft1__hours-time">{time}</span>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        )}
+
+        {/* Column 5: Newsletter */}
         <div className="ft1__col">
           <h3 className="ft1__heading">Newsletter</h3>
           <p className="ft1__text ft1__text--sm">
