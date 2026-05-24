@@ -356,6 +356,39 @@
   color: var(--nav-drawer-heading-color-dark, rgba(255, 255, 255, 0.85));
 }
 
+/* --- Auth bar (signed-in CMS users) ---
+   Thin dark bar above the utility bar showing user name + sign out link. */
+.auth-bar {
+  background: #1a1a1a;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.75rem;
+  line-height: 20px;
+}
+.auth-bar__inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.auth-bar__greeting {
+  color: rgba(255, 255, 255, 0.7);
+}
+.auth-bar__sign-out {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.75rem;
+  cursor: pointer;
+  padding: 0;
+  text-decoration: underline;
+  transition: color 0.2s ease;
+}
+.auth-bar__sign-out:hover {
+  color: #ffffff;
+}
+
 /* --- Responsive --- */
 @media (max-width: 767px) {
   .nv3-list {

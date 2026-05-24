@@ -62,7 +62,7 @@ export async function generateStaticParams() {
   try {
     const { pages } = await cms<{ pages: any[] }>("/pages");
     return pages
-      .filter((p) => !p.is_home) // Home page is handled by src/app/page.tsx
+      .filter((p) => !p.is_home && !p.is_system) // Home page → src/app/page.tsx, system pages have dedicated routes
       .map((p) => ({ slug: p.slug }));
   } catch {
     return [];
