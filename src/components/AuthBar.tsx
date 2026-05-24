@@ -57,6 +57,7 @@ export default function AuthBar() {
     <div className="auth-bar">
       <div className="auth-bar__inner">
         <span className="auth-bar__greeting">
+          <span className="auth-bar__dot" />
           {user.first_name}, you are signed in.
         </span>
         <button className="auth-bar__sign-out" onClick={handleSignOut}>
