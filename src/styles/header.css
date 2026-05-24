@@ -37,6 +37,8 @@
   font-size: 1.6rem;
   letter-spacing: 0.02em;
   color: var(--color-text);
+  transform: translate(var(--nav-logo-offset-x, 0px), var(--nav-logo-offset-y, 0px));
+  transition: transform 0.2s ease;
 }
 
 .nv5-logo__text, .nv6-logo__text {
@@ -48,7 +50,8 @@
 .nv10-logo__img, .nv11-logo__img, .nv12-logo__img {
   height: var(--nav-logo-height, 50px);
   width: auto;
-  transition: height 0.2s ease;
+  transition: height 0.2s ease, transform 0.2s ease;
+  transform: translate(var(--nav-logo-offset-x, 0px), var(--nav-logo-offset-y, 0px));
 }
 
 
@@ -771,7 +774,7 @@
   background: var(--color-light);
 }
 .nav-v12 {
-  max-width: 1080px;
+  max-width: 1200px;
   margin: 0 auto;
   background: var(--color-white, #ffffff);
   border-radius: 999px;

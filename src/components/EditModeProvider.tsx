@@ -25,6 +25,8 @@ export interface NavSettings {
   utilityBgColor: string;
   logoHeight: number;
   navPadding: number;
+  logoOffsetX: number;
+  logoOffsetY: number;
 }
 
 export interface SectionSettings {
@@ -44,6 +46,8 @@ const DEFAULTS: SectionSettings = {
     utilityBgColor: "",
     logoHeight: 50,
     navPadding: 18,
+    logoOffsetX: 0,
+    logoOffsetY: 0,
   },
 };
 
@@ -104,6 +108,8 @@ export default function EditModeProvider({
     const { navigation: nav } = settings;
     root.style.setProperty("--nav-logo-height", `${nav.logoHeight}px`);
     root.style.setProperty("--nav-main-padding", `${nav.navPadding}px`);
+    root.style.setProperty("--nav-logo-offset-x", `${nav.logoOffsetX}px`);
+    root.style.setProperty("--nav-logo-offset-y", `${nav.logoOffsetY}px`);
   }, [settings, mounted]);
 
   useEffect(() => {

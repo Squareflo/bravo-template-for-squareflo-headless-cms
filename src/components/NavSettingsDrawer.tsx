@@ -208,6 +208,42 @@ export default function NavSettingsDrawer() {
               className="drawer-slider"
             />
           </div>
+
+          {/* Logo Horizontal Offset */}
+          <div className="drawer-field">
+            <label className="drawer-field__label">
+              Logo X Offset{" "}
+              <span className="drawer-field__value">{nav.logoOffsetX}px</span>
+            </label>
+            <input
+              type="range"
+              min={-40}
+              max={40}
+              value={nav.logoOffsetX}
+              onChange={(e) =>
+                updateNavSettings({ logoOffsetX: Number(e.target.value) })
+              }
+              className="drawer-slider"
+            />
+          </div>
+
+          {/* Logo Vertical Offset */}
+          <div className="drawer-field">
+            <label className="drawer-field__label">
+              Logo Y Offset{" "}
+              <span className="drawer-field__value">{nav.logoOffsetY}px</span>
+            </label>
+            <input
+              type="range"
+              min={-20}
+              max={20}
+              value={nav.logoOffsetY}
+              onChange={(e) =>
+                updateNavSettings({ logoOffsetY: Number(e.target.value) })
+              }
+              className="drawer-slider"
+            />
+          </div>
         </div>
       </div>
     </>
