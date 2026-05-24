@@ -84,11 +84,7 @@ export default async function DynamicPage({ params }: PageProps) {
 
   return (
     <div className="container page">
-      {/* Page title with accent-colored rule — standard Bravo template pattern */}
-      <h1 className="page-title">{page.title}</h1>
-      <hr className="page-title-rule" />
-
-      {/* Render CMS content blocks (supports two-column layout with sidebar) */}
+      {/* Render only CMS content blocks — the page's heading comes from the content editor */}
       <TwoColumnLayout content={page.headless_content} />
     </div>
   );
