@@ -3,22 +3,165 @@
    Powered by SquarefloCMS (https://squareflo.com) — free headless CMS.
    ==========================================================================
 
-   HYBRID NAVIGATION: Combines two variations from the Bravo template:
-     - TOP TIER (utility bar): Nav Variation #3 — dark strip with phone, hours, social
-     - MAIN BAR: Nav Variation #6 — "Dark Solid" with white text on dark background
+   This file contains styles for ALL 11 navigation variations (V1-V12, no V9),
+   plus shared logo/hamburger styles, dropdown menus, mobile nav overlay,
+   auth bar, and responsive breakpoints.
 
-   We combined these because V3's utility bar adds useful business context
-   while V6's dark solid main bar provides a premium look. The CSS class
-   names all use the "nv3-" prefix for consistency.
+   Variations:
+     V1  — Classic single bar
+     V2  — Centered logo, split nav
+     V3  — Two-tier utility + main
+     V4  — Two-tier (location prominent)
+     V5  — Transparent overlay
+     V6  — Dark solid
+     V7  — Centered logo + utility
+     V8  — Mega bar
+     V10 — Phone-prominent
+     V11 — Two CTAs
+     V12 — Floating pill
 
    Design Reference:
-     - html-reference/nav-showcase-r4m7t9w2qx.html (all 10+ nav variations)
-     - html-reference/styles-r4m7t9w2qx.css (search for "NAV 3" and "NAV 6")
-
-   To switch to a different nav variation, update the classes and styles here
-   and update the markup in src/components/Header.tsx accordingly.
+     - html-reference/nav-showcase-r4m7t9w2qx.html (all nav variations)
+     - html-reference/styles-b6n3k8q5jw.css (search for "NAV 1" through "NAV 12")
    ========================================================================== */
 
+
+/* ==========================================================================
+   Shared Logo Styles
+   ========================================================================== */
+.nv1-logo__text, .nv2-logo__text, .nv3-logo__text, .nv4-logo__text,
+.nv5-logo__text, .nv6-logo__text, .nv7-logo__text, .nv8-logo__text,
+.nv10-logo__text, .nv11-logo__text, .nv12-logo__text {
+  font-family: var(--font-heading, "Quicksand", sans-serif);
+  font-weight: 800;
+  font-size: 1.6rem;
+  letter-spacing: 0.02em;
+  color: var(--color-text);
+}
+
+.nv5-logo__text, .nv6-logo__text {
+  color: var(--color-white, #ffffff);
+}
+
+.nv1-logo__img, .nv2-logo__img, .nv3-logo__img, .nv4-logo__img,
+.nv5-logo__img, .nv6-logo__img, .nv7-logo__img, .nv8-logo__img,
+.nv10-logo__img, .nv11-logo__img, .nv12-logo__img {
+  height: var(--nav-logo-height, 50px);
+  width: auto;
+  transition: height 0.2s ease;
+}
+
+
+/* ==========================================================================
+   Shared Hamburger Styles (hidden on desktop, shown on mobile)
+   ========================================================================== */
+.nv1-hamburger, .nv2-hamburger, .nv3-hamburger, .nv4-hamburger,
+.nv5-hamburger, .nv6-hamburger, .nv7-hamburger, .nv8-hamburger,
+.nv10-hamburger, .nv11-hamburger, .nv12-hamburger {
+  display: none;
+  background: none;
+  border: 0;
+  padding: 8px;
+  cursor: pointer;
+  font-size: 1.3rem;
+  color: var(--color-text);
+}
+
+.nv5-hamburger, .nv6-hamburger { color: var(--color-white, #ffffff); }
+
+
+/* ==========================================================================
+   NAV 1: Classic single bar
+   ========================================================================== */
+.nav-v1 {
+  background: var(--color-white, #ffffff);
+  border-bottom: 1px solid var(--color-border);
+}
+.nav-v1__inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--nav-main-padding, 18px) 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 30px;
+}
+.nv1-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.nv1-link {
+  padding: 10px 16px;
+  font-family: var(--font-heading, "Quicksand", sans-serif);
+  font-weight: 700;
+  font-size: 0.9rem;
+  letter-spacing: 0.03em;
+  color: var(--color-text);
+  border-radius: 4px;
+  transition: background 0.2s ease, color 0.2s ease;
+  text-decoration: none;
+}
+.nv1-link:hover {
+  color: var(--color-accent, #e6307a);
+}
+.nv1-link--cta {
+  background: var(--color-accent, #e6307a);
+  color: var(--color-white, #ffffff);
+  padding: 10px 20px;
+  margin-left: 10px;
+}
+.nv1-link--cta:hover {
+  background: var(--color-accent-hover, #c81f63);
+  color: var(--color-white, #ffffff);
+}
+
+
+/* ==========================================================================
+   NAV 2: Centered logo, split nav
+   ========================================================================== */
+.nav-v2 {
+  background: var(--color-white, #ffffff);
+  border-bottom: 1px solid var(--color-border);
+}
+.nav-v2__inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--nav-main-padding, 18px) 24px;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 30px;
+}
+.nv2-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.nv2-list--left { justify-content: flex-end; }
+.nv2-list--right { justify-content: flex-start; }
+.nv2-link {
+  padding: 10px 16px;
+  font-family: var(--font-heading, "Quicksand", sans-serif);
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--color-text);
+  transition: color 0.2s ease;
+  text-decoration: none;
+}
+.nv2-link:hover { color: var(--color-accent, #e6307a); }
+.nv2-logo__text { font-size: 1.8rem; }
+
+
+/* ==========================================================================
+   NAV 3: Two-tier utility + main
+   ========================================================================== */
 .nav-v3 {
   background: var(--color-white, #ffffff);
 }
@@ -72,10 +215,9 @@
   color: #ffffff;
 }
 
-/* --- Main bar (bottom) — Dark Solid (V6 style) --- */
+/* --- Main bar --- */
 .nav-v3__main {
-  background: var(--color-bg-dark, #2b2b2b);
-  border-bottom: 1px solid var(--color-border-dark, #3a3a3a);
+  border-bottom: 1px solid var(--color-border);
 }
 .nav-v3__main-inner {
   max-width: 1200px;
@@ -92,11 +234,6 @@
   display: flex;
   align-items: center;
   text-decoration: none;
-}
-.nv3-logo__img {
-  height: var(--nav-logo-height, 50px);
-  width: auto;
-  transition: height 0.2s ease;
 }
 .nv3-logo__text {
   font-family: var(--font-heading, "Quicksand", sans-serif);
@@ -118,9 +255,6 @@
   display: flex;
   align-items: center;
   gap: 4px;
-}
-.nv3-item {
-  position: relative;
 }
 .nv3-link {
   padding: 10px 16px;
@@ -144,8 +278,7 @@
   font-size: 0.65rem;
 }
 
-/* CTA button — last nav item rendered as a button (V6 style).
-   Uses CMS button presets (--btn-primary-*) from design tokens. */
+/* CTA button */
 .nv3-link--cta {
   background: var(--btn-primary-bg, var(--color-accent, #e6307a));
   color: var(--btn-primary-text, #ffffff);
@@ -158,8 +291,539 @@
   color: var(--btn-primary-text, #ffffff);
 }
 
-/* --- Dropdown --- */
-.nv3-dropdown {
+
+/* ==========================================================================
+   NAV 4: Two-tier (location prominent)
+   ========================================================================== */
+.nav-v4 { background: var(--color-white, #ffffff); }
+.nav-v4__utility {
+  background: var(--color-light);
+  border-bottom: 1px solid var(--color-border);
+  font-size: 0.85rem;
+  color: var(--color-text);
+}
+.nav-v4__utility-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 10px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 30px;
+}
+.nv4-utility-item i {
+  margin-right: 6px;
+  color: var(--color-accent, #e6307a);
+}
+.nv4-utility-item a { color: var(--color-text); text-decoration: none; }
+.nv4-utility-item a:hover { color: var(--color-accent, #e6307a); }
+
+.nav-v4__main { border-bottom: 1px solid var(--color-border); }
+.nav-v4__main-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--nav-main-padding, 18px) 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.nv4-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.nv4-link {
+  padding: 10px 16px;
+  font-family: var(--font-heading, "Quicksand", sans-serif);
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--color-text);
+  text-decoration: none;
+}
+.nv4-link:hover { color: var(--color-accent, #e6307a); }
+
+
+/* ==========================================================================
+   NAV 5: Transparent overlay
+   ========================================================================== */
+.nav-v5-wrap {
+  position: relative;
+  background: var(--color-dark);
+  min-height: 340px;
+}
+.nav-v5 {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  z-index: 10;
+  background: transparent;
+}
+.nav-v5::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.45), rgba(0,0,0,0));
+  pointer-events: none;
+  z-index: -1;
+}
+.nav-v5__inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 22px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.nv5-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.nv5-link {
+  padding: 10px 16px;
+  font-family: var(--font-heading, "Quicksand", sans-serif);
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--color-white, #ffffff);
+  transition: opacity 0.2s ease;
+  text-decoration: none;
+}
+.nv5-link:hover { opacity: 0.7; color: var(--color-white, #ffffff); }
+.nv5-link--cta {
+  background: var(--color-accent, #e6307a);
+  color: var(--color-white, #ffffff);
+  border-radius: 4px;
+  margin-left: 10px;
+}
+.nv5-link--cta:hover {
+  background: var(--color-accent-hover, #c81f63);
+  opacity: 1;
+}
+.nv5-hero {
+  background: url('https://images.pexels.com/photos/196645/pexels-photo-196645.jpeg?auto=compress&cs=tinysrgb&w=1400') center/cover;
+  min-height: 340px;
+  display: flex;
+  align-items: center;
+  color: var(--color-white, #ffffff);
+  padding-top: 80px;
+  position: relative;
+}
+.nv5-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+}
+.nv5-hero .container { position: relative; z-index: 1; }
+.nv5-hero__kicker {
+  font-family: var(--font-heading, "Quicksand", sans-serif);
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  opacity: 0.85;
+  margin: 0 0 8px;
+}
+.nv5-hero__title {
+  font-family: var(--font-heading, "Quicksand", sans-serif);
+  font-weight: 700;
+  font-size: 2rem;
+  margin: 0;
+}
+
+
+/* ==========================================================================
+   NAV 6: Dark solid
+   ========================================================================== */
+.nav-v6 {
+  background: var(--color-dark, #2b2b2b);
+  border-bottom: 1px solid var(--color-border-dark, #3a3a3a);
+}
+.nav-v6__inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--nav-main-padding, 18px) 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.nv6-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.nv6-link {
+  padding: 10px 16px;
+  font-family: var(--font-heading, "Quicksand", sans-serif);
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--color-white, #ffffff);
+  text-decoration: none;
+}
+.nv6-link:hover { color: var(--color-accent, #e6307a); }
+.nv6-link--cta {
+  background: var(--color-accent, #e6307a);
+  color: var(--color-white, #ffffff);
+  border-radius: 4px;
+  margin-left: 10px;
+}
+.nv6-link--cta:hover {
+  background: var(--color-accent-hover, #c81f63);
+  color: var(--color-white, #ffffff);
+}
+
+
+/* ==========================================================================
+   NAV 7: Centered logo + utility
+   ========================================================================== */
+.nav-v7 { background: var(--color-white, #ffffff); }
+.nav-v7__utility {
+  background: var(--color-dark, #2b2b2b);
+  color: var(--color-white, #ffffff);
+  font-size: 0.82rem;
+}
+.nav-v7__utility-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 8px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.nv7-utility-left { display: flex; gap: 22px; }
+.nv7-utility-left i { color: var(--color-accent, #e6307a); margin-right: 6px; }
+.nv7-social { display: flex; gap: 10px; }
+.nv7-social__link {
+  color: var(--color-white, #ffffff);
+  font-size: 0.85rem;
+  text-decoration: none;
+}
+.nv7-social__link:hover { color: var(--color-accent, #e6307a); }
+
+.nav-v7__main { border-bottom: 1px solid var(--color-border); }
+.nav-v7__main-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--nav-main-padding, 18px) 24px;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 30px;
+}
+.nv7-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.nv7-list--left { justify-content: flex-end; }
+.nv7-list--right { justify-content: flex-start; }
+.nv7-link {
+  padding: 10px 16px;
+  font-family: var(--font-heading, "Quicksand", sans-serif);
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--color-text);
+  text-decoration: none;
+}
+.nv7-link:hover { color: var(--color-accent, #e6307a); }
+.nv7-logo__text { font-size: 1.8rem; }
+
+
+/* ==========================================================================
+   NAV 8: Mega bar
+   ========================================================================== */
+.nav-v8 {
+  background: var(--color-white, #ffffff);
+  border-bottom: 1px solid var(--color-border);
+}
+.nav-v8__inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 14px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 30px;
+}
+.nav-v8__brand {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+}
+.nv8-contact-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  font-size: 0.78rem;
+  color: var(--color-text-muted);
+}
+.nv8-contact-line i {
+  color: var(--color-accent, #e6307a);
+  margin-right: 5px;
+  width: 12px;
+}
+.nav-v8__nav-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+}
+.nv8-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+.nv8-link {
+  padding: 6px 12px;
+  font-family: var(--font-heading, "Quicksand", sans-serif);
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: var(--color-text);
+  text-decoration: none;
+}
+.nv8-link:hover { color: var(--color-accent, #e6307a); }
+.nav-v8__actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.nv8-social { display: flex; gap: 8px; margin-right: 8px; }
+.nv8-social__link {
+  width: 26px;
+  height: 26px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-light);
+  color: var(--color-text-muted);
+  border-radius: 50%;
+  font-size: 0.75rem;
+  transition: background 0.2s ease, color 0.2s ease;
+  text-decoration: none;
+}
+.nv8-social__link:hover {
+  background: var(--color-accent, #e6307a);
+  color: var(--color-white, #ffffff);
+}
+
+
+/* ==========================================================================
+   NAV 10: Phone-prominent
+   ========================================================================== */
+.nav-v10 {
+  background: var(--color-white, #ffffff);
+  border-bottom: 1px solid var(--color-border);
+}
+.nav-v10__inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 16px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+}
+.nv10-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.nv10-link {
+  padding: 10px 14px;
+  font-family: var(--font-heading, "Quicksand", sans-serif);
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--color-text);
+  text-decoration: none;
+}
+.nv10-link:hover { color: var(--color-accent, #e6307a); }
+
+.nv10-phone {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.nv10-phone__group {
+  display: flex;
+  flex-direction: column;
+  text-align: right;
+}
+.nv10-phone__label {
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  font-family: var(--font-heading, "Quicksand", sans-serif);
+  font-weight: 700;
+}
+.nv10-phone__number {
+  font-family: var(--font-heading, "Quicksand", sans-serif);
+  font-weight: 800;
+  font-size: 1.3rem;
+  color: var(--color-accent, #e6307a);
+  line-height: 1.1;
+  margin-top: 1px;
+  text-decoration: none;
+}
+.nv10-phone__number:hover {
+  color: var(--color-accent-hover, #c81f63);
+}
+.nv10-phone__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 20px;
+  background: var(--color-accent, #e6307a);
+  color: var(--color-white, #ffffff);
+  border-radius: 4px;
+  font-family: var(--font-heading, "Quicksand", sans-serif);
+  font-weight: 700;
+  font-size: 0.85rem;
+  text-decoration: none;
+  transition: background 0.2s ease;
+}
+.nv10-phone__cta:hover {
+  background: var(--color-accent-hover, #c81f63);
+}
+
+
+/* ==========================================================================
+   NAV 11: Two CTAs
+   ========================================================================== */
+.nav-v11 {
+  background: var(--color-white, #ffffff);
+  border-bottom: 1px solid var(--color-border);
+}
+.nav-v11__inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--nav-main-padding, 18px) 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.nv11-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.nv11-link {
+  padding: 10px 16px;
+  font-family: var(--font-heading, "Quicksand", sans-serif);
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--color-text);
+  text-decoration: none;
+}
+.nv11-link:hover { color: var(--color-accent, #e6307a); }
+.nv11-link--cta-secondary {
+  background: var(--color-white, #ffffff);
+  color: var(--color-text);
+  border: 2px solid var(--color-border);
+  border-radius: 4px;
+  margin-left: 10px;
+  padding: 8px 18px;
+}
+.nv11-link--cta-secondary:hover {
+  border-color: var(--color-accent, #e6307a);
+  color: var(--color-accent, #e6307a);
+}
+.nv11-link--cta-primary {
+  background: var(--color-accent, #e6307a);
+  color: var(--color-white, #ffffff);
+  border: 2px solid var(--color-accent, #e6307a);
+  border-radius: 4px;
+  margin-left: 8px;
+  padding: 8px 18px;
+}
+.nv11-link--cta-primary:hover {
+  background: var(--color-accent-hover, #c81f63);
+  border-color: var(--color-accent-hover, #c81f63);
+  color: var(--color-white, #ffffff);
+}
+
+
+/* ==========================================================================
+   NAV 12: Floating pill
+   ========================================================================== */
+.nav-v12-wrap {
+  padding: 24px;
+  background: var(--color-light);
+}
+.nav-v12 {
+  max-width: 1080px;
+  margin: 0 auto;
+  background: var(--color-white, #ffffff);
+  border-radius: 999px;
+  padding: 8px 8px 8px 28px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+}
+.nv12-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+.nv12-link {
+  padding: 8px 16px;
+  font-family: var(--font-heading, "Quicksand", sans-serif);
+  font-weight: 700;
+  font-size: 0.88rem;
+  color: var(--color-text);
+  border-radius: 999px;
+  transition: background 0.2s ease, color 0.2s ease;
+  text-decoration: none;
+}
+.nv12-link:hover {
+  background: var(--color-light);
+  color: var(--color-accent, #e6307a);
+}
+.nv12-cta {
+  border-radius: 999px !important;
+}
+
+
+/* ==========================================================================
+   Shared Dropdown Styles
+   ========================================================================== */
+
+/* Make items position: relative for dropdown positioning */
+.nv1-item, .nv2-item, .nv3-item, .nv4-item,
+.nv5-item, .nv6-item, .nv7-item, .nv8-item,
+.nv10-item, .nv11-item, .nv12-item {
+  position: relative;
+}
+
+/* Dropdown containers */
+.nv1-dropdown, .nv2-dropdown, .nv3-dropdown, .nv4-dropdown,
+.nv5-dropdown, .nv6-dropdown, .nv7-dropdown, .nv8-dropdown,
+.nv10-dropdown, .nv11-dropdown, .nv12-dropdown {
   position: absolute;
   top: 100%;
   left: 0;
@@ -175,41 +839,50 @@
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
   z-index: 200;
 }
-.nv3-item:hover > .nv3-dropdown {
+
+/* Show on hover */
+.nv1-item:hover > .nv1-dropdown,
+.nv2-item:hover > .nv2-dropdown,
+.nv3-item:hover > .nv3-dropdown,
+.nv4-item:hover > .nv4-dropdown,
+.nv5-item:hover > .nv5-dropdown,
+.nv6-item:hover > .nv6-dropdown,
+.nv7-item:hover > .nv7-dropdown,
+.nv8-item:hover > .nv8-dropdown,
+.nv10-item:hover > .nv10-dropdown,
+.nv11-item:hover > .nv11-dropdown,
+.nv12-item:hover > .nv12-dropdown {
   opacity: 1;
   visibility: visible;
   transform: translateY(0);
 }
-.nv3-dropdown__link {
+
+/* Dropdown links */
+.nv1-dropdown__link, .nv2-dropdown__link, .nv3-dropdown__link,
+.nv4-dropdown__link, .nv5-dropdown__link, .nv6-dropdown__link,
+.nv7-dropdown__link, .nv8-dropdown__link, .nv10-dropdown__link,
+.nv11-dropdown__link, .nv12-dropdown__link {
   display: block;
-  padding: 12px 24px;
-  color: var(--nav-dropdown-color-dark, #ffffff);
-  font-family: var(--nav-dropdown-family, var(--font-heading, "Quicksand", sans-serif));
-  font-weight: var(--nav-dropdown-weight, 600);
-  font-size: var(--nav-dropdown-size, 1.05rem);
-  text-transform: var(--nav-dropdown-text-transform, none);
-  letter-spacing: var(--nav-dropdown-letter-spacing, 0);
-  line-height: var(--nav-dropdown-line-height, normal);
+  padding: 10px 20px;
+  font-family: var(--font-heading, "Quicksand", sans-serif);
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.85);
+  transition: background 0.15s ease, color 0.15s ease;
   text-decoration: none;
-  transition: color 0.2s ease, background 0.2s ease;
 }
-.nv3-dropdown__link:hover {
+.nv1-dropdown__link:hover, .nv2-dropdown__link:hover, .nv3-dropdown__link:hover,
+.nv4-dropdown__link:hover, .nv5-dropdown__link:hover, .nv6-dropdown__link:hover,
+.nv7-dropdown__link:hover, .nv8-dropdown__link:hover, .nv10-dropdown__link:hover,
+.nv11-dropdown__link:hover, .nv12-dropdown__link:hover {
+  background: rgba(255, 255, 255, 0.08);
   color: var(--color-accent, #e6307a);
-  background: rgba(255, 255, 255, 0.04);
 }
 
-/* --- Hamburger (hidden desktop, shown mobile) --- */
-.nv3-hamburger {
-  display: none;
-  background: none;
-  border: 0;
-  padding: 8px;
-  cursor: pointer;
-  font-size: 1.3rem;
-  color: var(--color-white, #ffffff);
-}
 
-/* --- Mobile nav overlay --- */
+/* ==========================================================================
+   Mobile Nav Overlay / Drawer
+   ========================================================================== */
 .mobile-nav-overlay {
   position: fixed;
   inset: 0;
@@ -283,9 +956,7 @@
   color: var(--color-accent, #e6307a);
 }
 
-/* --- Mobile drawer utility section (phone, hours, social) ---
-   Mirrors the desktop utility bar content inside the mobile drawer,
-   centered below the nav tabs. */
+/* --- Mobile drawer utility section (phone, hours, social) --- */
 .mobile-nav__utility {
   padding: 20px 24px;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
@@ -324,9 +995,13 @@
   color: #ffffff;
 }
 
-/* --- Disabled nav items (no URL set in CMS) ---
-   Renders as <span> instead of <a>. Faded look + default cursor
-   so devs can spot incomplete items during development. */
+/* --- Mobile CTA button (last nav item as full-width button in drawer) --- */
+.mobile-nav__cta {
+  padding: 16px 24px;
+  border-bottom: none;
+}
+
+/* --- Disabled nav items (no URL set in CMS) --- */
 .nv3-link--disabled {
   opacity: 0.5;
   cursor: default;
@@ -357,8 +1032,10 @@
   color: var(--nav-drawer-heading-color-dark, rgba(255, 255, 255, 0.85));
 }
 
-/* --- Auth bar (signed-in CMS users) ---
-   Thin dark bar above the utility bar showing user name + sign out link. */
+
+/* ==========================================================================
+   Auth Bar (signed-in CMS users)
+   ========================================================================== */
 .auth-bar {
   background: #1a1a1a;
   color: rgba(255, 255, 255, 0.7);
@@ -405,91 +1082,47 @@
   color: #ffffff;
 }
 
-/* ==========================================================================
-   Nav Variation Overrides — controlled by data-nav-variation on <html>
-   ========================================================================== */
-
-/* Minimal — hide utility bar */
-[data-nav-variation="minimal"] .nav-v3__utility {
-  display: none;
-}
-
-/* Floating Pill — hide utility bar, pill-shaped main bar */
-[data-nav-variation="floating"] .nav-v3__utility {
-  display: none;
-}
-[data-nav-variation="floating"] .nav-v3 {
-  background: transparent;
-}
-[data-nav-variation="floating"] .nav-v3__main {
-  background: transparent;
-  border-bottom: none;
-  padding: 20px 24px;
-}
-[data-nav-variation="floating"] .nav-v3__main-inner {
-  max-width: 1080px;
-  background: var(--nav-bg-override, #ffffff);
-  border-radius: 999px;
-  padding: 8px 8px 8px 28px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-}
-[data-nav-variation="floating"] .nv3-link {
-  border-radius: 999px;
-  padding: 8px 16px;
-}
-[data-nav-variation="floating"] .nv3-link--cta {
-  border-radius: 999px;
-  padding: 10px 24px;
-}
-[data-nav-variation="floating"] .nv3-dropdown {
-  border-radius: 12px;
-}
 
 /* ==========================================================================
-   Background Color Override — applies when user picks a bg color
-   Text color auto-adjusts via --nav-text-override (luminance-based)
+   Responsive Breakpoints
    ========================================================================== */
-[data-nav-bg-override="true"] .nav-v3__main {
-  background: var(--nav-bg-override);
-  border-bottom-color: transparent;
-}
-[data-nav-bg-override="true"] .nv3-link {
-  color: var(--nav-text-override, #ffffff);
-}
-[data-nav-bg-override="true"] .nv3-link:hover {
-  color: var(--color-accent, #e6307a);
-}
-[data-nav-bg-override="true"] .nv3-link--cta {
-  color: var(--btn-primary-text, #ffffff);
-}
-[data-nav-bg-override="true"] .nv3-link--cta:hover {
-  color: var(--btn-primary-text, #ffffff);
-}
-[data-nav-bg-override="true"] .nv3-logo__text {
-  color: var(--nav-text-override, #ffffff);
-}
-[data-nav-bg-override="true"] .nv3-caret {
-  color: var(--nav-text-override, #ffffff);
-  opacity: 0.5;
-}
-
-/* --- Mobile CTA button (last nav item as full-width button in drawer) --- */
-.mobile-nav__cta {
-  padding: 16px 24px;
-  border-bottom: none;
-}
-
-/* --- Responsive --- */
 @media (max-width: 767px) {
-  .nav-v3__utility {
-    display: none;
+  /* Hide all nav lists on mobile (MobileNav component handles mobile) */
+  .nv1-list, .nv2-list, .nv3-list, .nv4-list, .nv5-list,
+  .nv6-list, .nv7-list, .nv8-list, .nv10-list,
+  .nv11-list, .nv12-list { display: none; }
+
+  /* Show hamburger buttons */
+  .nv1-hamburger, .nv2-hamburger, .nv3-hamburger, .nv4-hamburger,
+  .nv5-hamburger, .nv6-hamburger, .nv7-hamburger, .nv8-hamburger,
+  .nv10-hamburger, .nv11-hamburger, .nv12-hamburger { display: inline-flex; }
+
+  /* Two-tier utility bars stack on mobile */
+  .nav-v3__utility-inner, .nav-v4__utility-inner, .nav-v7__utility-inner {
+    flex-direction: column; gap: 6px; text-align: center; font-size: 0.78rem;
   }
-  .nv3-list {
-    display: none;
+  .nv3-utility-left, .nv7-utility-left {
+    flex-wrap: wrap; justify-content: center; gap: 12px;
   }
-  .nv3-hamburger {
-    display: inline-flex;
-  }
+
+  /* Centered layouts simplify */
+  .nav-v2__inner, .nav-v7__main-inner { grid-template-columns: 1fr auto; }
+  .nv2-list, .nv7-list { display: none; }
+
+  /* Mega bar stacks */
+  .nav-v8__inner { flex-wrap: wrap; gap: 14px; }
+  .nav-v8__brand { flex-direction: column; align-items: flex-start; gap: 6px; }
+  .nav-v8__nav-wrap, .nav-v8__actions { display: none; }
+
+  /* Phone-prominent: hide label, keep CTA */
+  .nv10-phone__group { display: none; }
+  .nv10-phone__cta { padding: 8px 14px; font-size: 0.8rem; }
+
+  /* Floating pill */
+  .nav-v12 { padding: 8px 8px 8px 20px; }
+  .nv12-cta { display: none; }
+
+  /* Mobile drawer utility adjustments */
   .mobile-nav__utility {
     text-align: left;
   }
