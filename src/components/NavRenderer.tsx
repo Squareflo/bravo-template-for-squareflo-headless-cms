@@ -157,6 +157,9 @@ export default function NavRenderer({ nav, settings }: NavRendererProps) {
   const overlayMode = navSettings?.overlayMode || "above";
   const mainBarOpacity = navSettings?.mainBarOpacity ?? 100;
   const utilityBarOpacity = navSettings?.utilityBarOpacity ?? 100;
+  const ctaPreset1Key = navSettings?.ctaPreset1 || "primary";
+  const ctaPreset2Key = navSettings?.ctaPreset2 || "secondary";
+  const buttonPresets = editCtx?.buttonPresets || [];
 
   // --- Compute navigation data ---
   const { business } = settings;
@@ -286,6 +289,30 @@ export default function NavRenderer({ nav, settings }: NavRendererProps) {
     );
   }
 
+  // --- CTA preset styles ---
+  const preset1 = buttonPresets.find((p) => p.key === ctaPreset1Key);
+  const preset2 = buttonPresets.find((p) => p.key === ctaPreset2Key);
+
+  function ctaStyle(preset: typeof preset1): React.CSSProperties | undefined {
+    if (!preset) return undefined;
+    return {
+      background: preset.fillColor,
+      color: preset.textColor,
+      borderRadius: `${preset.borderRadius}px`,
+      padding: `${preset.paddingV}px ${preset.paddingH}px`,
+      border: preset.borderWidth
+        ? `${preset.borderWidth}px solid ${preset.borderColor}`
+        : "none",
+      display: "inline-block",
+      textDecoration: "none",
+      lineHeight: "1.2",
+      whiteSpace: "nowrap",
+    };
+  }
+
+  const cta1Style = ctaStyle(preset1);
+  const cta2Style = ctaStyle(preset2);
+
   // --- Variation renderers ---
 
   if (variation === "v1") {
@@ -298,8 +325,8 @@ export default function NavRenderer({ nav, settings }: NavRendererProps) {
               <NavList items={regularItems} prefix="nv1" textStyle={textStyle} />
               {ctaItems[0] && (
                 <li className="nv1-item">
-                  <NLink item={ctaItems[0]} className="nv1-link nv1-link--cta">
-                    <span style={textStyle}>{ctaItems[0].label}</span>
+                  <NLink item={ctaItems[0]} className={cta1Style ? "nv1-link" : "nv1-link nv1-link--cta"}>
+                    <span style={cta1Style || textStyle}>{ctaItems[0].label}</span>
                   </NLink>
                 </li>
               )}
@@ -364,8 +391,8 @@ export default function NavRenderer({ nav, settings }: NavRendererProps) {
                 <NavList items={regularItems} prefix="nv3" textStyle={textStyle} />
                 {ctaItems[0] && (
                   <li className="nv3-item">
-                    <NLink item={ctaItems[0]} className="nv3-link nv3-link--cta">
-                      <span style={textStyle}>{ctaItems[0].label}</span>
+                    <NLink item={ctaItems[0]} className={cta1Style ? "nv3-link" : "nv3-link nv3-link--cta"}>
+                      <span style={cta1Style || textStyle}>{ctaItems[0].label}</span>
                     </NLink>
                   </li>
                 )}
@@ -424,8 +451,8 @@ export default function NavRenderer({ nav, settings }: NavRendererProps) {
               <NavList items={regularItems} prefix="nv6" textStyle={textStyle} />
               {ctaItems[0] && (
                 <li className="nv6-item">
-                  <NLink item={ctaItems[0]} className="nv6-link nv6-link--cta">
-                    <span style={textStyle}>{ctaItems[0].label}</span>
+                  <NLink item={ctaItems[0]} className={cta1Style ? "nv6-link" : "nv6-link nv6-link--cta"}>
+                    <span style={cta1Style || textStyle}>{ctaItems[0].label}</span>
                   </NLink>
                 </li>
               )}
@@ -509,13 +536,13 @@ export default function NavRenderer({ nav, settings }: NavRendererProps) {
                 <SocialLinks links={socialLinks} prefix="nv8" />
               </div>
               {ctaItems[0] && (
-                <NLink item={ctaItems[0]} className="btn btn--sm btn--secondary">
-                  <span>{ctaItems[0].label}</span>
+                <NLink item={ctaItems[0]} className={cta1Style ? "" : "btn btn--sm btn--secondary"}>
+                  <span style={cta1Style}>{ctaItems[0].label}</span>
                 </NLink>
               )}
               {ctaItems[1] && (
-                <NLink item={ctaItems[1]} className="btn btn--sm">
-                  <span>{ctaItems[1].label}</span>
+                <NLink item={ctaItems[1]} className={cta2Style ? "" : "btn btn--sm"}>
+                  <span style={cta2Style}>{ctaItems[1].label}</span>
                 </NLink>
               )}
             </div>
@@ -576,9 +603,9 @@ export default function NavRenderer({ nav, settings }: NavRendererProps) {
                 <li className="nv11-item">
                   <NLink
                     item={ctaItems[0]}
-                    className="nv11-link nv11-link--cta-secondary"
+                    className={cta1Style ? "nv11-link" : "nv11-link nv11-link--cta-secondary"}
                   >
-                    <span>{ctaItems[0].label}</span>
+                    <span style={cta1Style}>{ctaItems[0].label}</span>
                   </NLink>
                 </li>
               )}
@@ -586,9 +613,9 @@ export default function NavRenderer({ nav, settings }: NavRendererProps) {
                 <li className="nv11-item">
                   <NLink
                     item={ctaItems[1]}
-                    className="nv11-link nv11-link--cta-primary"
+                    className={cta2Style ? "nv11-link" : "nv11-link nv11-link--cta-primary"}
                   >
-                    <span>{ctaItems[1].label}</span>
+                    <span style={cta2Style}>{ctaItems[1].label}</span>
                   </NLink>
                 </li>
               )}
@@ -614,8 +641,8 @@ export default function NavRenderer({ nav, settings }: NavRendererProps) {
             </ul>
           </nav>
           {ctaItems[0] && (
-            <NLink item={ctaItems[0]} className="btn btn--sm nv12-cta">
-              <span>{ctaItems[0].label}</span>
+            <NLink item={ctaItems[0]} className={cta1Style ? "nv12-cta" : "btn btn--sm nv12-cta"}>
+              <span style={cta1Style}>{ctaItems[0].label}</span>
             </NLink>
           )}
           <MobileNav {...mobileNavProps} />

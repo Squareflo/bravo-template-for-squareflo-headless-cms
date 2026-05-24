@@ -11,7 +11,7 @@
 import { cms } from "@/lib/cms";
 import { NavItem, SiteSettings } from "@/lib/types";
 import NavRenderer from "@/components/NavRenderer";
-import EditModeProvider, { type ColorPreset } from "@/components/EditModeProvider";
+import EditModeProvider, { type ColorPreset, type ButtonPreset } from "@/components/EditModeProvider";
 import EditableSection from "@/components/EditableSection";
 import NavSettingsDrawer from "@/components/NavSettingsDrawer";
 import AuthBar from "@/components/AuthBar";
@@ -46,8 +46,25 @@ export default async function MainLayout({
       ].filter((c) => c.value)
     : [];
 
+  const buttonPresets: ButtonPreset[] = settings?.design?.buttons
+    ? Object.entries(settings.design.buttons).map(([key, btn]) => ({
+        key,
+        label: key.replace(/([A-Z])/g, " $1").replace(/^./, (s) => s.toUpperCase()),
+        fillColor: btn.fillColor,
+        fillColorHover: btn.fillColorHover,
+        textColor: btn.textColor,
+        textColorHover: btn.textColorHover,
+        borderWidth: btn.borderWidth,
+        borderColor: btn.borderColor,
+        borderColorHover: btn.borderColorHover,
+        borderRadius: btn.borderRadius,
+        paddingH: btn.paddingH,
+        paddingV: btn.paddingV,
+      }))
+    : [];
+
   return (
-    <EditModeProvider colorPresets={colorPresets}>
+    <EditModeProvider colorPresets={colorPresets} buttonPresets={buttonPresets}>
       <AuthBar />
       <div className="nav-and-content">
         {settings && (

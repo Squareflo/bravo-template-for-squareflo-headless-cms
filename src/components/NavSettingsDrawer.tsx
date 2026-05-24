@@ -6,7 +6,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { useEditMode, type NavVariation, type NavOverlayMode, type ColorPreset } from "./EditModeProvider";
+import { useEditMode, type NavVariation, type NavOverlayMode, type ColorPreset, type ButtonPreset } from "./EditModeProvider";
 
 const VARIATIONS: { value: NavVariation; label: string }[] = [
   { value: "v1",  label: "V1 — Classic Single Bar" },
@@ -22,6 +22,10 @@ const VARIATIONS: { value: NavVariation; label: string }[] = [
 ];
 
 const TWO_TIER = new Set<NavVariation>(["v3", "v4", "v7"]);
+
+const CTA_COUNT: Record<NavVariation, number> = {
+  v1: 1, v2: 0, v3: 1, v4: 0, v6: 1, v7: 0, v8: 2, v10: 0, v11: 2, v12: 1,
+};
 
 function ColorDropdown({
   value,
@@ -104,11 +108,13 @@ export default function NavSettingsDrawer() {
     settings,
     updateNavSettings,
     colorPresets,
+    buttonPresets,
   } = ctx;
   const open = activeSection === "navigation";
   const nav = settings.navigation;
   const isTwoTier = TWO_TIER.has(nav.variation);
   const isOverlay = nav.overlayMode === "overlay";
+  const ctaCount = CTA_COUNT[nav.variation] ?? 0;
 
   return (
     <>
@@ -302,6 +308,50 @@ export default function NavSettingsDrawer() {
               className="drawer-slider"
             />
           </div>
+
+          {/* CTA Button Presets */}
+          {ctaCount >= 1 && buttonPresets.length > 0 && (
+            <div className="drawer-field">
+              <label className="drawer-field__label" htmlFor="nav-cta1-preset">
+                {ctaCount === 1 ? "Button Preset" : "Button 1 Preset"}
+              </label>
+              <select
+                id="nav-cta1-preset"
+                className="drawer-select"
+                value={nav.ctaPreset1}
+                onChange={(e) =>
+                  updateNavSettings({ ctaPreset1: e.target.value })
+                }
+              >
+                {buttonPresets.map((bp) => (
+                  <option key={bp.key} value={bp.key}>
+                    {bp.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
+          {ctaCount >= 2 && buttonPresets.length > 0 && (
+            <div className="drawer-field">
+              <label className="drawer-field__label" htmlFor="nav-cta2-preset">
+                Button 2 Preset
+              </label>
+              <select
+                id="nav-cta2-preset"
+                className="drawer-select"
+                value={nav.ctaPreset2}
+                onChange={(e) =>
+                  updateNavSettings({ ctaPreset2: e.target.value })
+                }
+              >
+                {buttonPresets.map((bp) => (
+                  <option key={bp.key} value={bp.key}>
+                    {bp.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
         </div>
       </div>
     </>

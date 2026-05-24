@@ -32,6 +32,8 @@ export interface NavSettings {
   overlayMode: NavOverlayMode;
   mainBarOpacity: number;
   utilityBarOpacity: number;
+  ctaPreset1: string;
+  ctaPreset2: string;
 }
 
 export interface SectionSettings {
@@ -42,6 +44,21 @@ export interface ColorPreset {
   key: string;
   label: string;
   value: string;
+}
+
+export interface ButtonPreset {
+  key: string;
+  label: string;
+  fillColor: string;
+  fillColorHover: string;
+  textColor: string;
+  textColorHover: string;
+  borderWidth: number;
+  borderColor: string;
+  borderColorHover: string;
+  borderRadius: number;
+  paddingH: number;
+  paddingV: number;
 }
 
 const DEFAULTS: SectionSettings = {
@@ -56,6 +73,8 @@ const DEFAULTS: SectionSettings = {
     overlayMode: "above",
     mainBarOpacity: 100,
     utilityBarOpacity: 100,
+    ctaPreset1: "primary",
+    ctaPreset2: "secondary",
   },
 };
 
@@ -76,6 +95,7 @@ interface EditModeCtx {
   settings: SectionSettings;
   updateNavSettings: (u: Partial<NavSettings>) => void;
   colorPresets: ColorPreset[];
+  buttonPresets: ButtonPreset[];
 }
 
 const Ctx = createContext<EditModeCtx | null>(null);
@@ -86,9 +106,11 @@ const STORAGE_KEY = "sqf_section_settings";
 export default function EditModeProvider({
   children,
   colorPresets = [],
+  buttonPresets = [],
 }: {
   children: ReactNode;
   colorPresets?: ColorPreset[];
+  buttonPresets?: ButtonPreset[];
 }) {
   const [editMode, setEditMode] = useState(false);
   const [activeSection, setActiveSection] = useState<string | null>(null);
@@ -146,6 +168,7 @@ export default function EditModeProvider({
         settings,
         updateNavSettings,
         colorPresets,
+        buttonPresets,
       }}
     >
       {children}
