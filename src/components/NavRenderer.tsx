@@ -664,7 +664,7 @@ export default function NavRenderer({ nav, settings }: NavRendererProps) {
           </nav>
           {ctaItems[0] && (
             <NLink item={ctaItems[0]} className={cta1Style ? "nv12-cta" : "btn btn--sm nv12-cta"}>
-              <span style={cta1Style}>{ctaItems[0].label}</span>
+              <span style={cta1Style ? { ...cta1Style, borderRadius: "100px" } : undefined}>{ctaItems[0].label}</span>
             </NLink>
           )}
           <MobileNav {...mobileNavProps} />
