@@ -81,6 +81,8 @@ export interface SiteSettings {
 export interface Location {
   id: string;
   name: string;
+  slug: string;
+  is_default: boolean;
   street_address: string;
   unit: string;
   city: string;

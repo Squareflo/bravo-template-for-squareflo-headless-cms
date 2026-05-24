@@ -1,0 +1,202 @@
+/* ==========================================================================
+   Footer — FT1: Classic 4-Column
+   Adapted from html-reference/footer-showcase → Variation 1
+   ========================================================================== */
+
+.ft-logo {
+  display: inline-block;
+  text-decoration: none;
+}
+.ft-logo__img {
+  height: 40px;
+  width: auto;
+  display: block;
+}
+.ft-logo__text {
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: 1.6rem;
+  letter-spacing: 0.02em;
+  color: var(--color-text);
+}
+.ft-logo__text--light {
+  color: var(--color-white);
+}
+
+/* Social icons */
+.ft1-social {
+  display: flex;
+  gap: 10px;
+  margin-top: 18px;
+}
+.ft1-social__link {
+  width: 34px;
+  height: 34px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--color-white);
+  border-radius: 50%;
+  font-size: 0.9rem;
+  transition: background 0.2s ease, color 0.2s ease;
+  text-decoration: none;
+}
+.ft1-social__link:hover {
+  background: var(--color-accent);
+  color: var(--color-white);
+}
+
+/* Newsletter form */
+.ft1-newsletter {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.ft1-newsletter__input {
+  padding: 11px 14px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  color: var(--color-white);
+}
+.ft1-newsletter__input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+.ft1-newsletter__input:focus {
+  outline: none;
+  border-color: var(--color-accent);
+  background: rgba(255, 255, 255, 0.12);
+}
+.ft1-newsletter__btn {
+  padding: 11px 18px;
+  background: var(--color-accent);
+  color: var(--color-white);
+  border: 0;
+  border-radius: 4px;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 0.03em;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+.ft1-newsletter__btn:hover {
+  background: var(--color-accent-hover);
+}
+
+/* FT1 layout */
+.ft1 {
+  background: var(--color-dark);
+  color: var(--color-white);
+}
+.ft1__inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 60px 24px 40px;
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr 1.2fr;
+  gap: 40px;
+}
+.ft1__heading {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 1.05rem;
+  letter-spacing: 0.04em;
+  color: var(--color-white);
+  margin: 0 0 18px;
+}
+.ft1__text {
+  font-size: 0.92rem;
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.75);
+  margin: 18px 0 0;
+}
+.ft1__text--sm {
+  margin-top: 0;
+  margin-bottom: 14px;
+  font-size: 0.88rem;
+}
+.ft1__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.ft1__list li {
+  margin-bottom: 8px;
+}
+.ft1__list a {
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 0.92rem;
+  text-decoration: none;
+}
+.ft1__list a:hover {
+  color: var(--color-accent);
+}
+.ft1__list span {
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 0.92rem;
+}
+.ft1__contact-line {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.78);
+  line-height: 1.5;
+  margin: 0 0 12px;
+  display: flex;
+  gap: 8px;
+}
+.ft1__contact-line i {
+  color: var(--color-accent);
+  margin-top: 3px;
+  flex-shrink: 0;
+  width: 14px;
+}
+.ft1__contact-line a {
+  color: rgba(255, 255, 255, 0.78);
+  text-decoration: none;
+}
+.ft1__contact-line a:hover {
+  color: var(--color-accent);
+}
+
+/* Bottom bar */
+.ft1__bottom {
+  border-top: 1px solid var(--color-border-dark, #3a3a3a);
+  font-size: 0.82rem;
+  color: rgba(255, 255, 255, 0.5);
+}
+.ft1__bottom-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 18px 24px;
+  display: flex;
+  justify-content: space-between;
+}
+.ft1__bottom a {
+  color: rgba(255, 255, 255, 0.5);
+  text-decoration: none;
+}
+.ft1__bottom a:hover {
+  color: var(--color-accent);
+}
+
+/* Responsive */
+@media (max-width: 991px) {
+  .ft1__inner {
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
+}
+@media (max-width: 767px) {
+  .ft1__inner {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+  .ft1__bottom-inner {
+    flex-direction: column;
+    gap: 8px;
+    text-align: center;
+  }
+}

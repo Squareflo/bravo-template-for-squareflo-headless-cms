@@ -36,8 +36,13 @@ export interface NavSettings {
   ctaPreset2: string;
 }
 
+export interface FooterSettings {
+  bgColor: string;
+}
+
 export interface SectionSettings {
   navigation: NavSettings;
+  footer: FooterSettings;
 }
 
 export interface ColorPreset {
@@ -62,6 +67,9 @@ export interface ButtonPreset {
 }
 
 const DEFAULTS: SectionSettings = {
+  footer: {
+    bgColor: "",
+  },
   navigation: {
     variation: "v3",
     bgColor: "",
@@ -94,6 +102,7 @@ interface EditModeCtx {
   setActiveSection: (id: string | null) => void;
   settings: SectionSettings;
   updateNavSettings: (u: Partial<NavSettings>) => void;
+  updateFooterSettings: (u: Partial<FooterSettings>) => void;
   colorPresets: ColorPreset[];
   buttonPresets: ButtonPreset[];
 }
@@ -123,11 +132,12 @@ export default function EditModeProvider({
       if (raw) {
         const parsed = JSON.parse(raw);
         const nav = { ...DEFAULTS.navigation, ...parsed.navigation };
+        const footer = { ...DEFAULTS.footer, ...parsed.footer };
         // Migrate legacy variation names
         if (LEGACY_MAP[nav.variation]) {
           nav.variation = LEGACY_MAP[nav.variation];
         }
-        setSettings((s) => ({ ...s, navigation: nav }));
+        setSettings((s) => ({ ...s, navigation: nav, footer }));
       }
     } catch {}
     setMounted(true);
@@ -158,6 +168,17 @@ export default function EditModeProvider({
     });
   }, []);
 
+  const updateFooterSettings = useCallback((updates: Partial<FooterSettings>) => {
+    setSettings((prev) => {
+      const next = {
+        ...prev,
+        footer: { ...prev.footer, ...updates },
+      };
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
+      return next;
+    });
+  }, []);
+
   return (
     <Ctx.Provider
       value={{
@@ -167,6 +188,7 @@ export default function EditModeProvider({
         setActiveSection,
         settings,
         updateNavSettings,
+        updateFooterSettings,
         colorPresets,
         buttonPresets,
       }}

@@ -21,6 +21,7 @@ import "@/styles/globals.css";
 import "@/styles/header.css";
 import "@/styles/pages.css";
 import "@/styles/auth.css";
+import "@/styles/footer.css";
 
 export async function generateMetadata(): Promise<Metadata> {
   try {

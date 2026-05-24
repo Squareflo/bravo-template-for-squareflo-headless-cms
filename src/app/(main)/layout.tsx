@@ -14,6 +14,8 @@ import NavRenderer from "@/components/NavRenderer";
 import EditModeProvider, { type ColorPreset, type ButtonPreset } from "@/components/EditModeProvider";
 import EditableSection from "@/components/EditableSection";
 import NavSettingsDrawer from "@/components/NavSettingsDrawer";
+import Footer from "@/components/Footer";
+import FooterSettingsDrawer from "@/components/FooterSettingsDrawer";
 import AuthBar from "@/components/AuthBar";
 
 export default async function MainLayout({
@@ -23,12 +25,15 @@ export default async function MainLayout({
 }) {
   let settings: SiteSettings | null = null;
   let headerNav: NavItem[] = [];
+  let footerNav: NavItem[] = [];
 
   try {
-    [settings, { navigation: headerNav }] = await Promise.all([
-      cms<SiteSettings>("/settings"),
-      cms<{ navigation: NavItem[] }>("/navigation", { location: "header" }),
-    ]);
+    [settings, { navigation: headerNav }, { navigation: footerNav }] =
+      await Promise.all([
+        cms<SiteSettings>("/settings"),
+        cms<{ navigation: NavItem[] }>("/navigation", { location: "header" }),
+        cms<{ navigation: NavItem[] }>("/navigation", { location: "footer" }),
+      ]);
   } catch (e) {
     console.error("Failed to fetch CMS data:", e);
   }
@@ -86,7 +91,13 @@ export default async function MainLayout({
         )}
         <main>{children}</main>
       </div>
+      {settings && (
+        <EditableSection id="footer" label="Footer">
+          <Footer nav={footerNav} settings={settings} />
+        </EditableSection>
+      )}
       <NavSettingsDrawer />
+      <FooterSettingsDrawer />
     </EditModeProvider>
   );
 }
