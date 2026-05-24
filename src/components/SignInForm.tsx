@@ -7,19 +7,48 @@
  * Posts credentials to /api/auth/sign-in (server-side proxy),
  * then redirects to the home page on success.
  *
+ * If the user is already signed in, shows their name and a sign-out button.
+ *
  * Design Reference:
  *   - html-reference/sign-in-r4m7t9w2qx.html (auth card form)
  */
 
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
+interface AuthUser {
+  first_name: string;
+  last_name: string;
+  role: string;
+}
 
 export default function SignInForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [signedInUser, setSignedInUser] = useState<AuthUser | null>(null);
+  const [checking, setChecking] = useState(true);
+
+  // Check if already signed in
+  useEffect(() => {
+    fetch("/api/auth/me")
+      .then((res) => {
+        if (!res.ok) return null;
+        return res.json();
+      })
+      .then((data) => {
+        if (data?.user) setSignedInUser(data.user);
+      })
+      .catch(() => {})
+      .finally(() => setChecking(false));
+  }, []);
+
+  async function handleSignOut() {
+    await fetch("/api/auth/sign-out", { method: "POST" });
+    setSignedInUser(null);
+  }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -41,12 +70,35 @@ export default function SignInForm() {
         return;
       }
 
-      // Full page redirect — must cross layout boundaries (sign-in layout → root layout)
+      // Full page redirect to home
       window.location.href = "/";
     } catch {
       setError("Something went wrong. Please try again.");
       setLoading(false);
     }
+  }
+
+  // Still checking auth state
+  if (checking) return null;
+
+  // Already signed in
+  if (signedInUser) {
+    return (
+      <div className="auth-card__signed-in">
+        <p className="auth-card__signed-in-text">
+          {signedInUser.first_name}, you are already signed in.
+        </p>
+        <a href="/" className="btn btn--block" style={{ marginBottom: 12 }}>
+          Go to Home Page
+        </a>
+        <button
+          className="btn btn--outline btn--block"
+          onClick={handleSignOut}
+        >
+          Sign Out
+        </button>
+      </div>
+    );
   }
 
   return (

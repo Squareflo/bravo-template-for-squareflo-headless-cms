@@ -12,7 +12,6 @@
  * Response: { user: { ... } } on success, { error: string } on failure
  */
 
-import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
 const API_URL = process.env.SQUAREFLO_API_URL!;
@@ -46,7 +45,7 @@ export async function POST(req: Request) {
     );
   }
 
-  // Log the response keys so we can verify the token field name
+  // Log the full response so we can verify the token field name
   console.log("[sign-in] CMS response keys:", Object.keys(data));
 
   // Try access_token first, fall back to token
@@ -59,9 +58,9 @@ export async function POST(req: Request) {
     );
   }
 
-  // Set the access token as an httpOnly cookie
-  const cookieStore = await cookies();
-  cookieStore.set("sqf_token", token, {
+  // Set the access token as an httpOnly cookie on the response object
+  const response = NextResponse.json({ user: data.user });
+  response.cookies.set("sqf_token", token, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "lax",
@@ -69,5 +68,5 @@ export async function POST(req: Request) {
     maxAge: 60 * 60 * 72, // 72 hours (matches CMS token expiry)
   });
 
-  return NextResponse.json({ user: data.user });
+  return response;
 }

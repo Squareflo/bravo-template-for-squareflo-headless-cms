@@ -124,6 +124,14 @@
   text-align: center;
 }
 
+/* Already signed in state */
+.auth-card__signed-in-text {
+  text-align: center;
+  font-size: 1rem;
+  color: var(--color-text, #333);
+  margin-bottom: 24px;
+}
+
 .auth-card__footer {
   text-align: center;
   font-size: 0.9rem;
