@@ -58,7 +58,17 @@ export async function POST(req: Request) {
     );
   }
 
-  console.log("[sign-in] Token found, length:", token.length, "Setting cookie...");
+  console.log("[sign-in] Token found, length:", token.length);
+
+  // Immediately verify the token works with /auth/me
+  const verifyRes = await fetch(`${API_URL}/auth/me`, {
+    headers: {
+      "x-api-key": API_KEY,
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  const verifyData = await verifyRes.json();
+  console.log("[sign-in] Verify test:", verifyRes.status, JSON.stringify(verifyData));
 
   // Set the access token as an httpOnly cookie on the response object
   const response = NextResponse.json({ user: data.user });
@@ -69,9 +79,6 @@ export async function POST(req: Request) {
     path: "/",
     maxAge: 60 * 60 * 72,
   });
-
-  // Log the Set-Cookie header to verify it's present
-  console.log("[sign-in] Response Set-Cookie:", response.headers.get("set-cookie"));
 
   return response;
 }
