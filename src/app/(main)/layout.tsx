@@ -42,7 +42,7 @@ export default async function MainLayout({
         { key: "bgTextDark", label: "Dark", value: settings.design.colors.bgTextDark },
         { key: "pageBg", label: "Page BG", value: settings.design.colors.pageBg },
         { key: "white", label: "White", value: "#ffffff" },
-        { key: "black", label: "Black", value: "#1a1a1a" },
+        { key: "black", label: "Black", value: "#000000" },
       ].filter((c) => c.value)
     : [];
 
