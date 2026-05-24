@@ -5,7 +5,8 @@
 
 "use client";
 
-import { useEditMode, type NavVariation } from "./EditModeProvider";
+import { useState, useRef, useEffect } from "react";
+import { useEditMode, type NavVariation, type ColorPreset } from "./EditModeProvider";
 
 const VARIATIONS: { value: NavVariation; label: string }[] = [
   { value: "v1",  label: "V1 — Classic Single Bar" },
@@ -22,6 +23,77 @@ const VARIATIONS: { value: NavVariation; label: string }[] = [
 ];
 
 const TWO_TIER = new Set<NavVariation>(["v3", "v4", "v7"]);
+
+function ColorDropdown({
+  value,
+  presets,
+  onChange,
+}: {
+  value: string;
+  presets: ColorPreset[];
+  onChange: (v: string) => void;
+}) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    function close(e: MouseEvent) {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+    }
+    document.addEventListener("mousedown", close);
+    return () => document.removeEventListener("mousedown", close);
+  }, [open]);
+
+  const selected = value
+    ? presets.find((p) => p.value === value)
+    : null;
+
+  return (
+    <div className="color-dropdown" ref={ref}>
+      <button
+        className="color-dropdown__trigger"
+        onClick={() => setOpen(!open)}
+        type="button"
+      >
+        {selected ? (
+          <>
+            <span className="color-dropdown__dot" style={{ background: selected.value }} />
+            <span className="color-dropdown__name">{selected.label}</span>
+          </>
+        ) : (
+          <span className="color-dropdown__name">Default</span>
+        )}
+        <i className={`fas fa-caret-${open ? "up" : "down"} color-dropdown__caret`} />
+      </button>
+      {open && (
+        <ul className="color-dropdown__menu">
+          <li>
+            <button
+              className={`color-dropdown__option${!value ? " color-dropdown__option--active" : ""}`}
+              onClick={() => { onChange(""); setOpen(false); }}
+              type="button"
+            >
+              <span className="color-dropdown__name">Default</span>
+            </button>
+          </li>
+          {presets.map((p) => (
+            <li key={p.key}>
+              <button
+                className={`color-dropdown__option${value === p.value ? " color-dropdown__option--active" : ""}`}
+                onClick={() => { onChange(p.value); setOpen(false); }}
+                type="button"
+              >
+                <span className="color-dropdown__dot" style={{ background: p.value }} />
+                <span className="color-dropdown__name">{p.label}</span>
+              </button>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
+}
 
 export default function NavSettingsDrawer() {
   const ctx = useEditMode();
@@ -77,63 +149,27 @@ export default function NavSettingsDrawer() {
             </select>
           </div>
 
-          {/* Background Color — main bar (or single bar) */}
+          {/* Background Color */}
           <div className="drawer-field">
             <label className="drawer-field__label">
               {isTwoTier ? "Main Bar Color" : "Background Color"}
             </label>
-            <div className="drawer-swatches">
-              <button
-                className={`drawer-swatch drawer-swatch--default${!nav.bgColor ? " drawer-swatch--active" : ""}`}
-                onClick={() => updateNavSettings({ bgColor: "" })}
-                title="Default"
-              >
-                <span className="drawer-swatch__label">Default</span>
-              </button>
-              {colorPresets.map((c) => (
-                <button
-                  key={`bg-${c.key}`}
-                  className={`drawer-swatch${nav.bgColor === c.value ? " drawer-swatch--active" : ""}`}
-                  onClick={() => updateNavSettings({ bgColor: c.value })}
-                  title={c.label}
-                >
-                  <span
-                    className="drawer-swatch__color"
-                    style={{ background: c.value }}
-                  />
-                  <span className="drawer-swatch__label">{c.label}</span>
-                </button>
-              ))}
-            </div>
+            <ColorDropdown
+              value={nav.bgColor}
+              presets={colorPresets}
+              onChange={(v) => updateNavSettings({ bgColor: v })}
+            />
           </div>
 
           {/* Utility Bar Color — only for two-tier variations */}
           {isTwoTier && (
             <div className="drawer-field">
               <label className="drawer-field__label">Top Bar Color</label>
-              <div className="drawer-swatches">
-                <button
-                  className={`drawer-swatch drawer-swatch--default${!nav.utilityBgColor ? " drawer-swatch--active" : ""}`}
-                  onClick={() => updateNavSettings({ utilityBgColor: "" })}
-                  title="Default"
-                >
-                  <span className="drawer-swatch__label">Default</span>
-                </button>
-                {colorPresets.map((c) => (
-                  <button
-                    key={`util-${c.key}`}
-                    className={`drawer-swatch${nav.utilityBgColor === c.value ? " drawer-swatch--active" : ""}`}
-                    onClick={() => updateNavSettings({ utilityBgColor: c.value })}
-                    title={c.label}
-                  >
-                    <span
-                      className="drawer-swatch__color"
-                      style={{ background: c.value }}
-                    />
-                    <span className="drawer-swatch__label">{c.label}</span>
-                  </button>
-                ))}
-              </div>
+              <ColorDropdown
+                value={nav.utilityBgColor}
+                presets={colorPresets}
+                onChange={(v) => updateNavSettings({ utilityBgColor: v })}
+              />
             </div>
           )}
 
