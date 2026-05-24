@@ -32,8 +32,6 @@ export default function AuthBar() {
   const [user, setUser] = useState<AuthUser | null>(null);
 
   useEffect(() => {
-    // Only check auth if the cookie exists (avoids 401 console noise)
-    if (!document.cookie.includes("sqf_token")) return;
     fetch("/api/auth/me")
       .then((res) => {
         if (!res.ok) return null;
