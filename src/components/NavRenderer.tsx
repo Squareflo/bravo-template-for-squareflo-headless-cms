@@ -275,6 +275,25 @@ export default function NavRenderer({ nav, settings }: NavRendererProps) {
   }
   const hasUtilityBarStyle = Object.keys(utilityBarStyle).length > 0;
 
+  const computedUtilityTextColor = utilityBgColor
+    ? hexToLuminance(utilityBgColor) > 0.5
+      ? "#333"
+      : "#fff"
+    : isOverlay
+      ? "#fff"
+      : undefined;
+
+  const utilityTextStyle: React.CSSProperties | undefined = computedUtilityTextColor
+    ? { color: computedUtilityTextColor }
+    : undefined;
+
+  if (computedUtilityTextColor) {
+    utilityBarStyle.color = computedUtilityTextColor;
+  }
+  if (hasUtilityBarStyle) {
+    utilityBarStyle.borderBottom = "none";
+  }
+
   // Prefix for class names
   const prefixMap: Record<string, string> = {
     v1: "nv1",
@@ -386,15 +405,15 @@ export default function NavRenderer({ nav, settings }: NavRendererProps) {
       <header className="nav-v3">
         <div className="nav-v3__utility" style={hasUtilityBarStyle ? utilityBarStyle : undefined}>
           <div className="nav-v3__utility-inner">
-            <div className="nv3-utility-left">
+            <div className="nv3-utility-left" style={utilityTextStyle}>
               {phone && (
                 <span>
-                  <i className="fas fa-phone-alt" /> {phone}
+                  <i className="fas fa-phone-alt" style={utilityTextStyle} /> {phone}
                 </span>
               )}
               {hoursText && (
                 <span>
-                  <i className="far fa-clock" /> {hoursText}
+                  <i className="far fa-clock" style={utilityTextStyle} /> {hoursText}
                 </span>
               )}
             </div>
@@ -432,18 +451,18 @@ export default function NavRenderer({ nav, settings }: NavRendererProps) {
       <header className="nav-v4">
         <div className="nav-v4__utility" style={hasUtilityBarStyle ? utilityBarStyle : undefined}>
           <div className="nav-v4__utility-inner">
-            <div className="nv4-utility-item">
-              <i className="fas fa-map-marker-alt" /> {address}
+            <div className="nv4-utility-item" style={utilityTextStyle}>
+              <i className="fas fa-map-marker-alt" style={utilityTextStyle} /> {address}
             </div>
             {hoursText && (
-              <div className="nv4-utility-item">
-                <i className="far fa-clock" /> {hoursText}
+              <div className="nv4-utility-item" style={utilityTextStyle}>
+                <i className="far fa-clock" style={utilityTextStyle} /> {hoursText}
               </div>
             )}
             {phone && (
-              <div className="nv4-utility-item">
-                <i className="fas fa-phone-alt" />{" "}
-                <a href={`tel:${phone.replace(/\D/g, "")}`}>{phone}</a>
+              <div className="nv4-utility-item" style={utilityTextStyle}>
+                <i className="fas fa-phone-alt" style={utilityTextStyle} />{" "}
+                <a href={`tel:${phone.replace(/\D/g, "")}`} style={utilityTextStyle}>{phone}</a>
               </div>
             )}
           </div>
@@ -494,15 +513,15 @@ export default function NavRenderer({ nav, settings }: NavRendererProps) {
       <header className="nav-v7">
         <div className="nav-v7__utility" style={hasUtilityBarStyle ? utilityBarStyle : undefined}>
           <div className="nav-v7__utility-inner">
-            <div className="nv7-utility-left">
+            <div className="nv7-utility-left" style={utilityTextStyle}>
               {phone && (
                 <span>
-                  <i className="fas fa-phone-alt" /> {phone}
+                  <i className="fas fa-phone-alt" style={utilityTextStyle} /> {phone}
                 </span>
               )}
               {hoursText && (
                 <span>
-                  <i className="far fa-clock" /> {hoursText}
+                  <i className="far fa-clock" style={utilityTextStyle} /> {hoursText}
                 </span>
               )}
             </div>
@@ -678,15 +697,15 @@ export default function NavRenderer({ nav, settings }: NavRendererProps) {
     <header className="nav-v3">
       <div className="nav-v3__utility" style={hasUtilityBarStyle ? utilityBarStyle : undefined}>
         <div className="nav-v3__utility-inner">
-          <div className="nv3-utility-left">
+          <div className="nv3-utility-left" style={utilityTextStyle}>
             {phone && (
               <span>
-                <i className="fas fa-phone-alt" /> {phone}
+                <i className="fas fa-phone-alt" style={utilityTextStyle} /> {phone}
               </span>
             )}
             {hoursText && (
               <span>
-                <i className="far fa-clock" /> {hoursText}
+                <i className="far fa-clock" style={utilityTextStyle} /> {hoursText}
               </span>
             )}
           </div>

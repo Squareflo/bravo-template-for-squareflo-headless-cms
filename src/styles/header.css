@@ -744,7 +744,7 @@
   color: var(--color-text);
   border: 2px solid var(--color-border);
   border-radius: 4px;
-  margin-left: 10px;
+  margin-left: 4px;
   padding: 8px 18px;
 }
 .nv11-link--cta-secondary:hover {
@@ -756,7 +756,7 @@
   color: var(--color-white, #ffffff);
   border: 2px solid var(--color-accent, #e6307a);
   border-radius: 4px;
-  margin-left: 8px;
+  margin-left: 0;
   padding: 8px 18px;
 }
 .nv11-link--cta-primary:hover {
