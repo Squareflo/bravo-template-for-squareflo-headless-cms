@@ -46,9 +46,22 @@ export async function POST(req: Request) {
     );
   }
 
+  // Log the response keys so we can verify the token field name
+  console.log("[sign-in] CMS response keys:", Object.keys(data));
+
+  // Try access_token first, fall back to token
+  const token = data.access_token || data.token;
+  if (!token) {
+    console.error("[sign-in] No token found in CMS response:", JSON.stringify(data));
+    return NextResponse.json(
+      { error: "Sign-in succeeded but no token was returned." },
+      { status: 500 },
+    );
+  }
+
   // Set the access token as an httpOnly cookie
   const cookieStore = await cookies();
-  cookieStore.set("sqf_token", data.access_token, {
+  cookieStore.set("sqf_token", token, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "lax",
