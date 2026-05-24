@@ -91,6 +91,7 @@
 .ft1 {
   background: var(--color-dark);
   color: var(--color-white);
+  font-family: var(--font-body);
 }
 .ft1__inner {
   max-width: 1200px;

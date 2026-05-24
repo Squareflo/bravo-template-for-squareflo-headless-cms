@@ -99,10 +99,12 @@
 }
 .nv1-link {
   padding: 10px 16px;
-  font-family: var(--font-heading, "Quicksand", sans-serif);
-  font-weight: 700;
-  font-size: 0.9rem;
-  letter-spacing: 0.03em;
+  font-family: var(--nav-tab-family, var(--font-heading, "Quicksand", sans-serif));
+  font-weight: var(--nav-tab-weight, 700);
+  font-size: var(--nav-tab-size, 0.9rem);
+  letter-spacing: var(--nav-tab-letter-spacing, 0.03em);
+  text-transform: var(--nav-tab-text-transform, none);
+  line-height: var(--nav-tab-line-height, normal);
   color: var(--color-text);
   border-radius: 4px;
   transition: background 0.2s ease, color 0.2s ease;
@@ -151,9 +153,12 @@
 .nv2-list--right { justify-content: flex-start; }
 .nv2-link {
   padding: 10px 16px;
-  font-family: var(--font-heading, "Quicksand", sans-serif);
-  font-weight: 700;
-  font-size: 0.9rem;
+  font-family: var(--nav-tab-family, var(--font-heading, "Quicksand", sans-serif));
+  font-weight: var(--nav-tab-weight, 700);
+  font-size: var(--nav-tab-size, 0.9rem);
+  letter-spacing: var(--nav-tab-letter-spacing, normal);
+  text-transform: var(--nav-tab-text-transform, none);
+  line-height: var(--nav-tab-line-height, normal);
   color: var(--color-text);
   transition: color 0.2s ease;
   text-decoration: none;
@@ -340,9 +345,12 @@
 }
 .nv4-link {
   padding: 10px 16px;
-  font-family: var(--font-heading, "Quicksand", sans-serif);
-  font-weight: 700;
-  font-size: 0.9rem;
+  font-family: var(--nav-tab-family, var(--font-heading, "Quicksand", sans-serif));
+  font-weight: var(--nav-tab-weight, 700);
+  font-size: var(--nav-tab-size, 0.9rem);
+  letter-spacing: var(--nav-tab-letter-spacing, normal);
+  text-transform: var(--nav-tab-text-transform, none);
+  line-height: var(--nav-tab-line-height, normal);
   color: var(--color-text);
   text-decoration: none;
 }
@@ -389,9 +397,12 @@
 }
 .nv5-link {
   padding: 10px 16px;
-  font-family: var(--font-heading, "Quicksand", sans-serif);
-  font-weight: 700;
-  font-size: 0.9rem;
+  font-family: var(--nav-tab-family, var(--font-heading, "Quicksand", sans-serif));
+  font-weight: var(--nav-tab-weight, 700);
+  font-size: var(--nav-tab-size, 0.9rem);
+  letter-spacing: var(--nav-tab-letter-spacing, normal);
+  text-transform: var(--nav-tab-text-transform, none);
+  line-height: var(--nav-tab-line-height, normal);
   color: var(--color-white, #ffffff);
   transition: opacity 0.2s ease;
   text-decoration: none;
@@ -465,9 +476,12 @@
 }
 .nv6-link {
   padding: 10px 16px;
-  font-family: var(--font-heading, "Quicksand", sans-serif);
-  font-weight: 700;
-  font-size: 0.9rem;
+  font-family: var(--nav-tab-family, var(--font-heading, "Quicksand", sans-serif));
+  font-weight: var(--nav-tab-weight, 700);
+  font-size: var(--nav-tab-size, 0.9rem);
+  letter-spacing: var(--nav-tab-letter-spacing, normal);
+  text-transform: var(--nav-tab-text-transform, none);
+  line-height: var(--nav-tab-line-height, normal);
   color: var(--color-white, #ffffff);
   text-decoration: none;
 }
@@ -533,9 +547,12 @@
 .nv7-list--right { justify-content: flex-start; }
 .nv7-link {
   padding: 10px 16px;
-  font-family: var(--font-heading, "Quicksand", sans-serif);
-  font-weight: 700;
-  font-size: 0.9rem;
+  font-family: var(--nav-tab-family, var(--font-heading, "Quicksand", sans-serif));
+  font-weight: var(--nav-tab-weight, 700);
+  font-size: var(--nav-tab-size, 0.9rem);
+  letter-spacing: var(--nav-tab-letter-spacing, normal);
+  text-transform: var(--nav-tab-text-transform, none);
+  line-height: var(--nav-tab-line-height, normal);
   color: var(--color-text);
   text-decoration: none;
 }
@@ -592,9 +609,12 @@
 }
 .nv8-link {
   padding: 6px 12px;
-  font-family: var(--font-heading, "Quicksand", sans-serif);
-  font-weight: 700;
-  font-size: 0.85rem;
+  font-family: var(--nav-tab-family, var(--font-heading, "Quicksand", sans-serif));
+  font-weight: var(--nav-tab-weight, 700);
+  font-size: var(--nav-tab-size, 0.85rem);
+  letter-spacing: var(--nav-tab-letter-spacing, normal);
+  text-transform: var(--nav-tab-text-transform, none);
+  line-height: var(--nav-tab-line-height, normal);
   color: var(--color-text);
   text-decoration: none;
 }
@@ -650,9 +670,12 @@
 }
 .nv10-link {
   padding: 10px 14px;
-  font-family: var(--font-heading, "Quicksand", sans-serif);
-  font-weight: 700;
-  font-size: 0.9rem;
+  font-family: var(--nav-tab-family, var(--font-heading, "Quicksand", sans-serif));
+  font-weight: var(--nav-tab-weight, 700);
+  font-size: var(--nav-tab-size, 0.9rem);
+  letter-spacing: var(--nav-tab-letter-spacing, normal);
+  text-transform: var(--nav-tab-text-transform, none);
+  line-height: var(--nav-tab-line-height, normal);
   color: var(--color-text);
   text-decoration: none;
 }
@@ -732,9 +755,12 @@
 }
 .nv11-link {
   padding: 10px 16px;
-  font-family: var(--font-heading, "Quicksand", sans-serif);
-  font-weight: 700;
-  font-size: 0.9rem;
+  font-family: var(--nav-tab-family, var(--font-heading, "Quicksand", sans-serif));
+  font-weight: var(--nav-tab-weight, 700);
+  font-size: var(--nav-tab-size, 0.9rem);
+  letter-spacing: var(--nav-tab-letter-spacing, normal);
+  text-transform: var(--nav-tab-text-transform, none);
+  line-height: var(--nav-tab-line-height, normal);
   color: var(--color-text);
   text-decoration: none;
 }
@@ -795,9 +821,12 @@
 }
 .nv12-link {
   padding: 8px 16px;
-  font-family: var(--font-heading, "Quicksand", sans-serif);
-  font-weight: 700;
-  font-size: 0.88rem;
+  font-family: var(--nav-tab-family, var(--font-heading, "Quicksand", sans-serif));
+  font-weight: var(--nav-tab-weight, 700);
+  font-size: var(--nav-tab-size, 0.88rem);
+  letter-spacing: var(--nav-tab-letter-spacing, normal);
+  text-transform: var(--nav-tab-text-transform, none);
+  line-height: var(--nav-tab-line-height, normal);
   color: var(--color-text);
   border-radius: 999px;
   transition: background 0.2s ease, color 0.2s ease;
