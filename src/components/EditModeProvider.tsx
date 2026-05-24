@@ -24,7 +24,7 @@ import {
 import "@/styles/edit-mode.css";
 
 export interface NavSettings {
-  variation: "classic" | "minimal" | "light";
+  variation: "classic" | "minimal" | "light" | "floating";
   logoHeight: number;
   navPadding: number;
 }

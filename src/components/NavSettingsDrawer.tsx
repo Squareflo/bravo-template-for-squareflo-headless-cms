@@ -12,9 +12,10 @@
 import { useEditMode } from "./EditModeProvider";
 
 const VARIATIONS = [
-  { value: "classic", label: "Classic", desc: "Utility bar + dark nav" },
-  { value: "minimal", label: "Minimal", desc: "Dark nav only" },
-  { value: "light", label: "Light", desc: "Light background nav" },
+  { value: "classic", label: "Classic", desc: "Two-tier: utility bar + dark nav" },
+  { value: "minimal", label: "Minimal", desc: "Dark solid single bar" },
+  { value: "light", label: "Light", desc: "Light background, dark text" },
+  { value: "floating", label: "Floating Pill", desc: "Rounded pill with shadow" },
 ] as const;
 
 export default function NavSettingsDrawer() {
@@ -44,7 +45,7 @@ export default function NavSettingsDrawer() {
 
         <div className="section-drawer__body">
           <div className="drawer-field">
-            <label className="drawer-field__label">Style</label>
+            <label className="drawer-field__label">Variation</label>
             <div className="drawer-variations">
               {VARIATIONS.map((v) => (
                 <button

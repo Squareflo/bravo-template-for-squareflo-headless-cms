@@ -453,6 +453,64 @@
   color: #999;
 }
 
+/* Floating Pill — hide utility bar, pill-shaped main bar */
+[data-nav-variation="floating"] .nav-v3__utility {
+  display: none;
+}
+[data-nav-variation="floating"] .nav-v3 {
+  background: transparent;
+}
+[data-nav-variation="floating"] .nav-v3__main {
+  background: transparent;
+  border-bottom: none;
+  padding: 20px 24px;
+}
+[data-nav-variation="floating"] .nav-v3__main-inner {
+  max-width: 1080px;
+  background: #ffffff;
+  border-radius: 999px;
+  padding: 8px 8px 8px 28px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+[data-nav-variation="floating"] .nv3-link {
+  color: #333;
+  border-radius: 999px;
+  padding: 8px 16px;
+  transition: background 0.2s, color 0.2s;
+}
+[data-nav-variation="floating"] .nv3-link:hover {
+  background: #f5f5f5;
+  color: var(--color-accent, #e6307a);
+}
+[data-nav-variation="floating"] .nv3-link--cta {
+  color: var(--btn-primary-text, #ffffff);
+  border-radius: 999px;
+  padding: 10px 24px;
+}
+[data-nav-variation="floating"] .nv3-link--cta:hover {
+  color: var(--btn-primary-text, #ffffff);
+  background: var(--btn-primary-bg-hover, var(--color-accent-hover, #c81f63));
+}
+[data-nav-variation="floating"] .nv3-logo__text {
+  color: #333;
+}
+[data-nav-variation="floating"] .nv3-dropdown {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+[data-nav-variation="floating"] .nv3-dropdown__link {
+  color: #333;
+}
+[data-nav-variation="floating"] .nv3-dropdown__link:hover {
+  background: #f9fafb;
+  color: var(--color-accent, #e6307a);
+}
+[data-nav-variation="floating"] .nv3-caret {
+  color: #999;
+}
+
 /* --- Mobile CTA button (last nav item as full-width button in drawer) --- */
 .mobile-nav__cta {
   padding: 16px 24px;

@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog — Bravo CMS Master Template</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700;800&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- Template stylesheet -->
+  <link rel="stylesheet" href="styles-b6n3k8q5jw.css">
+</head>
+<body>
+
+  <!-- =========================================================
+       SITE HEADER (shared across all pages)
+       ========================================================= -->
+  <header class="site-header">
+    <div class="site-header__inner">
+
+      <a href="/" class="site-logo">
+        <span class="site-logo__text">BR<span style="color: var(--color-accent);">A</span>VO</span>
+      </a>
+
+      <nav class="primary-nav" aria-label="Primary">
+        <ul class="primary-nav__list">
+
+          <li class="primary-nav__item">
+            <a href="/" class="primary-nav__link">Home</a>
+          </li>
+
+          <li class="primary-nav__item">
+            <a href="/events" class="primary-nav__link">
+              Events <i class="fas fa-caret-down primary-nav__caret"></i>
+            </a>
+            <ul class="primary-nav__dropdown">
+              <li><a href="/events" class="primary-nav__dropdown-link">All Events</a></li>
+              <li><a href="/events/this-week" class="primary-nav__dropdown-link">This week</a></li>
+              <li><a href="/events/next-week" class="primary-nav__dropdown-link">Next week</a></li>
+              <li><a href="/events/this-month" class="primary-nav__dropdown-link">This month</a></li>
+              <li><a href="/events/next-month" class="primary-nav__dropdown-link">Next month</a></li>
+              <li><a href="/events/calendar" class="primary-nav__dropdown-link">Calendar</a></li>
+            </ul>
+          </li>
+
+          <li class="primary-nav__item primary-nav__item--active">
+            <a href="/blog" class="primary-nav__link">Blog</a>
+          </li>
+
+          <li class="primary-nav__item">
+            <a href="/products" class="primary-nav__link">Products</a>
+          </li>
+
+          <li class="primary-nav__item">
+            <a href="/more" class="primary-nav__link">
+              More <i class="fas fa-caret-down primary-nav__caret"></i>
+            </a>
+            <ul class="primary-nav__dropdown">
+              <li><a href="/about" class="primary-nav__dropdown-link">About Us</a></li>
+              <li><a href="/services" class="primary-nav__dropdown-link">Services</a></li>
+              <li><a href="/faqs" class="primary-nav__dropdown-link">FAQs</a></li>
+              <li><a href="/gallery" class="primary-nav__dropdown-link">Gallery</a></li>
+            </ul>
+          </li>
+
+          <li class="primary-nav__item">
+            <a href="/contact" class="primary-nav__link">
+              Contact <i class="fas fa-caret-down primary-nav__caret"></i>
+            </a>
+            <ul class="primary-nav__dropdown">
+              <li><a href="/contact" class="primary-nav__dropdown-link">Contact Form</a></li>
+              <li><a href="/location" class="primary-nav__dropdown-link">Our Location</a></li>
+            </ul>
+          </li>
+
+        </ul>
+
+        <div class="header-utils">
+          <button class="header-utils__btn" aria-label="Search">
+            <i class="fas fa-search"></i>
+          </button>
+          <a href="/cart" class="header-utils__btn" aria-label="Cart">
+            <i class="fas fa-shopping-cart"></i>
+          </a>
+        </div>
+      </nav>
+
+    </div>
+  </header>
+
+  <!-- =========================================================
+       BLOG INDEX
+       ========================================================= -->
+  <main class="page">
+    <div class="container">
+      <div class="page__layout">
+
+        <!-- POSTS COLUMN -->
+        <div>
+          <h1 class="page-title">The Latest</h1>
+          <hr class="page-title-rule">
+
+          <div class="post-list">
+
+            <article class="post-card">
+              <a href="/blog/nulla-et-finibus-lectus">
+                <img src="https://images.pexels.com/photos/90946/pexels-photo-90946.jpeg?auto=compress&cs=tinysrgb&w=400" alt="" class="post-card__thumb">
+              </a>
+              <div class="post-card__body">
+                <h2 class="post-card__title">
+                  <a href="/blog/nulla-et-finibus-lectus">Nulla Et Finibus Lectus, Finibus Commodo Elit!</a>
+                </h2>
+                <div class="post-card__meta">
+                  <span class="post-card__meta-item">
+                    <i class="far fa-calendar-alt"></i> Dec 26, 2017
+                  </span>
+                  <span class="post-card__meta-item">
+                    <i class="fas fa-tag"></i>
+                    Posted in <a href="/blog/category/news">News</a> / <a href="/blog/category/another-category">Another Category</a> / <a href="/blog/category/seo-keyword">SEO Keyword</a>
+                  </span>
+                </div>
+                <p class="post-card__excerpt">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean vitae neque mollis arcu pharetra semper. Maecenas euismod augue eu sapien consequat cursus. Quisque in lacinia sem. Morbi ut augue diam. Phasellus eu ex in lectus pharetra sollicitudin. Duis auctor quis velit vitae semper. Nam…</p>
+              </div>
+            </article>
+
+            <article class="post-card">
+              <a href="/blog/etiam-fringilla">
+                <img src="https://images.pexels.com/photos/1481349/pexels-photo-1481349.jpeg?auto=compress&cs=tinysrgb&w=400" alt="" class="post-card__thumb">
+              </a>
+              <div class="post-card__body">
+                <h2 class="post-card__title">
+                  <a href="/blog/etiam-fringilla">Etiam Fringilla Massa Quis Sem Lacinia Tempus</a>
+                </h2>
+                <div class="post-card__meta">
+                  <span class="post-card__meta-item">
+                    <i class="far fa-calendar-alt"></i> Dec 11, 2017
+                  </span>
+                  <span class="post-card__meta-item">
+                    <i class="fas fa-tag"></i>
+                    Posted in <a href="/blog/category/news">News</a> / <a href="/blog/category/another-category">Another Category</a> / <a href="/blog/category/google-search-phrase">Google Search Phrase</a>
+                  </span>
+                </div>
+                <p class="post-card__excerpt">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur feugiat imperdiet lorem. Nullam vitae dignissim risus, in lobortis ex. Duis placerat libero tempus pulvinar hendrerit. Nam efficitur arcu eros, sit amet sollicitudin enim sagittis sed. Ut ut risus tristique, faucibus ex…</p>
+              </div>
+            </article>
+
+            <article class="post-card">
+              <a href="/blog/praesent-ac-erat-nibh">
+                <img src="https://images.pexels.com/photos/302899/pexels-photo-302899.jpeg?auto=compress&cs=tinysrgb&w=400" alt="" class="post-card__thumb">
+              </a>
+              <div class="post-card__body">
+                <h2 class="post-card__title">
+                  <a href="/blog/praesent-ac-erat-nibh">Praesent Ac Erat Nibh. Nulla Ac Hendrerit Sem.</a>
+                </h2>
+                <div class="post-card__meta">
+                  <span class="post-card__meta-item">
+                    <i class="far fa-calendar-alt"></i> Aug 15, 2017
+                  </span>
+                  <span class="post-card__meta-item">
+                    <i class="fas fa-tag"></i>
+                    Posted in <a href="/blog/category/news">News</a> / <a href="/blog/category/google-search-phrase">Google Search Phrase</a>
+                  </span>
+                </div>
+                <p class="post-card__excerpt">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacus sem, facilisis sit amet velit posuere, mattis venenatis justo. Vivamus consectetur elit ac lorem convallis pellentesque. Integer facilisis sem ac lorem viverra, ac lobortis elit varius. Donec gravida augue et libero…</p>
+              </div>
+            </article>
+
+            <article class="post-card">
+              <a href="/blog/phasellus-at-quam-porttitor">
+                <img src="https://images.pexels.com/photos/1170979/pexels-photo-1170979.jpeg?auto=compress&cs=tinysrgb&w=400" alt="" class="post-card__thumb">
+              </a>
+              <div class="post-card__body">
+                <h2 class="post-card__title">
+                  <a href="/blog/phasellus-at-quam-porttitor">Phasellus At Quam Porttitor!</a>
+                </h2>
+                <div class="post-card__meta">
+                  <span class="post-card__meta-item">
+                    <i class="far fa-calendar-alt"></i> Aug 14, 2017
+                  </span>
+                  <span class="post-card__meta-item">
+                    <i class="fas fa-tag"></i>
+                    Posted in <a href="/blog/category/news">News</a> / <a href="/blog/category/another-category">Another Category</a> / <a href="/blog/category/seo-keyword">SEO Keyword</a>
+                  </span>
+                </div>
+                <p class="post-card__excerpt">Fusce pharetra consequat neque non feugiat. In lobortis, lectus id euismod accumsan, libero ex gravida ex, eu aliquam nibh mi et lacus. Aliquam ultrices sed est eu vulputate. Mauris nulla sapien, sagittis id elementum viverra, vehicula et lacus. Maecenas vehicula eros sed velit mollis, ut…</p>
+              </div>
+            </article>
+
+          </div>
+        </div>
+
+        <!-- SIDEBAR COLUMN -->
+        <aside class="sidebar">
+
+          <div class="widget">
+            <h2 class="widget__title">Topics</h2>
+            <ul class="topic-list">
+              <li><a href="/blog/category/news">News (4)</a></li>
+              <li><a href="/blog/category/google-search-phrase">Google Search Phrase (2)</a></li>
+              <li><a href="/blog/category/seo-keyword">SEO Keyword (2)</a></li>
+            </ul>
+          </div>
+
+          <div class="widget widget--contact">
+            <h2 class="widget__title">Contact Us</h2>
+            <form onsubmit="event.preventDefault();">
+
+              <div class="form-field">
+                <label for="contact-location" class="form-field__label">Location</label>
+                <select id="contact-location" class="form-field__select">
+                  <option>Company 2 Name Goes Here.</option>
+                  <option>Company 1 Name Goes Here.</option>
+                </select>
+              </div>
+
+              <div class="form-field">
+                <label for="contact-name" class="form-field__label">Name</label>
+                <input id="contact-name" type="text" class="form-field__input" placeholder="Name">
+              </div>
+
+              <div class="form-field">
+                <label for="contact-phone" class="form-field__label">Phone#</label>
+                <input id="contact-phone" type="tel" class="form-field__input" placeholder="Phone">
+              </div>
+
+              <div class="form-field">
+                <label for="contact-email" class="form-field__label">E-mail</label>
+                <input id="contact-email" type="email" class="form-field__input" placeholder="E-mail">
+              </div>
+
+              <div class="form-field">
+                <label for="contact-message" class="form-field__label">Message</label>
+                <textarea id="contact-message" class="form-field__textarea"></textarea>
+              </div>
+
+              <button type="submit" class="btn">Submit</button>
+            </form>
+          </div>
+
+        </aside>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- =========================================================
+       SITE FOOTER (shared across all pages)
+       ========================================================= -->
+  <footer class="site-footer">
+    <div class="container">
+
+      <div class="site-footer__grid">
+
+        <div class="footer-block">
+          <h3 class="footer-block__title">Contact Us</h3>
+          <p><strong>Company 2 Name Goes Here.</strong></p>
+          <address>
+            4321 Street Name<br>
+            Florida , FL 654321
+          </address>
+          <ul class="footer-contact-list">
+            <li><i class="fas fa-phone-alt"></i> <a href="tel:1234567890">(123) 456-7890</a></li>
+            <li><i class="fas fa-phone-alt"></i> <a href="tel:4324517222">(432) 451-7222</a> - Alt. Phone</li>
+            <li><i class="fas fa-fax"></i> (123) 456-7843</li>
+            <li><i class="fas fa-envelope"></i> <a href="mailto:info@example.com">E-mail Us</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-block">
+          <h3 class="footer-block__title">Our Locations</h3>
+          <iframe
+            class="footer-map"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d10000!2d-104.6189!3d50.4452!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNTDCsDI2JzQyLjcyTiAxMDTCsDM3JzA4LjA0Ilc!5e0!3m2!1sen!2sca!4v1700000000000"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            title="Our Location"></iframe>
+        </div>
+
+        <div class="footer-block">
+          <h3 class="footer-block__title">Keyword Rich Title Goes Here</h3>
+          <p>To edit this content, use the "Pages" module. Look for a page called "Footer text".</p>
+          <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+        </div>
+
+        <div class="footer-block">
+          <h3 class="footer-block__title">Subscribe</h3>
+          <p>Join our mailing list below.</p>
+          <form class="newsletter-form" onsubmit="event.preventDefault();">
+            <input type="text" class="newsletter-form__input" placeholder="enter your name" aria-label="Name">
+            <input type="email" class="newsletter-form__input" placeholder="enter email address" aria-label="Email">
+            <button type="submit" class="btn">Sign Up!</button>
+          </form>
+        </div>
+
+      </div>
+
+      <div class="site-footer__bottom">
+        <div>© 2026 Filler - Bravo - A - All rights reserved.</div>
+        <div><i class="fas fa-times"></i> Compass Advertising</div>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- Minimal JS for mobile nav dropdown toggling -->
+  <script>
+    document.querySelectorAll('.primary-nav__item .primary-nav__caret').forEach(function (caret) {
+      caret.parentElement.addEventListener('click', function (e) {
+        if (window.matchMedia('(max-width: 767px)').matches) {
+          e.preventDefault();
+          this.parentElement.classList.toggle('primary-nav__item--open');
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>
