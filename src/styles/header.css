@@ -397,21 +397,19 @@
 
 /* --- Responsive --- */
 @media (max-width: 767px) {
+  .nav-v3__utility {
+    display: none;
+  }
   .nv3-list {
     display: none;
   }
   .nv3-hamburger {
     display: inline-flex;
   }
-  .nav-v3__utility-inner {
-    flex-direction: column;
-    gap: 6px;
-    text-align: center;
-    font-size: 0.78rem;
+  .mobile-nav__utility {
+    text-align: left;
   }
-  .nv3-utility-left {
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 12px;
+  .mobile-nav__social {
+    justify-content: flex-start;
   }
 }
