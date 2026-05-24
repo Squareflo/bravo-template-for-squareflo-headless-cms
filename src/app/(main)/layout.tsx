@@ -49,12 +49,14 @@ export default async function MainLayout({
   return (
     <EditModeProvider colorPresets={colorPresets}>
       <AuthBar />
-      {settings && (
-        <EditableSection id="navigation" label="Navigation">
-          <NavRenderer nav={headerNav} settings={settings} />
-        </EditableSection>
-      )}
-      <main>{children}</main>
+      <div className="nav-and-content">
+        {settings && (
+          <EditableSection id="navigation" label="Navigation">
+            <NavRenderer nav={headerNav} settings={settings} />
+          </EditableSection>
+        )}
+        <main>{children}</main>
+      </div>
       <NavSettingsDrawer />
     </EditModeProvider>
   );

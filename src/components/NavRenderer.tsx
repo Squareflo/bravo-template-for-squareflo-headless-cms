@@ -150,10 +150,13 @@ function SocialLinks({
 export default function NavRenderer({ nav, settings }: NavRendererProps) {
   const editCtx = useEditMode();
 
-  const variation =
-    (editCtx?.settings.navigation.variation as string) || "v3";
-  const bgColor = editCtx?.settings.navigation.bgColor || "";
-  const utilityBgColor = editCtx?.settings.navigation.utilityBgColor || "";
+  const navSettings = editCtx?.settings.navigation;
+  const variation = (navSettings?.variation as string) || "v3";
+  const bgColor = navSettings?.bgColor || "";
+  const utilityBgColor = navSettings?.utilityBgColor || "";
+  const overlayMode = navSettings?.overlayMode || "above";
+  const mainBarOpacity = navSettings?.mainBarOpacity ?? 100;
+  const utilityBarOpacity = navSettings?.utilityBarOpacity ?? 100;
 
   // --- Compute navigation data ---
   const { business } = settings;
@@ -199,7 +202,6 @@ export default function NavRenderer({ nav, settings }: NavRendererProps) {
   switch (variation) {
     case "v1":
     case "v3":
-    case "v5":
     case "v6":
     case "v12":
       ctaCount = 1;
@@ -224,23 +226,29 @@ export default function NavRenderer({ nav, settings }: NavRendererProps) {
   const ctaItems = safeCtaCount > 0 ? nav.slice(nav.length - safeCtaCount) : [];
 
   // --- Style overrides ---
-  const mainBarStyle: React.CSSProperties | undefined =
-    bgColor && variation !== "v5" ? { background: bgColor } : undefined;
+  const isOverlay = overlayMode === "overlay";
 
-  const computedTextColor =
-    bgColor && variation !== "v5"
-      ? hexToLuminance(bgColor) > 0.5
-        ? "#333"
-        : "#fff"
+  const mainBarStyle: React.CSSProperties = {};
+  if (bgColor) mainBarStyle.background = bgColor;
+  if (isOverlay && mainBarOpacity < 100) mainBarStyle.opacity = mainBarOpacity / 100;
+  const hasMainBarStyle = Object.keys(mainBarStyle).length > 0;
+
+  const computedTextColor = bgColor
+    ? hexToLuminance(bgColor) > 0.5
+      ? "#333"
+      : "#fff"
+    : isOverlay
+      ? "#fff"
       : undefined;
 
   const textStyle: React.CSSProperties | undefined = computedTextColor
     ? { color: computedTextColor }
     : undefined;
 
-  const utilityBarStyle: React.CSSProperties | undefined = utilityBgColor
-    ? { background: utilityBgColor }
-    : undefined;
+  const utilityBarStyle: React.CSSProperties = {};
+  if (utilityBgColor) utilityBarStyle.background = utilityBgColor;
+  if (isOverlay && utilityBarOpacity < 100) utilityBarStyle.opacity = utilityBarOpacity / 100;
+  const hasUtilityBarStyle = Object.keys(utilityBarStyle).length > 0;
 
   // Prefix for class names
   const prefixMap: Record<string, string> = {
@@ -248,7 +256,6 @@ export default function NavRenderer({ nav, settings }: NavRendererProps) {
     v2: "nv2",
     v3: "nv3",
     v4: "nv4",
-    v5: "nv5",
     v6: "nv6",
     v7: "nv7",
     v8: "nv8",
@@ -269,11 +276,21 @@ export default function NavRenderer({ nav, settings }: NavRendererProps) {
     hamburgerClass: `${prefix}-hamburger`,
   };
 
+  // --- Overlay wrapper ---
+  function wrapOverlay(header: React.ReactElement) {
+    if (!isOverlay) return header;
+    return (
+      <div className="nav-overlay-wrap">
+        {header}
+      </div>
+    );
+  }
+
   // --- Variation renderers ---
 
   if (variation === "v1") {
-    return (
-      <header className="nav-v1" style={mainBarStyle}>
+    return wrapOverlay(
+      <header className="nav-v1" style={hasMainBarStyle ? mainBarStyle : undefined}>
         <div className="nav-v1__inner">
           <Logo prefix="nv1" url={logoUrl} name={logoName} />
           <nav className="nv1-nav">
@@ -295,11 +312,12 @@ export default function NavRenderer({ nav, settings }: NavRendererProps) {
   }
 
   if (variation === "v2") {
+
     const half = Math.ceil(nav.length / 2);
     const leftItems = nav.slice(0, half);
     const rightItems = nav.slice(half);
-    return (
-      <header className="nav-v2" style={mainBarStyle}>
+    return wrapOverlay(
+      <header className="nav-v2" style={hasMainBarStyle ? mainBarStyle : undefined}>
         <div className="nav-v2__inner">
           <ul className="nv2-list nv2-list--left">
             <NavList items={leftItems} prefix="nv2" textStyle={textStyle} />
@@ -315,9 +333,9 @@ export default function NavRenderer({ nav, settings }: NavRendererProps) {
   }
 
   if (variation === "v3") {
-    return (
+    return wrapOverlay(
       <header className="nav-v3">
-        <div className="nav-v3__utility" style={utilityBarStyle}>
+        <div className="nav-v3__utility" style={hasUtilityBarStyle ? utilityBarStyle : undefined}>
           <div className="nav-v3__utility-inner">
             <div className="nv3-utility-left">
               {phone && (
@@ -338,7 +356,7 @@ export default function NavRenderer({ nav, settings }: NavRendererProps) {
             </div>
           </div>
         </div>
-        <div className="nav-v3__main" style={mainBarStyle}>
+        <div className="nav-v3__main" style={hasMainBarStyle ? mainBarStyle : undefined}>
           <div className="nav-v3__main-inner">
             <Logo prefix="nv3" url={logoUrl} name={logoName} />
             <nav className="nv3-nav">
@@ -361,9 +379,9 @@ export default function NavRenderer({ nav, settings }: NavRendererProps) {
   }
 
   if (variation === "v4") {
-    return (
+    return wrapOverlay(
       <header className="nav-v4">
-        <div className="nav-v4__utility" style={utilityBarStyle}>
+        <div className="nav-v4__utility" style={hasUtilityBarStyle ? utilityBarStyle : undefined}>
           <div className="nav-v4__utility-inner">
             <div className="nv4-utility-item">
               <i className="fas fa-map-marker-alt" /> {address}
@@ -381,7 +399,7 @@ export default function NavRenderer({ nav, settings }: NavRendererProps) {
             )}
           </div>
         </div>
-        <div className="nav-v4__main" style={mainBarStyle}>
+        <div className="nav-v4__main" style={hasMainBarStyle ? mainBarStyle : undefined}>
           <div className="nav-v4__main-inner">
             <Logo prefix="nv4" url={logoUrl} name={logoName} />
             <nav className="nv4-nav">
@@ -396,32 +414,9 @@ export default function NavRenderer({ nav, settings }: NavRendererProps) {
     );
   }
 
-  if (variation === "v5") {
-    return (
-      <header className="nav-v5">
-        <div className="nav-v5__inner">
-          <Logo prefix="nv5" url={logoUrl} name={logoName} />
-          <nav className="nv5-nav">
-            <ul className="nv5-list">
-              <NavList items={regularItems} prefix="nv5" />
-              {ctaItems[0] && (
-                <li className="nv5-item">
-                  <NLink item={ctaItems[0]} className="nv5-link nv5-link--cta">
-                    <span>{ctaItems[0].label}</span>
-                  </NLink>
-                </li>
-              )}
-            </ul>
-            <MobileNav {...mobileNavProps} />
-          </nav>
-        </div>
-      </header>
-    );
-  }
-
   if (variation === "v6") {
-    return (
-      <header className="nav-v6" style={mainBarStyle}>
+    return wrapOverlay(
+      <header className="nav-v6" style={hasMainBarStyle ? mainBarStyle : undefined}>
         <div className="nav-v6__inner">
           <Logo prefix="nv6" url={logoUrl} name={logoName} />
           <nav className="nv6-nav">
@@ -446,9 +441,9 @@ export default function NavRenderer({ nav, settings }: NavRendererProps) {
     const half = Math.ceil(nav.length / 2);
     const leftItems = nav.slice(0, half);
     const rightItems = nav.slice(half);
-    return (
+    return wrapOverlay(
       <header className="nav-v7">
-        <div className="nav-v7__utility" style={utilityBarStyle}>
+        <div className="nav-v7__utility" style={hasUtilityBarStyle ? utilityBarStyle : undefined}>
           <div className="nav-v7__utility-inner">
             <div className="nv7-utility-left">
               {phone && (
@@ -469,7 +464,7 @@ export default function NavRenderer({ nav, settings }: NavRendererProps) {
             </div>
           </div>
         </div>
-        <div className="nav-v7__main" style={mainBarStyle}>
+        <div className="nav-v7__main" style={hasMainBarStyle ? mainBarStyle : undefined}>
           <div className="nav-v7__main-inner">
             <ul className="nv7-list nv7-list--left">
               <NavList items={leftItems} prefix="nv7" textStyle={textStyle} />
@@ -486,8 +481,8 @@ export default function NavRenderer({ nav, settings }: NavRendererProps) {
   }
 
   if (variation === "v8") {
-    return (
-      <header className="nav-v8" style={mainBarStyle}>
+    return wrapOverlay(
+      <header className="nav-v8" style={hasMainBarStyle ? mainBarStyle : undefined}>
         <div className="nav-v8__inner">
           <div className="nav-v8__brand">
             <Logo prefix="nv8" url={logoUrl} name={logoName} />
@@ -532,8 +527,8 @@ export default function NavRenderer({ nav, settings }: NavRendererProps) {
   }
 
   if (variation === "v10") {
-    return (
-      <header className="nav-v10" style={mainBarStyle}>
+    return wrapOverlay(
+      <header className="nav-v10" style={hasMainBarStyle ? mainBarStyle : undefined}>
         <div className="nav-v10__inner">
           <Logo prefix="nv10" url={logoUrl} name={logoName} />
           <nav className="nv10-nav">
@@ -570,8 +565,8 @@ export default function NavRenderer({ nav, settings }: NavRendererProps) {
   }
 
   if (variation === "v11") {
-    return (
-      <header className="nav-v11" style={mainBarStyle}>
+    return wrapOverlay(
+      <header className="nav-v11" style={hasMainBarStyle ? mainBarStyle : undefined}>
         <div className="nav-v11__inner">
           <Logo prefix="nv11" url={logoUrl} name={logoName} />
           <nav className="nv11-nav">
@@ -606,10 +601,10 @@ export default function NavRenderer({ nav, settings }: NavRendererProps) {
   }
 
   if (variation === "v12") {
-    const pillStyle: React.CSSProperties | undefined = mainBarStyle
+    const pillStyle: React.CSSProperties | undefined = hasMainBarStyle
       ? { ...mainBarStyle, borderRadius: "999px" }
       : undefined;
-    return (
+    return wrapOverlay(
       <div className="nav-v12-wrap">
         <header className="nav-v12" style={pillStyle}>
           <Logo prefix="nv12" url={logoUrl} name={logoName} />
@@ -630,9 +625,9 @@ export default function NavRenderer({ nav, settings }: NavRendererProps) {
   }
 
   // Fallback: render V3 (default)
-  return (
+  return wrapOverlay(
     <header className="nav-v3">
-      <div className="nav-v3__utility" style={utilityBarStyle}>
+      <div className="nav-v3__utility" style={hasUtilityBarStyle ? utilityBarStyle : undefined}>
         <div className="nav-v3__utility-inner">
           <div className="nv3-utility-left">
             {phone && (
@@ -653,7 +648,7 @@ export default function NavRenderer({ nav, settings }: NavRendererProps) {
           </div>
         </div>
       </div>
-      <div className="nav-v3__main" style={mainBarStyle}>
+      <div className="nav-v3__main" style={hasMainBarStyle ? mainBarStyle : undefined}>
         <div className="nav-v3__main-inner">
           <Logo prefix="nv3" url={logoUrl} name={logoName} />
           <nav className="nv3-nav">

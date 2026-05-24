@@ -6,14 +6,13 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { useEditMode, type NavVariation, type ColorPreset } from "./EditModeProvider";
+import { useEditMode, type NavVariation, type NavOverlayMode, type ColorPreset } from "./EditModeProvider";
 
 const VARIATIONS: { value: NavVariation; label: string }[] = [
   { value: "v1",  label: "V1 — Classic Single Bar" },
   { value: "v2",  label: "V2 — Centered Logo, Split Nav" },
   { value: "v3",  label: "V3 — Two-Tier (Utility + Main)" },
   { value: "v4",  label: "V4 — Two-Tier (Location Prominent)" },
-  { value: "v5",  label: "V5 — Transparent Overlay" },
   { value: "v6",  label: "V6 — Dark Solid" },
   { value: "v7",  label: "V7 — Centered Logo + Utility Bar" },
   { value: "v8",  label: "V8 — Mega Bar (Everything Visible)" },
@@ -109,6 +108,7 @@ export default function NavSettingsDrawer() {
   const open = activeSection === "navigation";
   const nav = settings.navigation;
   const isTwoTier = TWO_TIER.has(nav.variation);
+  const isOverlay = nav.overlayMode === "overlay";
 
   return (
     <>
@@ -148,6 +148,64 @@ export default function NavSettingsDrawer() {
               ))}
             </select>
           </div>
+
+          {/* Overlay Mode */}
+          <div className="drawer-field">
+            <label className="drawer-field__label" htmlFor="nav-overlay">
+              Hero Behavior
+            </label>
+            <select
+              id="nav-overlay"
+              className="drawer-select"
+              value={nav.overlayMode}
+              onChange={(e) =>
+                updateNavSettings({ overlayMode: e.target.value as NavOverlayMode })
+              }
+            >
+              <option value="above">Sit Above Content</option>
+              <option value="overlay">Overlay Hero Image</option>
+            </select>
+          </div>
+
+          {/* Opacity controls — only when overlay mode */}
+          {isOverlay && (
+            <>
+              <div className="drawer-field">
+                <label className="drawer-field__label">
+                  {isTwoTier ? "Main Bar Opacity" : "Bar Opacity"}{" "}
+                  <span className="drawer-field__value">{nav.mainBarOpacity}%</span>
+                </label>
+                <input
+                  type="range"
+                  min={0}
+                  max={100}
+                  value={nav.mainBarOpacity}
+                  onChange={(e) =>
+                    updateNavSettings({ mainBarOpacity: Number(e.target.value) })
+                  }
+                  className="drawer-slider"
+                />
+              </div>
+              {isTwoTier && (
+                <div className="drawer-field">
+                  <label className="drawer-field__label">
+                    Top Bar Opacity{" "}
+                    <span className="drawer-field__value">{nav.utilityBarOpacity}%</span>
+                  </label>
+                  <input
+                    type="range"
+                    min={0}
+                    max={100}
+                    value={nav.utilityBarOpacity}
+                    onChange={(e) =>
+                      updateNavSettings({ utilityBarOpacity: Number(e.target.value) })
+                    }
+                    className="drawer-slider"
+                  />
+                </div>
+              )}
+            </>
+          )}
 
           {/* Background Color */}
           <div className="drawer-field">

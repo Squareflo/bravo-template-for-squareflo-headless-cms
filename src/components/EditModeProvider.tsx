@@ -16,8 +16,10 @@ import {
 import "@/styles/edit-mode.css";
 
 export type NavVariation =
-  | "v1" | "v2" | "v3" | "v4" | "v5"
+  | "v1" | "v2" | "v3" | "v4"
   | "v6" | "v7" | "v8" | "v10" | "v11" | "v12";
+
+export type NavOverlayMode = "above" | "overlay";
 
 export interface NavSettings {
   variation: NavVariation;
@@ -27,6 +29,9 @@ export interface NavSettings {
   navPadding: number;
   logoOffsetX: number;
   logoOffsetY: number;
+  overlayMode: NavOverlayMode;
+  mainBarOpacity: number;
+  utilityBarOpacity: number;
 }
 
 export interface SectionSettings {
@@ -48,6 +53,9 @@ const DEFAULTS: SectionSettings = {
     navPadding: 18,
     logoOffsetX: 0,
     logoOffsetY: 0,
+    overlayMode: "above",
+    mainBarOpacity: 100,
+    utilityBarOpacity: 100,
   },
 };
 
@@ -57,6 +65,7 @@ const LEGACY_MAP: Record<string, NavVariation> = {
   minimal: "v6",
   light: "v1",
   floating: "v12",
+  v5: "v3",
 };
 
 interface EditModeCtx {
