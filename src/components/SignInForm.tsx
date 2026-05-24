@@ -14,10 +14,8 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 
 export default function SignInForm() {
-  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -43,8 +41,8 @@ export default function SignInForm() {
         return;
       }
 
-      // Signed in — redirect to home page
-      router.push("/");
+      // Full page redirect — must cross layout boundaries (sign-in layout → root layout)
+      window.location.href = "/";
     } catch {
       setError("Something went wrong. Please try again.");
       setLoading(false);
