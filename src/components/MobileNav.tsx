@@ -23,16 +23,36 @@
 "use client";
 
 import { useState } from "react";
-import { NavItem } from "@/lib/types";
+import { NavItem, SocialLink } from "@/lib/types";
 
 const MOBILE_NAV_ID = "mobile-nav-drawer";
+
+/** Map CMS platform slugs to Font Awesome icon classes */
+const SOCIAL_ICONS: Record<string, string> = {
+  facebook: "fab fa-facebook-f",
+  instagram: "fab fa-instagram",
+  x: "fab fa-x-twitter",
+  twitter: "fab fa-x-twitter",
+  linkedin: "fab fa-linkedin-in",
+  youtube: "fab fa-youtube",
+  tiktok: "fab fa-tiktok",
+  pinterest: "fab fa-pinterest-p",
+  snapchat: "fab fa-snapchat",
+  threads: "fab fa-threads",
+  whatsapp: "fab fa-whatsapp",
+  yelp: "fab fa-yelp",
+  google: "fab fa-google",
+};
 
 interface MobileNavProps {
   nav: NavItem[];
   businessName: string;
+  phone?: string;
+  hoursText?: string;
+  socialLinks: SocialLink[];
 }
 
-export default function MobileNav({ nav, businessName }: MobileNavProps) {
+export default function MobileNav({ nav, businessName, phone, hoursText, socialLinks }: MobileNavProps) {
   const [open, setOpen] = useState(false);
   const [expandedIds, setExpandedIds] = useState<Set<string>>(new Set());
 
@@ -137,6 +157,38 @@ export default function MobileNav({ nav, businessName }: MobileNavProps) {
                 </li>
               ))}
             </ul>
+
+            {/* Utility bar info — phone, hours, social links (from top tier) */}
+            {(phone || hoursText || socialLinks.length > 0) && (
+              <div className="mobile-nav__utility">
+                {phone && (
+                  <div className="mobile-nav__utility-item">
+                    <i className="fas fa-phone-alt" /> {phone}
+                  </div>
+                )}
+                {hoursText && (
+                  <div className="mobile-nav__utility-item">
+                    <i className="far fa-clock" /> {hoursText}
+                  </div>
+                )}
+                {socialLinks.length > 0 && (
+                  <div className="mobile-nav__social">
+                    {socialLinks.map((link) => (
+                      <a
+                        key={link.platform}
+                        href={link.url}
+                        className="mobile-nav__social-link"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={link.label}
+                      >
+                        <i className={link.icon || SOCIAL_ICONS[link.platform] || "fas fa-link"} />
+                      </a>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
           </nav>
         </div>
       )}

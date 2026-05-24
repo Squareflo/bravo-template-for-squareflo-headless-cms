@@ -282,6 +282,47 @@
   color: var(--color-accent, #e6307a);
 }
 
+/* --- Mobile drawer utility section (phone, hours, social) ---
+   Mirrors the desktop utility bar content inside the mobile drawer,
+   centered below the nav tabs. */
+.mobile-nav__utility {
+  padding: 20px 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  text-align: center;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.85rem;
+}
+.mobile-nav__utility-item {
+  margin-bottom: 10px;
+}
+.mobile-nav__utility-item i {
+  margin-right: 6px;
+  color: var(--color-accent, #e6307a);
+}
+.mobile-nav__social {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 14px;
+}
+.mobile-nav__social-link {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-size: 0.95rem;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+.mobile-nav__social-link:hover {
+  background: var(--color-accent, #e6307a);
+  border-color: var(--color-accent, #e6307a);
+  color: #ffffff;
+}
+
 /* --- Disabled nav items (no URL set in CMS) ---
    Renders as <span> instead of <a>. Faded look + default cursor
    so devs can spot incomplete items during development. */

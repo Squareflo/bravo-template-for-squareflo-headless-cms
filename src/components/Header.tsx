@@ -227,7 +227,13 @@ export default function Header({ nav, settings }: HeaderProps) {
           </nav>
 
           {/* Mobile hamburger menu — only visible on screens < 768px */}
-          <MobileNav nav={nav} businessName={business.name} />
+          <MobileNav
+            nav={nav}
+            businessName={business.name}
+            phone={phone}
+            hoursText={hoursText}
+            socialLinks={settings.social_links || []}
+          />
         </div>
       </div>
     </header>
