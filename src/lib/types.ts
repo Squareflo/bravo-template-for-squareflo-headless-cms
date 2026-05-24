@@ -25,8 +25,17 @@ export interface NavItem {
   children: NavItem[]; // Nested items for dropdown menus
 }
 
+/** Social link — returned in GET /settings → social_links[] */
+export interface SocialLink {
+  platform: string;   // e.g., "facebook", "x", "instagram", "linkedin", "youtube", "tiktok"
+  label: string;      // Display name, e.g., "X (Twitter)"
+  url: string;        // Full URL to the social profile
+  icon: string | null; // Custom FA icon class override, null = use default for platform
+}
+
 /** Root settings object — returned by GET /settings */
 export interface SiteSettings {
+  social_links: SocialLink[];
   site: {
     name: string;
     domain: string;
