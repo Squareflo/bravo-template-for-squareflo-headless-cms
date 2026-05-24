@@ -68,10 +68,18 @@ export async function POST(req: Request) {
     },
   });
   const verifyData = await verifyRes.json();
-  console.log("[sign-in] Verify test:", verifyRes.status, JSON.stringify(verifyData));
 
   // Set the access token as an httpOnly cookie on the response object
-  const response = NextResponse.json({ user: data.user });
+  const response = NextResponse.json({
+    user: data.user,
+    _debug: {
+      verifyStatus: verifyRes.status,
+      verifyResult: verifyData,
+      tokenLength: token.length,
+      tokenFirst20: token.substring(0, 20),
+      tokenLast20: token.substring(token.length - 20),
+    },
+  });
   response.cookies.set("sqf_token", token, {
     httpOnly: true,
     secure: true,
