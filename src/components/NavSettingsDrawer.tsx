@@ -158,7 +158,7 @@ export default function NavSettingsDrawer() {
           {/* Overlay Mode */}
           <div className="drawer-field">
             <label className="drawer-field__label" htmlFor="nav-overlay">
-              Hero Behavior
+              Overlay Behavior
             </label>
             <select
               id="nav-overlay"
@@ -169,7 +169,7 @@ export default function NavSettingsDrawer() {
               }
             >
               <option value="above">Sit Above Content</option>
-              <option value="overlay">Overlay Hero Image</option>
+              <option value="overlay">Overlay Content Below</option>
             </select>
           </div>
 

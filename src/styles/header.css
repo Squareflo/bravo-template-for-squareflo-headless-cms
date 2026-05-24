@@ -825,6 +825,14 @@
   right: 0;
   z-index: 10;
 }
+/* When editable section wraps an overlay nav, it must also be absolute so it's clickable */
+.editable-section:has(.nav-overlay-wrap) {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+}
 
 
 /* ==========================================================================
