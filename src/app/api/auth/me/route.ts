@@ -29,6 +29,8 @@ export async function GET(req: Request) {
     return NextResponse.json({ user: null }, { status: 401 });
   }
 
+  console.log("[auth/me] Token length:", token.length, "First 10 chars:", token.substring(0, 10));
+
   const res = await fetch(`${API_URL}/auth/me`, {
     headers: {
       "x-api-key": API_KEY,
@@ -36,10 +38,12 @@ export async function GET(req: Request) {
     },
   });
 
+  const data = await res.json();
+  console.log("[auth/me] CMS response status:", res.status, "body:", JSON.stringify(data));
+
   if (!res.ok) {
     return NextResponse.json({ user: null }, { status: 401 });
   }
 
-  const data = await res.json();
   return NextResponse.json({ user: data.user });
 }
