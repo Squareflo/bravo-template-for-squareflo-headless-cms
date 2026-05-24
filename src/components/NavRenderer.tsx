@@ -29,12 +29,23 @@ const SOCIAL_ICONS: Record<string, string> = {
   google: "fab fa-google",
 };
 
-function hexToLuminance(hex: string): number {
+function hexToRgb(hex: string): [number, number, number] {
   const h = hex.replace("#", "");
-  const r = parseInt(h.slice(0, 2), 16);
-  const g = parseInt(h.slice(2, 4), 16);
-  const b = parseInt(h.slice(4, 6), 16);
+  return [
+    parseInt(h.slice(0, 2), 16),
+    parseInt(h.slice(2, 4), 16),
+    parseInt(h.slice(4, 6), 16),
+  ];
+}
+
+function hexToLuminance(hex: string): number {
+  const [r, g, b] = hexToRgb(hex);
   return (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+}
+
+function hexToRgba(hex: string, alpha: number): string {
+  const [r, g, b] = hexToRgb(hex);
+  return `rgba(${r},${g},${b},${alpha})`;
 }
 
 function Logo({ prefix, url, name }: { prefix: string; url?: string; name: string }) {
@@ -232,8 +243,14 @@ export default function NavRenderer({ nav, settings }: NavRendererProps) {
   const isOverlay = overlayMode === "overlay";
 
   const mainBarStyle: React.CSSProperties = {};
-  if (bgColor) mainBarStyle.background = bgColor;
-  if (isOverlay && mainBarOpacity < 100) mainBarStyle.opacity = mainBarOpacity / 100;
+  if (bgColor && isOverlay && mainBarOpacity < 100) {
+    mainBarStyle.background = hexToRgba(bgColor, mainBarOpacity / 100);
+  } else if (bgColor) {
+    mainBarStyle.background = bgColor;
+  } else if (isOverlay && mainBarOpacity < 100) {
+    // No custom color — fade the default bg (assume dark ~#1a1a2e)
+    mainBarStyle.background = `rgba(0,0,0,${mainBarOpacity / 100})`;
+  }
   const hasMainBarStyle = Object.keys(mainBarStyle).length > 0;
 
   const computedTextColor = bgColor
@@ -249,8 +266,13 @@ export default function NavRenderer({ nav, settings }: NavRendererProps) {
     : undefined;
 
   const utilityBarStyle: React.CSSProperties = {};
-  if (utilityBgColor) utilityBarStyle.background = utilityBgColor;
-  if (isOverlay && utilityBarOpacity < 100) utilityBarStyle.opacity = utilityBarOpacity / 100;
+  if (utilityBgColor && isOverlay && utilityBarOpacity < 100) {
+    utilityBarStyle.background = hexToRgba(utilityBgColor, utilityBarOpacity / 100);
+  } else if (utilityBgColor) {
+    utilityBarStyle.background = utilityBgColor;
+  } else if (isOverlay && utilityBarOpacity < 100) {
+    utilityBarStyle.background = `rgba(0,0,0,${utilityBarOpacity / 100})`;
+  }
   const hasUtilityBarStyle = Object.keys(utilityBarStyle).length > 0;
 
   // Prefix for class names
