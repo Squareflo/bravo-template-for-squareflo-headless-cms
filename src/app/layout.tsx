@@ -39,6 +39,11 @@ import "@/styles/pages.css";
 export async function generateMetadata(): Promise<Metadata> {
   try {
     const settings = await cms<SiteSettings>("/settings");
+    // Use default OG image from SEO settings, fall back to square logo
+    const ogImage = settings.seo.default_og_image
+      || settings.business?.logos?.square
+      || undefined;
+
     return {
       title: {
         default: settings.seo.default_title,
@@ -47,9 +52,7 @@ export async function generateMetadata(): Promise<Metadata> {
       description: settings.seo.default_description,
       openGraph: {
         siteName: settings.site.name,
-        images: settings.seo.default_og_image
-          ? [settings.seo.default_og_image]
-          : [],
+        images: ogImage ? [ogImage] : [],
       },
     };
   } catch {

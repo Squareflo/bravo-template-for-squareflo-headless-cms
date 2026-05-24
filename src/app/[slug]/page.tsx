@@ -37,9 +37,17 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { slug } = await params;
   try {
     const { page } = await cms<{ page: any }>(`/pages/${slug}`);
+    const ogImage = page.meta?.og_image || undefined;
     return {
       title: page.meta?.title || page.title,
       description: page.meta?.description || undefined,
+      ...(ogImage && { openGraph: { images: [ogImage] } }),
+      ...(page.meta?.no_index && {
+        robots: {
+          index: !page.meta.no_index,
+          follow: !page.meta.no_follow,
+        },
+      }),
     };
   } catch {
     return {};

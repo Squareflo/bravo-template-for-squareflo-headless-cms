@@ -41,9 +41,17 @@ async function getHomePage() {
 export async function generateMetadata(): Promise<Metadata> {
   const page = await getHomePage();
   if (!page) return {};
+  const ogImage = page.meta?.og_image || undefined;
   return {
     title: page.meta?.title || page.title,
     description: page.meta?.description || undefined,
+    ...(ogImage && { openGraph: { images: [ogImage] } }),
+    ...(page.meta?.no_index && {
+      robots: {
+        index: !page.meta.no_index,
+        follow: !page.meta.no_follow,
+      },
+    }),
   };
 }
 
