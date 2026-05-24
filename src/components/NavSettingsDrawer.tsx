@@ -176,22 +176,6 @@ export default function NavSettingsDrawer() {
           {/* Opacity controls — only when overlay mode */}
           {isOverlay && (
             <>
-              <div className="drawer-field">
-                <label className="drawer-field__label">
-                  {isTwoTier ? "Main Bar Opacity" : "Bar Opacity"}{" "}
-                  <span className="drawer-field__value">{nav.mainBarOpacity}%</span>
-                </label>
-                <input
-                  type="range"
-                  min={0}
-                  max={100}
-                  value={nav.mainBarOpacity}
-                  onChange={(e) =>
-                    updateNavSettings({ mainBarOpacity: Number(e.target.value) })
-                  }
-                  className="drawer-slider"
-                />
-              </div>
               {isTwoTier && (
                 <div className="drawer-field">
                   <label className="drawer-field__label">
@@ -210,22 +194,26 @@ export default function NavSettingsDrawer() {
                   />
                 </div>
               )}
+              <div className="drawer-field">
+                <label className="drawer-field__label">
+                  {isTwoTier ? "Main Bar Opacity" : "Bar Opacity"}{" "}
+                  <span className="drawer-field__value">{nav.mainBarOpacity}%</span>
+                </label>
+                <input
+                  type="range"
+                  min={0}
+                  max={100}
+                  value={nav.mainBarOpacity}
+                  onChange={(e) =>
+                    updateNavSettings({ mainBarOpacity: Number(e.target.value) })
+                  }
+                  className="drawer-slider"
+                />
+              </div>
             </>
           )}
 
-          {/* Background Color */}
-          <div className="drawer-field">
-            <label className="drawer-field__label">
-              {isTwoTier ? "Main Bar Color" : "Background Color"}
-            </label>
-            <ColorDropdown
-              value={nav.bgColor}
-              presets={colorPresets}
-              onChange={(v) => updateNavSettings({ bgColor: v })}
-            />
-          </div>
-
-          {/* Utility Bar Color — only for two-tier variations */}
+          {/* Top/Utility Bar Color — only for two-tier variations (shown first to match visual order) */}
           {isTwoTier && (
             <div className="drawer-field">
               <label className="drawer-field__label">Top Bar Color</label>
@@ -236,6 +224,18 @@ export default function NavSettingsDrawer() {
               />
             </div>
           )}
+
+          {/* Main Bar Color */}
+          <div className="drawer-field">
+            <label className="drawer-field__label">
+              {isTwoTier ? "Main Bar Color" : "Background Color"}
+            </label>
+            <ColorDropdown
+              value={nav.bgColor}
+              presets={colorPresets}
+              onChange={(v) => updateNavSettings({ bgColor: v })}
+            />
+          </div>
 
           {/* Logo Height */}
           <div className="drawer-field">
