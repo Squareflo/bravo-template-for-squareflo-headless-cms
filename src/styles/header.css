@@ -80,7 +80,7 @@
 .nav-v3__main-inner {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 18px 24px;
+  padding: var(--nav-main-padding, 18px) 24px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -94,8 +94,9 @@
   text-decoration: none;
 }
 .nv3-logo__img {
-  height: 50px;
+  height: var(--nav-logo-height, 50px);
   width: auto;
+  transition: height 0.2s ease;
 }
 .nv3-logo__text {
   font-family: var(--font-heading, "Quicksand", sans-serif);
@@ -402,6 +403,54 @@
 }
 .auth-bar__sign-out:hover {
   color: #ffffff;
+}
+
+/* ==========================================================================
+   Nav Variation Overrides — controlled by data-nav-variation on <html>
+   ========================================================================== */
+
+/* Minimal — hide utility bar, keep dark main bar */
+[data-nav-variation="minimal"] .nav-v3__utility {
+  display: none;
+}
+
+/* Light — hide utility bar, light main bar */
+[data-nav-variation="light"] .nav-v3__utility {
+  display: none;
+}
+[data-nav-variation="light"] .nav-v3__main {
+  background: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
+}
+[data-nav-variation="light"] .nv3-link {
+  color: #333;
+}
+[data-nav-variation="light"] .nv3-link:hover {
+  color: var(--color-accent, #e6307a);
+}
+[data-nav-variation="light"] .nv3-link--cta {
+  color: var(--btn-primary-text, #ffffff);
+}
+[data-nav-variation="light"] .nv3-link--cta:hover {
+  color: var(--btn-primary-text, #ffffff);
+}
+[data-nav-variation="light"] .nv3-logo__text {
+  color: #333;
+}
+[data-nav-variation="light"] .nv3-dropdown {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+[data-nav-variation="light"] .nv3-dropdown__link {
+  color: #333;
+}
+[data-nav-variation="light"] .nv3-dropdown__link:hover {
+  background: #f9fafb;
+  color: var(--color-accent, #e6307a);
+}
+[data-nav-variation="light"] .nv3-caret {
+  color: #999;
 }
 
 /* --- Mobile CTA button (last nav item as full-width button in drawer) --- */

@@ -11,6 +11,10 @@
 import { cms } from "@/lib/cms";
 import { NavItem, SiteSettings } from "@/lib/types";
 import Header from "@/components/Header";
+import EditModeProvider from "@/components/EditModeProvider";
+import EditableSection from "@/components/EditableSection";
+import NavSettingsDrawer from "@/components/NavSettingsDrawer";
+import AuthBar from "@/components/AuthBar";
 
 export default async function MainLayout({
   children,
@@ -30,9 +34,15 @@ export default async function MainLayout({
   }
 
   return (
-    <>
-      {settings && <Header nav={headerNav} settings={settings} />}
+    <EditModeProvider>
+      <AuthBar />
+      {settings && (
+        <EditableSection id="navigation" label="Navigation">
+          <Header nav={headerNav} settings={settings} />
+        </EditableSection>
+      )}
       <main>{children}</main>
-    </>
+      <NavSettingsDrawer />
+    </EditModeProvider>
   );
 }

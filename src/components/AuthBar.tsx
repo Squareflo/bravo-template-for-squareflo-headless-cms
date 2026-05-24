@@ -18,6 +18,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useEditMode } from "./EditModeProvider";
 
 interface AuthUser {
   first_name: string;
@@ -29,6 +30,7 @@ const ALLOWED_ROLES = ["owner", "site_owner", "super_admin", "page_builder"];
 
 export default function AuthBar() {
   const router = useRouter();
+  const editCtx = useEditMode();
   const [user, setUser] = useState<AuthUser | null>(null);
 
   useEffect(() => {
@@ -50,6 +52,7 @@ export default function AuthBar() {
   async function handleSignOut() {
     await fetch("/api/auth/sign-out", { method: "POST" });
     setUser(null);
+    if (editCtx) editCtx.setEditMode(false);
     router.refresh();
   }
 
@@ -59,6 +62,18 @@ export default function AuthBar() {
         <span className="auth-bar__greeting">
           <span className="auth-bar__dot" />
           {user.first_name}, you are signed in.
+          {editCtx && (
+            <span className="auth-bar__edit-toggle">
+              <span className="auth-bar__edit-label">Edit Mode</span>
+              <button
+                className={`edit-toggle-switch${editCtx.editMode ? " edit-toggle-switch--on" : ""}`}
+                onClick={() => editCtx.setEditMode(!editCtx.editMode)}
+                aria-label="Toggle edit mode"
+              >
+                <span className="edit-toggle-switch__knob" />
+              </button>
+            </span>
+          )}
         </span>
         <button className="auth-bar__sign-out" onClick={handleSignOut}>
           Sign out

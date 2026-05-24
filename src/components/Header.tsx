@@ -35,7 +35,6 @@
 import Link from "next/link";
 import { NavItem, SiteSettings, SocialLink } from "@/lib/types";
 import MobileNav from "./MobileNav";
-import AuthBar from "./AuthBar";
 
 /** Map CMS platform slugs to Font Awesome icon classes */
 const SOCIAL_ICONS: Record<string, string> = {
@@ -128,9 +127,6 @@ export default function Header({ nav, settings }: HeaderProps) {
 
   return (
     <header className="nav-v3">
-      {/* Auth bar — shown when a CMS user is signed in */}
-      <AuthBar />
-
       {/* ================================================================
           UTILITY BAR (top tier) — from Nav Variation #3
           Dark strip showing phone number, hours, and social links.
