@@ -71,21 +71,29 @@ interface Block {
  * Content block headings never render <h1> — that is reserved for the
  * page's primary heading (Hero section or page title).
  */
-function HeadingBlock({ block }: { block: Block }) {
+function HeadingBlock({ block, isFirst }: { block: Block; isFirst: boolean }) {
   const rawLevel = block.level || 2;
   const level = Math.max(2, Math.min(6, rawLevel)) as 2 | 3 | 4 | 5 | 6;
   const Tag = `h${level}` as "h2" | "h3" | "h4" | "h5" | "h6";
-  return <Tag dangerouslySetInnerHTML={{ __html: sanitise(block.text) }} />;
+  return (
+    <>
+      <Tag
+        className={isFirst ? "page-title" : undefined}
+        dangerouslySetInnerHTML={{ __html: sanitise(block.text) }}
+      />
+      {isFirst && <hr className="page-title-rule" />}
+    </>
+  );
 }
 
 /**
  * Main block renderer — takes a single CMS block and returns the
  * appropriate React element. Add new block types here as the CMS evolves.
  */
-export default function ContentBlock({ block }: { block: Block }) {
+export default function ContentBlock({ block, isFirstHeading = false }: { block: Block; isFirstHeading?: boolean }) {
   switch (block.type) {
     case "heading":
-      return <HeadingBlock block={block} />;
+      return <HeadingBlock block={block} isFirst={isFirstHeading} />;
 
     case "paragraph":
       if (!block.text) return null;
@@ -178,6 +186,22 @@ export default function ContentBlock({ block }: { block: Block }) {
  * This matches the standard interior page layout used across all Bravo
  * template HTML mockups.
  */
+/** Renders a list of blocks, styling the first heading with the page-title rule */
+function BlockList({ blocks }: { blocks: Block[] }) {
+  const firstHeadingId = blocks.find((b) => b.type === "heading")?.id;
+  return (
+    <>
+      {blocks.map((b) => (
+        <ContentBlock
+          key={b.id}
+          block={b}
+          isFirstHeading={b.id === firstHeadingId}
+        />
+      ))}
+    </>
+  );
+}
+
 export function TwoColumnLayout({ content }: { content: { left?: { blocks: Block[] }; right?: { blocks: Block[] } } }) {
   const left = content?.left?.blocks || [];
   const right = content?.right?.blocks || [];
@@ -189,9 +213,7 @@ export function TwoColumnLayout({ content }: { content: { left?: { blocks: Block
   if (!hasRight) {
     return (
       <div>
-        {left.map((b) => (
-          <ContentBlock key={b.id} block={b} />
-        ))}
+        <BlockList blocks={left} />
       </div>
     );
   }
@@ -200,14 +222,10 @@ export function TwoColumnLayout({ content }: { content: { left?: { blocks: Block
   return (
     <div className="page__layout">
       <div className="page__main">
-        {left.map((b) => (
-          <ContentBlock key={b.id} block={b} />
-        ))}
+        <BlockList blocks={left} />
       </div>
       <aside className="sidebar">
-        {right.map((b) => (
-          <ContentBlock key={b.id} block={b} />
-        ))}
+        <BlockList blocks={right} />
       </aside>
     </div>
   );
