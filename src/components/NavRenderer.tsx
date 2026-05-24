@@ -190,7 +190,7 @@ export default function NavRenderer({ nav, settings }: NavRendererProps) {
     }
   }
 
-  const logoUrl = business.logos?.rectangular || business.logos?.square;
+  const logoUrl = business.logos?.rectangular;
   const logoName = business.name;
   const socialLinks = settings.social_links || [];
   const address = primary

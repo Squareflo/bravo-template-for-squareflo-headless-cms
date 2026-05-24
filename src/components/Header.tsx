@@ -177,9 +177,9 @@ export default function Header({ nav, settings }: HeaderProps) {
         <div className="nav-v3__main-inner">
           {/* Logo — uses rectangular logo from CMS, falls back to business name text */}
           <Link href="/" className="nv3-logo">
-            {(business.logos?.rectangular || business.logos?.square) ? (
+            {business.logos?.rectangular ? (
               <img
-                src={business.logos.rectangular || business.logos.square}
+                src={business.logos.rectangular}
                 alt={business.name}
                 className="nv3-logo__img"
               />
