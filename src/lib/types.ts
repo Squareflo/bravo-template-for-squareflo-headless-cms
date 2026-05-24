@@ -63,6 +63,7 @@ export interface SiteSettings {
       bgTextLight: string;  // Light background for text sections
       bgTextDark: string;   // Dark background for text sections
       pageBg: string;       // Page background color
+      [key: string]: string; // Additional custom colors from CMS
     };
     typography: Record<string, TypographyToken>; // Keys: h1, h2, h3, body, etc.
     buttons: Record<string, ButtonToken>;        // Keys: primary, secondary, etc.

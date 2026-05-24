@@ -33,17 +33,29 @@ export default async function MainLayout({
     console.error("Failed to fetch CMS data:", e);
   }
 
+  const KNOWN_COLOR_LABELS: Record<string, string> = {
+    brand: "Brand",
+    accentLight: "Accent Light",
+    accentDark: "Accent Dark",
+    bgTextLight: "Light",
+    bgTextDark: "Dark",
+    pageBg: "Page BG",
+  };
+
   const colorPresets: ColorPreset[] = settings
     ? [
-        { key: "brand", label: "Brand", value: settings.design.colors.brand },
-        { key: "accentLight", label: "Accent Light", value: settings.design.colors.accentLight },
-        { key: "accentDark", label: "Accent Dark", value: settings.design.colors.accentDark },
-        { key: "bgTextLight", label: "Light", value: settings.design.colors.bgTextLight },
-        { key: "bgTextDark", label: "Dark", value: settings.design.colors.bgTextDark },
-        { key: "pageBg", label: "Page BG", value: settings.design.colors.pageBg },
+        // All CMS colors (known + additional custom colors)
+        ...Object.entries(settings.design.colors)
+          .filter(([, v]) => v)
+          .map(([key, value]) => ({
+            key,
+            label: KNOWN_COLOR_LABELS[key] || key.replace(/([A-Z])/g, " $1").replace(/^./, (s) => s.toUpperCase()),
+            value,
+          })),
+        // Always include White and Black
         { key: "white", label: "White", value: "#ffffff" },
         { key: "black", label: "Black", value: "#000000" },
-      ].filter((c) => c.value)
+      ]
     : [];
 
   const buttonPresets: ButtonPreset[] = settings?.design?.buttons
