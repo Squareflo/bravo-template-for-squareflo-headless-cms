@@ -9,17 +9,22 @@
  * takes those blocks and renders them as HTML.
  *
  * Supported block types:
- *   - heading    → <h1>–<h6> with dynamic level
- *   - paragraph  → Rich HTML text
- *   - image      → <figure> with <img>
+ *   - heading    → <h2>–<h6> (never <h1> — reserved for the page's primary heading)
+ *   - paragraph  → Rich HTML text (sanitised with DOMPurify)
+ *   - image      → <figure> with <img> (null src omits the element)
  *   - video      → <video> with controls
- *   - button     → Styled link (solid or outline)
+ *   - button     → Styled link (solid or outline); null URL renders <span>
  *   - spacer     → Empty div with configurable height
  *   - columns    → CSS grid with nested blocks in each column
  *   - section    → Placeholder for reusable CMS sections
  *
  * Also exports TwoColumnLayout — renders the CMS page's two-column structure
  * (main content on the left, optional sidebar on the right).
+ *
+ * Heading Hierarchy:
+ *   Content blocks never render <h1>. The page's <h1> is owned by either
+ *   the Hero section (when present) or the page title. All block headings
+ *   start at <h2> minimum, regardless of what the CMS sends.
  *
  * Design Reference:
  *   - Block styling comes from src/styles/pages.css
@@ -28,6 +33,14 @@
  *   - Button styles (.btn, .btn--outline) match the button patterns in
  *     html-reference/styles-r4m7t9w2qx.css
  */
+
+import DOMPurify from "isomorphic-dompurify";
+
+/** Sanitise CMS HTML for defence in depth */
+function sanitise(html: string | undefined): string {
+  if (!html) return "";
+  return DOMPurify.sanitize(html);
+}
 
 /** Shape of a content block from the CMS headless_content API response */
 interface Block {
@@ -53,11 +66,16 @@ interface Block {
   fields?: { key: string; label: string; type: string; value: string; locked: boolean; source_field?: string }[];
 }
 
-/** Renders a dynamic heading tag (h1–h6) based on the block's level property */
+/**
+ * Renders a heading tag (h2–h6) based on the block's level property.
+ * Content block headings never render <h1> — that is reserved for the
+ * page's primary heading (Hero section or page title).
+ */
 function HeadingBlock({ block }: { block: Block }) {
-  const level = block.level || 2;
-  const Tag = `h${level}` as "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
-  return <Tag dangerouslySetInnerHTML={{ __html: block.text || "" }} />;
+  const rawLevel = block.level || 2;
+  const level = Math.max(2, Math.min(6, rawLevel)) as 2 | 3 | 4 | 5 | 6;
+  const Tag = `h${level}` as "h2" | "h3" | "h4" | "h5" | "h6";
+  return <Tag dangerouslySetInnerHTML={{ __html: sanitise(block.text) }} />;
 }
 
 /**
@@ -70,14 +88,16 @@ export default function ContentBlock({ block }: { block: Block }) {
       return <HeadingBlock block={block} />;
 
     case "paragraph":
+      if (!block.text) return null;
       return (
         <div
           className="cms-paragraph"
-          dangerouslySetInnerHTML={{ __html: block.text || "" }}
+          dangerouslySetInnerHTML={{ __html: sanitise(block.text) }}
         />
       );
 
     case "image":
+      if (!block.src) return null;
       return (
         <figure className="cms-image">
           <img src={block.src} alt={block.alt || ""} />
@@ -85,23 +105,31 @@ export default function ContentBlock({ block }: { block: Block }) {
       );
 
     case "video":
+      if (!block.src) return null;
       return (
         <div className="cms-video">
           <video src={block.src} controls />
         </div>
       );
 
-    case "button":
+    case "button": {
+      const btnClass = `btn${block.style === "outline" ? " btn--outline" : ""}`;
+      const wrapClass = `cms-button-wrap${block.align ? ` cms-button-wrap--${block.align}` : ""}`;
+      if (!block.linkValue) {
+        return (
+          <div className={wrapClass}>
+            <span className={`${btnClass} btn--disabled`}>{block.text}</span>
+          </div>
+        );
+      }
       return (
-        <div className={`cms-button-wrap${block.align ? ` cms-button-wrap--${block.align}` : ""}`}>
-          <a
-            href={block.linkValue || "#"}
-            className={`btn${block.style === "outline" ? " btn--outline" : ""}`}
-          >
+        <div className={wrapClass}>
+          <a href={block.linkValue} className={btnClass}>
             {block.text}
           </a>
         </div>
       );
+    }
 
     case "spacer":
       return <div style={{ height: block.height || 32 }} />;
@@ -154,6 +182,8 @@ export function TwoColumnLayout({ content }: { content: { left?: { blocks: Block
   const left = content?.left?.blocks || [];
   const right = content?.right?.blocks || [];
   const hasRight = right.length > 0;
+
+  if (left.length === 0 && !hasRight) return null;
 
   // Single column — no sidebar content
   if (!hasRight) {

@@ -11,7 +11,7 @@
  * 2. Fetching header navigation from GET /navigation?location=header
  * 3. Converting CMS design tokens into CSS custom properties on <html>
  * 4. Dynamically loading Google Fonts based on CMS typography settings
- * 5. Loading Font Awesome icons (CDN)
+ * 5. Loading Font Awesome icons (CDN) for CMS-driven nav icon classes
  * 6. Setting the favicon from CMS business logos
  * 7. Generating site-wide SEO metadata from CMS settings
  * 8. Rendering the site header (nav) on every page
@@ -194,7 +194,7 @@ export default async function RootLayout({
         />
         {fontsUrl && <link rel="stylesheet" href={fontsUrl} />}
 
-        {/* Font Awesome icons — used for nav icons, social links, UI elements */}
+        {/* Font Awesome icons — needed for CMS-driven icon classes in navigation */}
         <link
           rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"

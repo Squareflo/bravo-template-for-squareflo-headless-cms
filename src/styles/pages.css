@@ -123,6 +123,13 @@
   color: #ffffff;
 }
 
+/* Disabled button — CMS button with no URL */
+.btn--disabled {
+  opacity: 0.5;
+  cursor: default;
+  pointer-events: none;
+}
+
 .btn--block {
   display: block;
   width: 100%;

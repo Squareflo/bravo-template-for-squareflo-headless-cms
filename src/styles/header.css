@@ -282,6 +282,39 @@
   color: var(--color-accent, #e6307a);
 }
 
+/* --- Disabled nav items (no URL set in CMS) ---
+   Renders as <span> instead of <a>. Faded look + default cursor
+   so devs can spot incomplete items during development. */
+.nv3-link--disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.nv3-link--disabled:hover {
+  color: var(--nav-tab-color-dark, var(--color-white, #ffffff));
+}
+.nv3-dropdown__link--disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.nv3-dropdown__link--disabled:hover {
+  color: var(--nav-dropdown-color-dark, #ffffff);
+  background: none;
+}
+.mobile-nav__link--disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.mobile-nav__link--disabled:hover {
+  color: var(--nav-mobile-tab-color-dark, #ffffff);
+}
+.mobile-nav__sub-link--disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.mobile-nav__sub-link--disabled:hover {
+  color: var(--nav-drawer-heading-color-dark, rgba(255, 255, 255, 0.85));
+}
+
 /* --- Responsive --- */
 @media (max-width: 767px) {
   .nv3-list {

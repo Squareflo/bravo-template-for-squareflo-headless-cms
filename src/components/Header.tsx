@@ -23,7 +23,11 @@
  *   - Dynamic open/closed hours from Google Places data (if connected)
  *   - Logo from CMS (image or text fallback)
  *   - Desktop dropdown menus for nav items with children
+ *   - Defensive rendering: nav items with null/empty URLs render as <span>
+ *   - Last nav item rendered as CTA button (V6 style)
  *   - Mobile hamburger menu (see MobileNav.tsx)
+ *
+ * Icons: Font Awesome 6 (CDN) — required for CMS-driven icon classes in nav items
  *
  * CSS: src/styles/header.css
  */
@@ -35,6 +39,39 @@ import MobileNav from "./MobileNav";
 interface HeaderProps {
   nav: NavItem[];
   settings: SiteSettings;
+}
+
+/**
+ * Renders a nav link or a disabled span depending on whether the URL exists.
+ * When URL is null/empty (placeholder, deleted page, half-finished CMS state),
+ * renders a <span> with --disabled modifier instead of a broken <a>.
+ */
+function NavLink({
+  item,
+  className,
+  children,
+}: {
+  item: NavItem;
+  className: string;
+  children: React.ReactNode;
+}) {
+  if (!item.url) {
+    return (
+      <span className={`${className} ${className}--disabled`}>
+        {children}
+      </span>
+    );
+  }
+  return (
+    <a
+      href={item.url}
+      className={className}
+      target={item.open_in_new_tab ? "_blank" : undefined}
+      rel={item.open_in_new_tab ? "noopener noreferrer" : undefined}
+    >
+      {children}
+    </a>
+  );
 }
 
 export default function Header({ nav, settings }: HeaderProps) {
@@ -126,46 +163,32 @@ export default function Header({ nav, settings }: HeaderProps) {
             <ul className="nv3-list">
               {nav.map((item, index) => {
                 const isLast = index === nav.length - 1;
+                const linkClass = `nv3-link${isLast ? " nv3-link--cta" : ""}`;
                 return (
                   <li key={item.id} className="nv3-item">
                     {item.children.length > 0 ? (
                       <>
                         {/* Parent item with dropdown — shows caret icon */}
-                        <a
-                          href={item.url || "#"}
-                          className={`nv3-link${isLast ? " nv3-link--cta" : ""}`}
-                          target={item.open_in_new_tab ? "_blank" : undefined}
-                          rel={item.open_in_new_tab ? "noopener noreferrer" : undefined}
-                        >
+                        <NavLink item={item} className={linkClass}>
                           {item.label}{" "}
                           <i className="fas fa-caret-down nv3-caret" />
-                        </a>
+                        </NavLink>
                         {/* Dropdown menu — appears on hover (CSS-driven) */}
                         <ul className="nv3-dropdown">
                           {item.children.map((child) => (
                             <li key={child.id}>
-                              <a
-                                href={child.url}
-                                className="nv3-dropdown__link"
-                                target={child.open_in_new_tab ? "_blank" : undefined}
-                                rel={child.open_in_new_tab ? "noopener noreferrer" : undefined}
-                              >
+                              <NavLink item={child} className="nv3-dropdown__link">
                                 {child.label}
-                              </a>
+                              </NavLink>
                             </li>
                           ))}
                         </ul>
                       </>
                     ) : (
                       /* Last item renders as CTA button (V6 style), rest are plain links */
-                      <a
-                        href={item.url}
-                        className={`nv3-link${isLast ? " nv3-link--cta" : ""}`}
-                        target={item.open_in_new_tab ? "_blank" : undefined}
-                        rel={item.open_in_new_tab ? "noopener noreferrer" : undefined}
-                      >
+                      <NavLink item={item} className={linkClass}>
                         {item.label}
-                      </a>
+                      </NavLink>
                     )}
                   </li>
                 );

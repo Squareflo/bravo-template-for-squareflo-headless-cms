@@ -12,11 +12,10 @@
  *   - Full-screen overlay with slide-in drawer from the right
  *   - Expandable sub-items for nav items with children
  *   - Auto-closes when a link is clicked
+ *   - Defensive rendering: items with null/empty URLs render as <span>
+ *   - aria-controls + aria-expanded for accessibility
  *
- * The mobile nav design is custom — it wasn't taken from a specific HTML
- * mockup file, but follows the dark-drawer pattern common in the Bravo
- * template's mobile breakpoints (see html-reference/styles-r4m7t9w2qx.css
- * responsive sections).
+ * Icons: Font Awesome 6 (CDN) — bars, times, chevron-up, chevron-down
  *
  * CSS: src/styles/header.css (mobile-nav-overlay, mobile-nav__* classes)
  */
@@ -25,6 +24,8 @@
 
 import { useState } from "react";
 import { NavItem } from "@/lib/types";
+
+const MOBILE_NAV_ID = "mobile-nav-drawer";
 
 interface MobileNavProps {
   nav: NavItem[];
@@ -51,6 +52,7 @@ export default function MobileNav({ nav, businessName }: MobileNavProps) {
         className="nv3-hamburger"
         aria-label="Menu"
         aria-expanded={open}
+        aria-controls={MOBILE_NAV_ID}
         onClick={() => setOpen(!open)}
       >
         <i className={open ? "fas fa-times" : "fas fa-bars"} />
@@ -60,6 +62,7 @@ export default function MobileNav({ nav, businessName }: MobileNavProps) {
       {open && (
         <div className="mobile-nav-overlay" onClick={() => setOpen(false)}>
           <nav
+            id={MOBILE_NAV_ID}
             className="mobile-nav"
             onClick={(e) => e.stopPropagation()}
             aria-label={`${businessName} mobile navigation`}
@@ -96,22 +99,27 @@ export default function MobileNav({ nav, businessName }: MobileNavProps) {
                           )}
                           {item.children.map((child) => (
                             <li key={child.id}>
-                              <a
-                                href={child.url}
-                                className="mobile-nav__sub-link"
-                                target={child.open_in_new_tab ? "_blank" : undefined}
-                                rel={child.open_in_new_tab ? "noopener noreferrer" : undefined}
-                                onClick={() => setOpen(false)}
-                              >
-                                {child.label}
-                              </a>
+                              {child.url ? (
+                                <a
+                                  href={child.url}
+                                  className="mobile-nav__sub-link"
+                                  target={child.open_in_new_tab ? "_blank" : undefined}
+                                  rel={child.open_in_new_tab ? "noopener noreferrer" : undefined}
+                                  onClick={() => setOpen(false)}
+                                >
+                                  {child.label}
+                                </a>
+                              ) : (
+                                <span className="mobile-nav__sub-link mobile-nav__sub-link--disabled">
+                                  {child.label}
+                                </span>
+                              )}
                             </li>
                           ))}
                         </ul>
                       )}
                     </>
-                  ) : (
-                    /* Simple nav link */
+                  ) : item.url ? (
                     <a
                       href={item.url}
                       className="mobile-nav__link"
@@ -121,6 +129,10 @@ export default function MobileNav({ nav, businessName }: MobileNavProps) {
                     >
                       {item.label}
                     </a>
+                  ) : (
+                    <span className="mobile-nav__link mobile-nav__link--disabled">
+                      {item.label}
+                    </span>
                   )}
                 </li>
               ))}
