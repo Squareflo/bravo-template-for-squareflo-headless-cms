@@ -1128,12 +1128,9 @@
   .nv5-hamburger, .nv6-hamburger, .nv7-hamburger, .nv8-hamburger,
   .nv10-hamburger, .nv11-hamburger, .nv12-hamburger { display: inline-flex; }
 
-  /* Two-tier utility bars stack on mobile */
-  .nav-v3__utility-inner, .nav-v4__utility-inner, .nav-v7__utility-inner {
-    flex-direction: column; gap: 6px; text-align: center; font-size: 0.78rem;
-  }
-  .nv3-utility-left, .nv7-utility-left {
-    flex-wrap: wrap; justify-content: center; gap: 12px;
+  /* Two-tier: hide utility bar on mobile, show main bar only */
+  .nav-v3__utility, .nav-v4__utility, .nav-v7__utility {
+    display: none;
   }
 
   /* Centered layouts simplify */
