@@ -45,41 +45,15 @@ export async function POST(req: Request) {
     );
   }
 
-  // Log the full CMS response so we can see the exact structure
-  console.log("[sign-in] CMS response:", JSON.stringify(data));
-
-  // Try access_token first, fall back to token
   const token = data.access_token || data.token;
   if (!token) {
-    console.error("[sign-in] No token found in CMS response");
     return NextResponse.json(
       { error: "Sign-in succeeded but no token was returned." },
       { status: 500 },
     );
   }
 
-  console.log("[sign-in] Token found, length:", token.length);
-
-  // Immediately verify the token works with /auth/me
-  const verifyRes = await fetch(`${API_URL}/auth/me`, {
-    headers: {
-      "x-api-key": API_KEY,
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  const verifyData = await verifyRes.json();
-
-  // Set the access token as an httpOnly cookie on the response object
-  const response = NextResponse.json({
-    user: data.user,
-    _debug: {
-      verifyStatus: verifyRes.status,
-      verifyResult: verifyData,
-      tokenLength: token.length,
-      tokenFirst20: token.substring(0, 20),
-      tokenLast20: token.substring(token.length - 20),
-    },
-  });
+  const response = NextResponse.json({ user: data.user });
   response.cookies.set("sqf_token", token, {
     httpOnly: true,
     secure: true,

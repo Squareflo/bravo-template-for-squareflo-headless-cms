@@ -15,21 +15,13 @@ import { NextResponse } from "next/server";
 const API_URL = process.env.SQUAREFLO_API_URL!;
 const API_KEY = process.env.SQUAREFLO_API_KEY!;
 
-export async function GET(req: Request) {
-  // Log all cookies to see what's actually present
-  const cookieHeader = req.headers.get("cookie");
-  console.log("[auth/me] Cookie header:", cookieHeader || "(none)");
-
+export async function GET() {
   const cookieStore = await cookies();
   const token = cookieStore.get("sqf_token")?.value;
-
-  console.log("[auth/me] sqf_token present:", !!token);
 
   if (!token) {
     return NextResponse.json({ user: null }, { status: 401 });
   }
-
-  console.log("[auth/me] Token length:", token.length, "First 10 chars:", token.substring(0, 10));
 
   const res = await fetch(`${API_URL}/auth/me`, {
     headers: {
@@ -39,13 +31,9 @@ export async function GET(req: Request) {
   });
 
   const data = await res.json();
-  console.log("[auth/me] CMS response status:", res.status, "body:", JSON.stringify(data));
 
   if (!res.ok) {
-    return NextResponse.json(
-      { user: null, _debug: { cmsStatus: res.status, cmsError: data?.error || data, tokenLength: token.length } },
-      { status: 401 },
-    );
+    return NextResponse.json({ user: null }, { status: 401 });
   }
 
   return NextResponse.json({ user: data.user });

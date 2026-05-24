@@ -25,7 +25,7 @@ interface AuthUser {
   role: string;
 }
 
-const ALLOWED_ROLES = ["site_owner", "super_admin", "page_builder"];
+const ALLOWED_ROLES = ["owner", "site_owner", "super_admin", "page_builder"];
 
 export default function AuthBar() {
   const router = useRouter();

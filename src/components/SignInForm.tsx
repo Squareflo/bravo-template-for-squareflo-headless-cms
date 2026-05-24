@@ -70,16 +70,6 @@ export default function SignInForm() {
         return;
       }
 
-      // Show debug info temporarily
-      if (data._debug) {
-        console.log("[SignInForm] Debug:", JSON.stringify(data._debug, null, 2));
-        if (data._debug.verifyStatus !== 200) {
-          setError(`Sign-in OK but token verify failed (${data._debug.verifyStatus}): ${JSON.stringify(data._debug.verifyResult)}`);
-          setLoading(false);
-          return;
-        }
-      }
-
       // Full page redirect to home
       window.location.href = "/";
     } catch {
