@@ -221,6 +221,55 @@ function HoursBlock({ prefix, location }: { prefix: string; location: Location |
   );
 }
 
+function AccountLinks({ prefix, headingStyle, headingClass, headingTag }: { prefix: string; headingStyle?: React.CSSProperties; headingClass?: string; headingTag?: "h3" | "h4" }) {
+  const [signedIn, setSignedIn] = useState(false);
+  const [checked, setChecked] = useState(false);
+
+  useEffect(() => {
+    fetch("/api/auth/me")
+      .then((res) => {
+        if (!res.ok) return null;
+        return res.json();
+      })
+      .then((data) => {
+        if (data?.user) setSignedIn(true);
+      })
+      .catch(() => {})
+      .finally(() => setChecked(true));
+  }, []);
+
+  if (!checked) return null;
+
+  const Heading = headingTag || "h3";
+  const hClass = headingClass || `${prefix}__heading`;
+
+  return (
+    <div className={`${prefix}__col`}>
+      <Heading className={hClass} style={headingStyle}>My Account</Heading>
+      <ul className={`${prefix}__list`}>
+        {signedIn ? (
+          <li>
+            <button
+              className="ft-account-link"
+              onClick={async () => {
+                await fetch("/api/auth/sign-out", { method: "POST" });
+                window.location.reload();
+              }}
+            >
+              Sign Out
+            </button>
+          </li>
+        ) : (
+          <>
+            <li><a href="/sign-in">Sign In</a></li>
+            <li><a href="/sign-up">Create Account</a></li>
+          </>
+        )}
+      </ul>
+    </div>
+  );
+}
+
 function BottomBar({ prefix, businessName, year }: { prefix: string; businessName: string; year: number }) {
   return (
     <div className={`${prefix}__bottom`}>
@@ -330,6 +379,7 @@ export default function Footer({ nav, settings }: FooterProps) {
               <h4 className="ft3__col-heading" style={headingStyle}>Newsletter</h4>
               <Newsletter prefix="ft3" inputBgColor={inputBgColor} btnPreset={btnPreset} />
             </div>
+            <AccountLinks prefix="ft3" headingStyle={headingStyle} headingClass="ft3__col-heading" headingTag="h4" />
           </div>
         </div>
         <BottomBar prefix="ft3" businessName={business.name} year={year} />
@@ -394,6 +444,7 @@ export default function Footer({ nav, settings }: FooterProps) {
               <h3 className="ft4__heading" style={headingStyle}>Newsletter</h3>
               <Newsletter prefix="ft4" inputBgColor={inputBgColor} btnPreset={btnPreset} />
             </div>
+            <AccountLinks prefix="ft4" headingStyle={headingStyle} />
           </div>
         </div>
         <BottomBar prefix="ft4" businessName={business.name} year={year} />
@@ -427,6 +478,7 @@ export default function Footer({ nav, settings }: FooterProps) {
             <h3 className="ft5__heading" style={headingStyle}>Newsletter</h3>
             <Newsletter prefix="ft5" inputBgColor={inputBgColor} btnPreset={btnPreset} />
           </div>
+          <AccountLinks prefix="ft5" headingStyle={headingStyle} />
         </div>
         <BottomBar prefix="ft5" businessName={business.name} year={year} />
       </footer>
@@ -466,6 +518,7 @@ export default function Footer({ nav, settings }: FooterProps) {
               <h3 className="ft6__heading" style={headingStyle}>Newsletter</h3>
               <Newsletter prefix="ft6" inputBgColor={inputBgColor} btnPreset={btnPreset} />
             </div>
+            <AccountLinks prefix="ft6" headingStyle={headingStyle} />
           </div>
         </div>
         <BottomBar prefix="ft6" businessName={business.name} year={year} />
@@ -514,6 +567,7 @@ export default function Footer({ nav, settings }: FooterProps) {
           <p className="ft1__text ft1__text--sm">Get our latest updates. No spam, ever.</p>
           <Newsletter prefix="ft1" inputBgColor={inputBgColor} btnPreset={btnPreset} />
         </div>
+        <AccountLinks prefix="ft1" headingStyle={headingStyle} />
       </div>
       <BottomBar prefix="ft1" businessName={business.name} year={year} />
     </footer>

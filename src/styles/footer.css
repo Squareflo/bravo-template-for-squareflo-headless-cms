@@ -25,6 +25,14 @@
   background: var(--color-accent); color: var(--color-white);
 }
 
+/* --- Shared: Account link button (sign-out styled as link) --- */
+.ft-account-link {
+  background: none; border: none; padding: 0; margin: 0;
+  font: inherit; color: inherit; cursor: pointer; text-align: left;
+  opacity: 0.85; transition: opacity 0.2s ease;
+}
+.ft-account-link:hover { opacity: 1; }
+
 /* --- Shared: Newsletter form (all prefixes) --- */
 .ft1-newsletter, .ft3-newsletter, .ft4-newsletter,
 .ft5-newsletter, .ft6-newsletter {
