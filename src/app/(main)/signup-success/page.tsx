@@ -26,42 +26,12 @@ export default function SignupSuccessPage() {
           </div>
           <h1 className="success-title">You&apos;re in!</h1>
           <p className="success-subtitle">
-            Welcome aboard. Your email is verified and your account is ready to go.
+            Your email is verified and your account is ready.
+            Sign in to access your account area.
           </p>
 
-          <div className="success-next-steps">
-            <div className="success-next-step">
-              <div className="success-next-step__icon">
-                <i className="fas fa-bookmark" />
-              </div>
-              <h3 className="success-next-step__title">Add us to your contacts</h3>
-              <p className="success-next-step__text">
-                So our emails skip the spam folder and reach your inbox cleanly.
-              </p>
-            </div>
-            <div className="success-next-step">
-              <div className="success-next-step__icon">
-                <i className="fas fa-book-open" />
-              </div>
-              <h3 className="success-next-step__title">Explore the site</h3>
-              <p className="success-next-step__text">
-                Browse our content, products, and services now that you have an account.
-              </p>
-            </div>
-            <div className="success-next-step">
-              <div className="success-next-step__icon">
-                <i className="fas fa-share-alt" />
-              </div>
-              <h3 className="success-next-step__title">Tell a friend</h3>
-              <p className="success-next-step__text">
-                If you think someone you know would enjoy it, pass it along.
-              </p>
-            </div>
-          </div>
-
           <div className="success-actions">
-            <a href="/" className="btn">Back to Home</a>
-            <a href="/sign-in" className="btn btn--secondary">Sign In</a>
+            <a href="/sign-in" className="btn">Sign In</a>
           </div>
         </div>
       </div>
