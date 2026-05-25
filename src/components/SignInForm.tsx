@@ -84,24 +84,10 @@ export default function SignInForm() {
   // Still checking auth state
   if (checking) return null;
 
-  // Already signed in
+  // Already signed in — redirect to my account
   if (signedInUser) {
-    return (
-      <div className="auth-card__signed-in">
-        <p className="auth-card__signed-in-text">
-          {signedInUser.first_name}, you are already signed in.
-        </p>
-        <a href="/" className="btn btn--block" style={{ marginBottom: 12 }}>
-          Go to Home Page
-        </a>
-        <button
-          className="btn btn--outline btn--block"
-          onClick={handleSignOut}
-        >
-          Sign Out
-        </button>
-      </div>
-    );
+    window.location.href = "/my-account";
+    return null;
   }
 
   return (
