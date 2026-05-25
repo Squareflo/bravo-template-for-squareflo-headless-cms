@@ -471,6 +471,15 @@
   object-fit: cover;
 }
 
+.comment-compose__avatar--placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #d0d0d0;
+  color: #fff;
+  font-size: 1.2rem;
+}
+
 .comment-compose__textarea {
   display: block;
   width: 100%;

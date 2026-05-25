@@ -53,11 +53,17 @@ export default function BlogComments() {
           // TODO: POST comment to CMS API when available
         }}
       >
-        <img
-          src={user.avatar_url || "/default-avatar.svg"}
-          alt="Your avatar"
-          className="comment-compose__avatar"
-        />
+        {user.avatar_url ? (
+          <img
+            src={user.avatar_url}
+            alt="Your avatar"
+            className="comment-compose__avatar"
+          />
+        ) : (
+          <div className="comment-compose__avatar comment-compose__avatar--placeholder">
+            <i className="fas fa-user" />
+          </div>
+        )}
         <div>
           <textarea
             className="comment-compose__textarea"
