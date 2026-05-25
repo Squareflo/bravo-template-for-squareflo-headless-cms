@@ -27,16 +27,21 @@ export default async function MainLayout({
   let headerNav: NavItem[] = [];
   let footerNav: NavItem[] = [];
 
-  try {
-    [settings, { navigation: headerNav }, { navigation: footerNav }] =
-      await Promise.all([
-        cms<SiteSettings>("/settings"),
-        cms<{ navigation: NavItem[] }>("/navigation", { location: "header" }),
-        cms<{ navigation: NavItem[] }>("/navigation", { location: "footer" }),
-      ]);
-  } catch (e) {
-    console.error("Failed to fetch CMS data:", e);
-  }
+  // Fetch independently so one failure doesn't block the others
+  const [settingsResult, headerResult, footerResult] = await Promise.allSettled([
+    cms<SiteSettings>("/settings"),
+    cms<{ navigation: NavItem[] }>("/navigation", { location: "header" }),
+    cms<{ navigation: NavItem[] }>("/navigation", { location: "footer" }),
+  ]);
+
+  if (settingsResult.status === "fulfilled") settings = settingsResult.value;
+  else console.error("Failed to fetch CMS settings:", settingsResult.reason);
+
+  if (headerResult.status === "fulfilled") headerNav = headerResult.value.navigation;
+  else console.error("Failed to fetch header nav:", headerResult.reason);
+
+  if (footerResult.status === "fulfilled") footerNav = footerResult.value.navigation;
+  else console.error("Failed to fetch footer nav:", footerResult.reason);
 
   const KNOWN_COLOR_LABELS: Record<string, string> = {
     brand: "Brand",
