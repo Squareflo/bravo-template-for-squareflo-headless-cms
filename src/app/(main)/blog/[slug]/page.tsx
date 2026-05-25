@@ -186,7 +186,7 @@ export default async function BlogDetailPage({ params }: PageProps) {
             )}
             {post.categories?.length > 0 && (
               <span className="post-detail__meta-item">
-                <i className="fas fa-tag" /> Posted in{" "}
+                <i className="fas fa-folder-open" /> Posted in{" "}
                 {post.categories.map((cat, i) => (
                   <span key={cat.id}>
                     {i > 0 && " / "}
