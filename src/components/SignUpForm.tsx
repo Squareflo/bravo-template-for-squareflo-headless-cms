@@ -30,7 +30,6 @@ export default function SignUpForm() {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState(prefillEmail);
   const [password, setPassword] = useState("");
-  const [agreedTerms, setAgreedTerms] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [groups, setGroups] = useState<SubscriberGroup[]>([]);
@@ -57,11 +56,6 @@ export default function SignUpForm() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError("");
-
-    if (!agreedTerms) {
-      setError("You must agree to the Terms and Privacy Policy.");
-      return;
-    }
 
     setLoading(true);
 
@@ -176,18 +170,6 @@ export default function SignUpForm() {
           ))}
         </div>
       )}
-
-      <div className="auth-card__row" style={{ marginTop: 4 }}>
-        <label className="auth-card__checkbox-label" style={{ fontSize: "0.85rem", alignItems: "flex-start" }}>
-          <input
-            type="checkbox"
-            style={{ marginTop: 3 }}
-            checked={agreedTerms}
-            onChange={(e) => setAgreedTerms(e.target.checked)}
-          />
-          I agree to the Terms and Privacy Policy
-        </label>
-      </div>
 
       <button
         type="submit"
