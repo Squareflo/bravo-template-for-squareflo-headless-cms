@@ -32,6 +32,10 @@ export default async function SignInPage() {
           <Suspense>
             <SignInForm />
           </Suspense>
+
+          <p className="auth-card__footer">
+            Don&apos;t have an account? <a href="/sign-up">Create one</a>
+          </p>
         </div>
       </div>
     </main>
