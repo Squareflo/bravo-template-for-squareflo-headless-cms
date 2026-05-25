@@ -40,6 +40,10 @@
   border-bottom: 1px solid var(--color-border, #e0e0e0);
 }
 
+.post-card--no-thumb {
+  grid-template-columns: 1fr;
+}
+
 .post-card:first-child {
   padding-top: 0;
 }

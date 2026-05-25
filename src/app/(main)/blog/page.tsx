@@ -95,7 +95,7 @@ export default async function BlogPage() {
                 const thumb = post.thumbnail_image || post.cover_image;
                 const excerpt = post.short_summary || post.first_paragraph;
                 return (
-                  <article key={post.id} className="post-card">
+                  <article key={post.id} className={`post-card${thumb ? "" : " post-card--no-thumb"}`}>
                     {thumb && (
                       <a href={`/blog/${post.slug}`}>
                         <img src={thumb} alt="" className="post-card__thumb" />
