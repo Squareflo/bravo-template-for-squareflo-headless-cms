@@ -115,8 +115,9 @@ function NavList({ nav, prefix }: { nav: NavItem[]; prefix: string }) {
 }
 
 function Newsletter({ prefix, inputBgColor }: { prefix: string; inputBgColor: string }) {
-  const inputStyle = inputBgColor
-    ? { background: inputBgColor, borderColor: inputBgColor, color: autoTextColor(inputBgColor) }
+  const textColor = inputBgColor ? autoTextColor(inputBgColor) : undefined;
+  const inputStyle: React.CSSProperties | undefined = inputBgColor
+    ? { background: inputBgColor, borderColor: inputBgColor, "--ft-input-color": textColor } as React.CSSProperties
     : undefined;
   return (
     <form className={`${prefix}-newsletter`} onSubmit={(e) => e.preventDefault()}>

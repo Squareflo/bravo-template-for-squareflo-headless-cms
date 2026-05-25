@@ -33,15 +33,16 @@
 .ft1-newsletter__input, .ft4-newsletter__input, .ft7-newsletter__input,
 .ft8-newsletter__input, .ft10-newsletter__input {
   padding: 11px 14px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);
-  border-radius: 4px; font-family: var(--font-body); font-size: 0.9rem; color: var(--color-white);
+  border-radius: 4px; font-family: var(--font-body); font-size: 0.9rem;
+  color: var(--ft-input-color, #fff);
 }
 .ft1-newsletter__input::placeholder, .ft4-newsletter__input::placeholder,
 .ft7-newsletter__input::placeholder, .ft8-newsletter__input::placeholder,
-.ft10-newsletter__input::placeholder { color: rgba(255,255,255,0.5); }
+.ft10-newsletter__input::placeholder { color: var(--ft-input-color, #fff); opacity: 0.5; }
 .ft1-newsletter__input:focus, .ft4-newsletter__input:focus,
 .ft7-newsletter__input:focus, .ft8-newsletter__input:focus,
 .ft10-newsletter__input:focus {
-  outline: none; border-color: var(--color-accent); background: rgba(255,255,255,0.12);
+  outline: none; border-color: var(--color-accent);
 }
 .ft1-newsletter__btn, .ft4-newsletter__btn, .ft7-newsletter__btn,
 .ft8-newsletter__btn, .ft10-newsletter__btn {
