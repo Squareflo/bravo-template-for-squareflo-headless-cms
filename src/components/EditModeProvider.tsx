@@ -36,7 +36,10 @@ export interface NavSettings {
   ctaPreset2: string;
 }
 
+export type FooterVariation = "ft1" | "ft3" | "ft4" | "ft7" | "ft8" | "ft10" | "ft12";
+
 export interface FooterSettings {
+  variation: FooterVariation;
   bgColor: string;
   dropdownBgColor: string;
   inputBgColor: string;
@@ -70,6 +73,7 @@ export interface ButtonPreset {
 
 const DEFAULTS: SectionSettings = {
   footer: {
+    variation: "ft1",
     bgColor: "",
     dropdownBgColor: "",
     inputBgColor: "",
