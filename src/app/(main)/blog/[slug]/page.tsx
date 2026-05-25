@@ -197,16 +197,7 @@ export default async function BlogDetailPage({ params }: PageProps) {
             )}
           </div>
 
-          <div className="post-detail__share">
-            <a
-              href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(`/blog/${slug}`)}`}
-              className="share-btn share-btn--facebook"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <i className="fab fa-facebook-f" /> Share
-            </a>
-          </div>
+          <div className="sharethis-inline-share-buttons" />
 
           {heroImage && (
             <img src={heroImage} alt="" className="post-detail__hero" />

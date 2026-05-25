@@ -80,6 +80,11 @@ export default async function RootLayout({
         {settings?.business?.logos?.favicon && (
           <link rel="icon" href={settings.business.logos.favicon} />
         )}
+        <script
+          type="text/javascript"
+          src="https://platform-api.sharethis.com/js/sharethis.js#property=64b559f463b3c00014ebe3a4&product=inline-share-buttons"
+          async
+        />
       </head>
       <body>{children}</body>
     </html>
