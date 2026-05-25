@@ -17,7 +17,7 @@
 
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { NavItem, SiteSettings, SocialLink, Location } from "@/lib/types";
 import { useEditMode } from "./EditModeProvider";
@@ -59,6 +59,18 @@ export default function Footer({ nav, settings }: FooterProps) {
   const hasMultiple = locations.length > 1;
 
   const [selectedIdx, setSelectedIdx] = useState(() => getDefaultIndex(locations));
+  const [locOpen, setLocOpen] = useState(false);
+  const locRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!locOpen) return;
+    function close(e: MouseEvent) {
+      if (locRef.current && !locRef.current.contains(e.target as Node))
+        setLocOpen(false);
+    }
+    document.addEventListener("mousedown", close);
+    return () => document.removeEventListener("mousedown", close);
+  }, [locOpen]);
 
   const location = selectedIdx >= 0 ? locations[selectedIdx] : null;
   const phone = location?.phone || business.phone;
@@ -139,23 +151,38 @@ export default function Footer({ nav, settings }: FooterProps) {
         {/* Column 3: Contact */}
         <div className="ft1__col">
           <h3 className="ft1__heading">Contact</h3>
-          {hasMultiple && (
-            <div className="ft1-loc-tabs">
-              {locations.map((loc, i) => (
-                <button
-                  key={loc.name}
-                  type="button"
-                  className={`ft1-loc-tabs__btn${i === selectedIdx ? " ft1-loc-tabs__btn--active" : ""}`}
-                  onClick={() => setSelectedIdx(i)}
-                >
-                  {loc.name}
-                </button>
-              ))}
-            </div>
-          )}
           {location && (
             <>
-              {!hasMultiple && (
+              {hasMultiple ? (
+                <div className="ft1-loc-select" ref={locRef}>
+                  <button
+                    type="button"
+                    className="ft1-loc-select__trigger"
+                    onClick={() => setLocOpen(!locOpen)}
+                  >
+                    <strong>{location.name}</strong>
+                    <i className={`fas fa-caret-${locOpen ? "up" : "down"} ft1-loc-select__caret`} />
+                  </button>
+                  {locOpen && (
+                    <ul className="ft1-loc-select__menu">
+                      {locations.map((loc, i) => (
+                        <li key={loc.name}>
+                          <button
+                            type="button"
+                            className={`ft1-loc-select__option${i === selectedIdx ? " ft1-loc-select__option--active" : ""}`}
+                            onClick={() => {
+                              setSelectedIdx(i);
+                              setLocOpen(false);
+                            }}
+                          >
+                            {loc.name}
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              ) : (
                 <p className="ft1__contact-line ft1__contact-line--name">
                   <strong>{location.name}</strong>
                 </p>
