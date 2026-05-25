@@ -28,7 +28,9 @@ export default function VerifyEmailPage() {
           </div>
           <h1 className="auth-card__title">Check your email</h1>
           <p className="auth-card__subtitle">
-            We sent a 6-digit verification code to your email. Enter it below to confirm your address.
+            We sent a 6-digit verification code to your email.
+            Look for an email from <strong>SquarefloCMS</strong> — it may take a moment to arrive.
+            Enter the code below to confirm your address.
           </p>
 
           <Suspense>
