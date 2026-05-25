@@ -22,6 +22,7 @@ import "@/styles/header.css";
 import "@/styles/pages.css";
 import "@/styles/auth.css";
 import "@/styles/footer.css";
+import "@/styles/blog.css";
 
 export async function generateMetadata(): Promise<Metadata> {
   try {
