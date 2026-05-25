@@ -209,7 +209,7 @@ export default async function BlogDetailPage({ params }: PageProps) {
           {/* Comments section */}
           <div className="post-detail__comments">
             <h2 className="post-detail__comments-title">Comments</h2>
-            <BlogComments />
+            <BlogComments postId={post.id} />
           </div>
         </article>
 

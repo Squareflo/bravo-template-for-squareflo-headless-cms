@@ -521,6 +521,12 @@
   white-space: nowrap;
 }
 
+.comment-compose__error {
+  margin: 8px 0 0;
+  font-size: 0.9rem;
+  color: #c0392b;
+}
+
 /* Comment list */
 .comment-list {
   list-style: none;
@@ -542,6 +548,16 @@
   height: 48px;
   border-radius: 50%;
   object-fit: cover;
+}
+
+.comment__avatar--placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #d0d0d0;
+  color: #fff;
+  font-size: 1.1rem;
+  border-radius: 50%;
 }
 
 .comment__body {
