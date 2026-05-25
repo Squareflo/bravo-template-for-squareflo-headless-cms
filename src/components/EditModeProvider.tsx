@@ -36,13 +36,16 @@ export interface NavSettings {
   ctaPreset2: string;
 }
 
-export type FooterVariation = "ft1" | "ft3" | "ft4" | "ft7" | "ft8" | "ft10" | "ft12";
+export type FooterVariation = "ft1" | "ft2" | "ft3" | "ft4" | "ft5" | "ft6" | "ft7";
 
 export interface FooterSettings {
   variation: FooterVariation;
   bgColor: string;
   dropdownBgColor: string;
   inputBgColor: string;
+  btnPreset: string;
+  headingColor: string;
+  cardBgColor: string;
 }
 
 export interface SectionSettings {
@@ -77,6 +80,9 @@ const DEFAULTS: SectionSettings = {
     bgColor: "",
     dropdownBgColor: "",
     inputBgColor: "",
+    btnPreset: "",
+    headingColor: "",
+    cardBgColor: "",
   },
   navigation: {
     variation: "v3",
@@ -101,6 +107,11 @@ const LEGACY_MAP: Record<string, NavVariation> = {
   light: "v1",
   floating: "v12",
   v5: "v3",
+};
+
+/** Map legacy footer variation names (from HTML mockup IDs) to sequential IDs */
+const FOOTER_LEGACY_MAP: Record<string, FooterVariation> = {
+  ft3: "ft2", ft4: "ft3", ft7: "ft4", ft8: "ft5", ft10: "ft6", ft12: "ft7",
 };
 
 interface EditModeCtx {
@@ -144,6 +155,9 @@ export default function EditModeProvider({
         // Migrate legacy variation names
         if (LEGACY_MAP[nav.variation]) {
           nav.variation = LEGACY_MAP[nav.variation];
+        }
+        if (FOOTER_LEGACY_MAP[footer.variation]) {
+          footer.variation = FOOTER_LEGACY_MAP[footer.variation];
         }
         setSettings((s) => ({ ...s, navigation: nav, footer }));
       }

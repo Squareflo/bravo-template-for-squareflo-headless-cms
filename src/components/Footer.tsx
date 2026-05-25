@@ -3,13 +3,13 @@
  * Powered by SquarefloCMS (https://squareflo.com)
  *
  * Supports multiple footer variations selected via edit mode:
- *   FT1  — Classic 5-column (brand, nav, contact, hours, newsletter)
- *   FT3  — Minimal 2-column (brand left, nav + copyright right)
- *   FT4  — Brand-heavy + utility (big brand left, 3 utility cols right)
- *   FT7  — Multi-location cards (location cards band + brand/nav/newsletter)
- *   FT8  — Location selector (4-col with dropdown location picker)
- *   FT10 — Full-width map (Google Maps iframe + 4-col)
- *   FT12 — Centered minimalist (single centered column)
+ *   FT1 — Classic 5-column (brand, nav, contact, hours, newsletter)
+ *   FT2 — Minimal 2-column (brand left, nav + copyright right)
+ *   FT3 — Brand-heavy + utility (big brand left, 3 utility cols right)
+ *   FT4 — Multi-location cards (location cards band + brand/nav/newsletter)
+ *   FT5 — Location selector (4-col with dropdown location picker)
+ *   FT6 — Full-width map (Google Maps iframe + 4-col)
+ *   FT7 — Centered minimalist (single centered column)
  *
  * CSS: src/styles/footer.css
  */
@@ -19,7 +19,7 @@
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { NavItem, SiteSettings, Location } from "@/lib/types";
-import { useEditMode, type FooterVariation } from "./EditModeProvider";
+import { useEditMode, type FooterVariation, type ButtonPreset } from "./EditModeProvider";
 
 function autoTextColor(hex: string): string {
   const c = hex.replace("#", "");
@@ -114,16 +114,27 @@ function NavList({ nav, prefix }: { nav: NavItem[]; prefix: string }) {
   );
 }
 
-function Newsletter({ prefix, inputBgColor }: { prefix: string; inputBgColor: string }) {
+function Newsletter({ prefix, inputBgColor, btnPreset }: { prefix: string; inputBgColor: string; btnPreset?: ButtonPreset }) {
   const textColor = inputBgColor ? autoTextColor(inputBgColor) : undefined;
   const inputStyle: React.CSSProperties | undefined = inputBgColor
     ? { background: inputBgColor, borderColor: inputBgColor, "--ft-input-color": textColor } as React.CSSProperties
+    : undefined;
+  const btnStyle: React.CSSProperties | undefined = btnPreset
+    ? {
+        background: btnPreset.fillColor,
+        color: btnPreset.textColor,
+        borderRadius: `${btnPreset.borderRadius}px`,
+        padding: `${btnPreset.paddingV}px ${btnPreset.paddingH}px`,
+        border: btnPreset.borderWidth
+          ? `${btnPreset.borderWidth}px solid ${btnPreset.borderColor}`
+          : "none",
+      }
     : undefined;
   return (
     <form className={`${prefix}-newsletter`} onSubmit={(e) => e.preventDefault()}>
       <input type="email" className={`${prefix}-newsletter__input`} placeholder="Email address"
         aria-label="Email" style={inputStyle} />
-      <button type="submit" className={`${prefix}-newsletter__btn`}>Subscribe</button>
+      <button type="submit" className={`${prefix}-newsletter__btn`} style={btnStyle}>Subscribe</button>
     </form>
   );
 }
@@ -240,6 +251,14 @@ export default function Footer({ nav, settings }: FooterProps) {
   const bgColor = footerSettings?.bgColor || "";
   const dropdownBgColor = footerSettings?.dropdownBgColor || "";
   const inputBgColor = footerSettings?.inputBgColor || "";
+  const headingColor = footerSettings?.headingColor || "";
+  const cardBgColor = footerSettings?.cardBgColor || "";
+  const btnPresetKey = footerSettings?.btnPreset || "";
+  const btnPreset = btnPresetKey ? editCtx?.buttonPresets.find((p) => p.key === btnPresetKey) : undefined;
+  const headingStyle: React.CSSProperties | undefined = headingColor ? { color: headingColor } : undefined;
+  const cardStyle: React.CSSProperties | undefined = cardBgColor
+    ? { background: cardBgColor, color: autoTextColor(cardBgColor) }
+    : undefined;
 
   const { business } = settings;
   const locations = business.locations || [];
@@ -274,7 +293,25 @@ export default function Footer({ nav, settings }: FooterProps) {
     setSelectedIdx, locOpen, setLocOpen, locRef, dropdownBgColor,
   };
 
-  /* FT3 — Minimal 2-Column */
+  /* FT2 — Minimal 2-Column */
+  if (variation === "ft2") {
+    return (
+      <footer className="ft2" style={footerStyle}>
+        <div className="ft2__inner">
+          <div className="ft2__brand">
+            <Logo business={business} prefix="ft2" />
+            <SocialLinks links={socialLinks} prefix="ft2" />
+          </div>
+          <div className="ft2__nav">
+            <NavList nav={nav} prefix="ft2" />
+            <p className="ft2__copy">&copy; {year} {business.name}. All rights reserved.</p>
+          </div>
+        </div>
+      </footer>
+    );
+  }
+
+  /* FT3 — Brand-Heavy + Utility */
   if (variation === "ft3") {
     return (
       <footer className="ft3" style={footerStyle}>
@@ -283,63 +320,45 @@ export default function Footer({ nav, settings }: FooterProps) {
             <Logo business={business} prefix="ft3" />
             <SocialLinks links={socialLinks} prefix="ft3" />
           </div>
-          <div className="ft3__nav">
-            <NavList nav={nav} prefix="ft3" />
-            <p className="ft3__copy">&copy; {year} {business.name}. All rights reserved.</p>
+          <div className="ft3__utility">
+            <div className="ft3__col">
+              <h4 className="ft3__col-heading" style={headingStyle}>Navigate</h4>
+              <NavList nav={nav} prefix="ft3" />
+            </div>
+            <div className="ft3__col">
+              <h4 className="ft3__col-heading" style={headingStyle}>Contact</h4>
+              <ContactBlock prefix="ft3" {...contactProps} />
+            </div>
+            <div className="ft3__col">
+              <h4 className="ft3__col-heading" style={headingStyle}>Newsletter</h4>
+              <Newsletter prefix="ft3" inputBgColor={inputBgColor} btnPreset={btnPreset} />
+            </div>
           </div>
         </div>
+        <BottomBar prefix="ft3" businessName={business.name} year={year} />
       </footer>
     );
   }
 
-  /* FT4 — Brand-Heavy + Utility */
+  /* FT4 — Multi-Location Cards */
   if (variation === "ft4") {
     return (
       <footer className="ft4" style={footerStyle}>
-        <div className="ft4__inner">
-          <div className="ft4__brand">
-            <Logo business={business} prefix="ft4" />
-            <SocialLinks links={socialLinks} prefix="ft4" />
-          </div>
-          <div className="ft4__utility">
-            <div className="ft4__col">
-              <h4 className="ft4__col-heading">Navigate</h4>
-              <NavList nav={nav} prefix="ft4" />
-            </div>
-            <div className="ft4__col">
-              <h4 className="ft4__col-heading">Contact</h4>
-              <ContactBlock prefix="ft4" {...contactProps} />
-            </div>
-            <div className="ft4__col">
-              <h4 className="ft4__col-heading">Newsletter</h4>
-              <Newsletter prefix="ft4" inputBgColor={inputBgColor} />
-            </div>
-          </div>
-        </div>
-        <BottomBar prefix="ft4" businessName={business.name} year={year} />
-      </footer>
-    );
-  }
-
-  /* FT7 — Multi-Location Cards */
-  if (variation === "ft7") {
-    return (
-      <footer className="ft7" style={footerStyle}>
         {locations.length > 0 && (
-          <div className="ft7__locations-band">
-            <div className="ft7__locations-inner">
-              <div className="ft7__locations-header">
-                <span className="ft7__locations-kicker">Visit us</span>
-                <h3 className="ft7__locations-title">Our locations</h3>
+          <div className="ft4__locations-band">
+            <div className="ft4__locations-inner">
+              <div className="ft4__locations-header">
+                <span className="ft4__locations-kicker">Visit us</span>
+                <h3 className="ft4__locations-title" style={headingStyle}>Our locations</h3>
               </div>
-              <div className="ft7__locations-grid">
+              <div className="ft4__locations-grid">
                 {locations.map((loc) => {
                   const locPhone = loc.phone || business.phone;
                   const hoursText = getHoursText(loc);
                   return (
-                    <div key={loc.name} className="ft7-location">
-                      <h4 className="ft7-location__name">{loc.name}</h4>
-                      <p className="ft7-location__line">
+                    <div key={loc.name} className="ft4-location" style={cardStyle}>
+                      <h4 className="ft4-location__name">{loc.name}</h4>
+                      <p className="ft4-location__line">
                         <i className="fas fa-map-marker-alt" />
                         <span>
                           {loc.street_address}{loc.unit ? `, ${loc.unit}` : ""}<br />
@@ -347,13 +366,13 @@ export default function Footer({ nav, settings }: FooterProps) {
                         </span>
                       </p>
                       {locPhone && (
-                        <p className="ft7-location__line">
+                        <p className="ft4-location__line">
                           <i className="fas fa-phone-alt" />
                           <a href={`tel:${locPhone.replace(/\D/g, "")}`}>{locPhone}</a>
                         </p>
                       )}
                       {hoursText && (
-                        <p className="ft7-location__line">
+                        <p className="ft4-location__line">
                           <i className="far fa-clock" /> {hoursText}
                         </p>
                       )}
@@ -364,108 +383,108 @@ export default function Footer({ nav, settings }: FooterProps) {
             </div>
           </div>
         )}
-        <div className="ft7__main">
-          <div className="ft7__main-inner">
-            <div className="ft7__col">
-              <Logo business={business} prefix="ft7" />
-              <SocialLinks links={socialLinks} prefix="ft7" />
+        <div className="ft4__main">
+          <div className="ft4__main-inner">
+            <div className="ft4__col">
+              <Logo business={business} prefix="ft4" />
+              <SocialLinks links={socialLinks} prefix="ft4" />
             </div>
-            <div className="ft7__col">
-              <h3 className="ft7__heading">Navigate</h3>
-              <NavList nav={nav} prefix="ft7" />
+            <div className="ft4__col">
+              <h3 className="ft4__heading" style={headingStyle}>Navigate</h3>
+              <NavList nav={nav} prefix="ft4" />
             </div>
-            <div className="ft7__col">
-              <h3 className="ft7__heading">Newsletter</h3>
-              <Newsletter prefix="ft7" inputBgColor={inputBgColor} />
+            <div className="ft4__col">
+              <h3 className="ft4__heading" style={headingStyle}>Newsletter</h3>
+              <Newsletter prefix="ft4" inputBgColor={inputBgColor} btnPreset={btnPreset} />
             </div>
           </div>
         </div>
-        <BottomBar prefix="ft7" businessName={business.name} year={year} />
+        <BottomBar prefix="ft4" businessName={business.name} year={year} />
       </footer>
     );
   }
 
-  /* FT8 — Location Selector (4-col) */
-  if (variation === "ft8") {
+  /* FT5 — Location Selector (4-col) */
+  if (variation === "ft5") {
     return (
-      <footer className="ft8" style={footerStyle}>
-        <div className="ft8__inner">
-          <div className="ft8__col ft8__col--brand">
-            <Logo business={business} prefix="ft8" />
-            <SocialLinks links={socialLinks} prefix="ft8" />
+      <footer className="ft5" style={footerStyle}>
+        <div className="ft5__inner">
+          <div className="ft5__col ft5__col--brand">
+            <Logo business={business} prefix="ft5" />
+            <SocialLinks links={socialLinks} prefix="ft5" />
           </div>
-          <div className="ft8__col">
-            <h3 className="ft8__heading">Navigate</h3>
-            <NavList nav={nav} prefix="ft8" />
+          <div className="ft5__col">
+            <h3 className="ft5__heading" style={headingStyle}>Navigate</h3>
+            <NavList nav={nav} prefix="ft5" />
           </div>
-          <div className="ft8__col ft8__col--location">
-            <h3 className="ft8__heading">Find a location</h3>
-            <ContactBlock prefix="ft8" {...contactProps} />
+          <div className="ft5__col ft5__col--location">
+            <h3 className="ft5__heading" style={headingStyle}>Find a location</h3>
+            <ContactBlock prefix="ft5" {...contactProps} />
             {location?.google_places?.hours && (
-              <p className="ft8__contact-line" style={{ marginTop: 8 }}>
+              <p className="ft5__contact-line" style={{ marginTop: 8 }}>
                 <i className="far fa-clock" /> {getHoursText(location)}
               </p>
             )}
           </div>
-          <div className="ft8__col">
-            <h3 className="ft8__heading">Newsletter</h3>
-            <Newsletter prefix="ft8" inputBgColor={inputBgColor} />
+          <div className="ft5__col">
+            <h3 className="ft5__heading" style={headingStyle}>Newsletter</h3>
+            <Newsletter prefix="ft5" inputBgColor={inputBgColor} btnPreset={btnPreset} />
           </div>
         </div>
-        <BottomBar prefix="ft8" businessName={business.name} year={year} />
+        <BottomBar prefix="ft5" businessName={business.name} year={year} />
       </footer>
     );
   }
 
-  /* FT10 — Full-Width Map */
-  if (variation === "ft10") {
+  /* FT6 — Full-Width Map */
+  if (variation === "ft6") {
     const mapQuery = location
       ? encodeURIComponent(`${location.street_address}, ${location.city}, ${location.state_province} ${location.postal_code}`)
       : "";
     return (
-      <footer className="ft10" style={footerStyle}>
+      <footer className="ft6" style={footerStyle}>
         {mapQuery && (
           <iframe
-            className="ft10__map"
+            className="ft6__map"
             src={`https://www.google.com/maps?q=${mapQuery}&output=embed`}
             loading="lazy"
             title="Map"
           />
         )}
-        <div className="ft10__main">
-          <div className="ft10__main-inner">
-            <div className="ft10__col">
-              <Logo business={business} prefix="ft10" />
-              <SocialLinks links={socialLinks} prefix="ft10" />
+        <div className="ft6__main">
+          <div className="ft6__main-inner">
+            <div className="ft6__col">
+              <Logo business={business} prefix="ft6" />
+              <SocialLinks links={socialLinks} prefix="ft6" />
             </div>
-            <div className="ft10__col">
-              <h3 className="ft10__heading">Navigate</h3>
-              <NavList nav={nav} prefix="ft10" />
+            <div className="ft6__col">
+              <h3 className="ft6__heading" style={headingStyle}>Navigate</h3>
+              <NavList nav={nav} prefix="ft6" />
             </div>
-            <div className="ft10__col">
-              <h3 className="ft10__heading">Contact</h3>
-              <ContactBlock prefix="ft10" {...contactProps} />
+            <div className="ft6__col">
+              <h3 className="ft6__heading" style={headingStyle}>Contact</h3>
+              <ContactBlock prefix="ft6" {...contactProps} />
             </div>
-            <div className="ft10__col">
-              <h3 className="ft10__heading">Newsletter</h3>
-              <Newsletter prefix="ft10" inputBgColor={inputBgColor} />
+            <div className="ft6__col">
+              <h3 className="ft6__heading" style={headingStyle}>Newsletter</h3>
+              <Newsletter prefix="ft6" inputBgColor={inputBgColor} btnPreset={btnPreset} />
             </div>
           </div>
         </div>
-        <BottomBar prefix="ft10" businessName={business.name} year={year} />
+        <BottomBar prefix="ft6" businessName={business.name} year={year} />
       </footer>
     );
   }
 
-  /* FT12 — Centered Minimalist */
-  if (variation === "ft12") {
+  /* FT7 — Centered Minimalist */
+  if (variation === "ft7") {
     return (
-      <footer className="ft12" style={footerStyle}>
-        <div className="ft12__inner">
-          <Logo business={business} prefix="ft12" />
-          <NavList nav={nav} prefix="ft12" />
-          <SocialLinks links={socialLinks} prefix="ft12" />
-          <p className="ft12__copy">&copy; {year} {business.name}. All rights reserved.</p>
+      <footer className="ft7" style={footerStyle}>
+        <div className="ft7__inner">
+          <Logo business={business} prefix="ft7" />
+          <NavList nav={nav} prefix="ft7" />
+          <SocialLinks links={socialLinks} prefix="ft7" />
+          <p className="ft7__copy">&copy; {year} {business.name}. All rights reserved.</p>
         </div>
       </footer>
     );
@@ -480,23 +499,23 @@ export default function Footer({ nav, settings }: FooterProps) {
           <SocialLinks links={socialLinks} prefix="ft1" />
         </div>
         <div className="ft1__col">
-          <h3 className="ft1__heading">Navigate</h3>
+          <h3 className="ft1__heading" style={headingStyle}>Navigate</h3>
           <NavList nav={nav} prefix="ft1" />
         </div>
         <div className="ft1__col">
-          <h3 className="ft1__heading">Contact</h3>
+          <h3 className="ft1__heading" style={headingStyle}>Contact</h3>
           <ContactBlock prefix="ft1" {...contactProps} />
         </div>
         {location?.google_places?.hours && (
           <div className="ft1__col">
-            <h3 className="ft1__heading">Hours</h3>
+            <h3 className="ft1__heading" style={headingStyle}>Hours</h3>
             <HoursBlock prefix="ft1" location={location} />
           </div>
         )}
         <div className="ft1__col">
-          <h3 className="ft1__heading">Newsletter</h3>
+          <h3 className="ft1__heading" style={headingStyle}>Newsletter</h3>
           <p className="ft1__text ft1__text--sm">Get our latest updates. No spam, ever.</p>
-          <Newsletter prefix="ft1" inputBgColor={inputBgColor} />
+          <Newsletter prefix="ft1" inputBgColor={inputBgColor} btnPreset={btnPreset} />
         </div>
       </div>
       <BottomBar prefix="ft1" businessName={business.name} year={year} />

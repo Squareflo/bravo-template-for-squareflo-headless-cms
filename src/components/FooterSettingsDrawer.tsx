@@ -10,12 +10,12 @@ import { useEditMode, type ColorPreset, type FooterVariation } from "./EditModeP
 
 const FOOTER_VARIATIONS: { value: FooterVariation; label: string }[] = [
   { value: "ft1", label: "FT1 — Classic 5-Column" },
-  { value: "ft3", label: "FT3 — Minimal 2-Column" },
-  { value: "ft4", label: "FT4 — Brand-Heavy + Utility" },
-  { value: "ft7", label: "FT7 — Multi-Location Cards" },
-  { value: "ft8", label: "FT8 — Location Selector" },
-  { value: "ft10", label: "FT10 — Full-Width Map" },
-  { value: "ft12", label: "FT12 — Centered Minimalist" },
+  { value: "ft2", label: "FT2 — Minimal 2-Column" },
+  { value: "ft3", label: "FT3 — Brand-Heavy + Utility" },
+  { value: "ft4", label: "FT4 — Multi-Location Cards" },
+  { value: "ft5", label: "FT5 — Location Selector" },
+  { value: "ft6", label: "FT6 — Full-Width Map" },
+  { value: "ft7", label: "FT7 — Centered Minimalist" },
 ];
 
 function ColorDropdown({
@@ -102,6 +102,17 @@ function ColorDropdown({
   );
 }
 
+/** Which features each variation supports */
+const FEATURES: Record<FooterVariation, { newsletter: boolean; dropdown: boolean; headings: boolean; cards: boolean }> = {
+  ft1: { newsletter: true,  dropdown: true,  headings: true,  cards: false },
+  ft2: { newsletter: false, dropdown: false, headings: false, cards: false },
+  ft3: { newsletter: true,  dropdown: true,  headings: true,  cards: false },
+  ft4: { newsletter: true,  dropdown: false, headings: true,  cards: true  },
+  ft5: { newsletter: true,  dropdown: true,  headings: true,  cards: false },
+  ft6: { newsletter: true,  dropdown: true,  headings: true,  cards: false },
+  ft7: { newsletter: false, dropdown: false, headings: false, cards: false },
+};
+
 export default function FooterSettingsDrawer() {
   const ctx = useEditMode();
   if (!ctx) return null;
@@ -112,12 +123,12 @@ export default function FooterSettingsDrawer() {
     settings,
     updateFooterSettings,
     colorPresets,
+    buttonPresets,
   } = ctx;
   const open = activeSection === "footer";
   const footer = settings.footer;
   const variation = footer.variation;
-  const hasNewsletter = variation === "ft1" || variation === "ft4" || variation === "ft7" || variation === "ft8";
-  const hasLocationDropdown = variation === "ft1" || variation === "ft8";
+  const feat = FEATURES[variation];
 
   return (
     <>
@@ -158,7 +169,7 @@ export default function FooterSettingsDrawer() {
             </select>
           </div>
 
-          {/* Background Color */}
+          {/* Background Color — all variations */}
           <div className="drawer-field">
             <label className="drawer-field__label">Background Color</label>
             <ColorDropdown
@@ -168,8 +179,20 @@ export default function FooterSettingsDrawer() {
             />
           </div>
 
-          {/* Dropdown Background Color — only for variations with location dropdown */}
-          {hasLocationDropdown && (
+          {/* Heading Color — variations with section headings */}
+          {feat.headings && (
+            <div className="drawer-field">
+              <label className="drawer-field__label">Heading Color</label>
+              <ColorDropdown
+                value={footer.headingColor}
+                presets={colorPresets}
+                onChange={(v) => updateFooterSettings({ headingColor: v })}
+              />
+            </div>
+          )}
+
+          {/* Dropdown Background — variations with location dropdown */}
+          {feat.dropdown && (
             <div className="drawer-field">
               <label className="drawer-field__label">Dropdown Background</label>
               <ColorDropdown
@@ -180,8 +203,20 @@ export default function FooterSettingsDrawer() {
             </div>
           )}
 
-          {/* Form Input Background Color — only for variations with newsletter */}
-          {hasNewsletter && (
+          {/* Location Card Background — FT7 only */}
+          {feat.cards && (
+            <div className="drawer-field">
+              <label className="drawer-field__label">Location Card Background</label>
+              <ColorDropdown
+                value={footer.cardBgColor}
+                presets={colorPresets}
+                onChange={(v) => updateFooterSettings({ cardBgColor: v })}
+              />
+            </div>
+          )}
+
+          {/* Form Field Background — variations with newsletter */}
+          {feat.newsletter && (
             <div className="drawer-field">
               <label className="drawer-field__label">Form Field Background</label>
               <ColorDropdown
@@ -189,6 +224,30 @@ export default function FooterSettingsDrawer() {
                 presets={colorPresets}
                 onChange={(v) => updateFooterSettings({ inputBgColor: v })}
               />
+            </div>
+          )}
+
+          {/* Subscribe Button Style — variations with newsletter */}
+          {feat.newsletter && buttonPresets.length > 0 && (
+            <div className="drawer-field">
+              <label className="drawer-field__label" htmlFor="footer-btn-preset">
+                Subscribe Button Style
+              </label>
+              <select
+                id="footer-btn-preset"
+                className="drawer-select"
+                value={footer.btnPreset}
+                onChange={(e) =>
+                  updateFooterSettings({ btnPreset: e.target.value })
+                }
+              >
+                <option value="">Default</option>
+                {buttonPresets.map((bp) => (
+                  <option key={bp.key} value={bp.key}>
+                    {bp.label}
+                  </option>
+                ))}
+              </select>
             </div>
           )}
         </div>
