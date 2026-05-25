@@ -38,6 +38,8 @@ export interface NavSettings {
 
 export interface FooterSettings {
   bgColor: string;
+  dropdownBgColor: string;
+  inputBgColor: string;
 }
 
 export interface SectionSettings {
@@ -69,6 +71,8 @@ export interface ButtonPreset {
 const DEFAULTS: SectionSettings = {
   footer: {
     bgColor: "",
+    dropdownBgColor: "",
+    inputBgColor: "",
   },
   navigation: {
     variation: "v3",

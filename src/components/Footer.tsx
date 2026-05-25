@@ -53,6 +53,8 @@ export default function Footer({ nav, settings }: FooterProps) {
   const editCtx = useEditMode();
   const footerSettings = editCtx?.settings.footer;
   const bgColor = footerSettings?.bgColor || "";
+  const dropdownBgColor = footerSettings?.dropdownBgColor || "";
+  const inputBgColor = footerSettings?.inputBgColor || "";
 
   const { business } = settings;
   const locations = business.locations || [];
@@ -164,7 +166,7 @@ export default function Footer({ nav, settings }: FooterProps) {
                     <i className={`fas fa-caret-${locOpen ? "up" : "down"} ft1-loc-select__caret`} />
                   </button>
                   {locOpen && (
-                    <ul className="ft1-loc-select__menu">
+                    <ul className="ft1-loc-select__menu" style={dropdownBgColor ? { background: dropdownBgColor } : undefined}>
                       {locations.map((loc, i) => (
                         <li key={loc.name}>
                           <button
@@ -246,6 +248,7 @@ export default function Footer({ nav, settings }: FooterProps) {
               className="ft1-newsletter__input"
               placeholder="Email address"
               aria-label="Email"
+              style={inputBgColor ? { background: inputBgColor, borderColor: inputBgColor } : undefined}
             />
             <button type="submit" className="ft1-newsletter__btn">
               Subscribe

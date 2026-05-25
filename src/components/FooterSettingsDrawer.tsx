@@ -133,6 +133,26 @@ export default function FooterSettingsDrawer() {
               onChange={(v) => updateFooterSettings({ bgColor: v })}
             />
           </div>
+
+          {/* Dropdown Background Color */}
+          <div className="drawer-field">
+            <label className="drawer-field__label">Dropdown Background</label>
+            <ColorDropdown
+              value={footer.dropdownBgColor}
+              presets={colorPresets}
+              onChange={(v) => updateFooterSettings({ dropdownBgColor: v })}
+            />
+          </div>
+
+          {/* Form Input Background Color */}
+          <div className="drawer-field">
+            <label className="drawer-field__label">Form Field Background</label>
+            <ColorDropdown
+              value={footer.inputBgColor}
+              presets={colorPresets}
+              onChange={(v) => updateFooterSettings({ inputBgColor: v })}
+            />
+          </div>
         </div>
       </div>
     </>
