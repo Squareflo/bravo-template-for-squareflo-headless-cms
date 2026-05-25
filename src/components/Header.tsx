@@ -35,6 +35,7 @@
 import Link from "next/link";
 import { NavItem, SiteSettings, SocialLink } from "@/lib/types";
 import MobileNav from "./MobileNav";
+import AuthNavCta from "./AuthNavCta";
 
 /** Map CMS platform slugs to Font Awesome icon classes */
 const SOCIAL_ICONS: Record<string, string> = {
@@ -214,8 +215,14 @@ export default function Header({ nav, settings }: HeaderProps) {
                           ))}
                         </ul>
                       </>
+                    ) : isLast ? (
+                      /* Last item renders as CTA button — auth-aware */
+                      <AuthNavCta
+                        defaultLabel={item.label}
+                        defaultUrl={item.url || "/sign-in"}
+                        className={linkClass}
+                      />
                     ) : (
-                      /* Last item renders as CTA button (V6 style), rest are plain links */
                       <NavLink item={item} className={linkClass}>
                         {item.label}
                       </NavLink>

@@ -22,7 +22,7 @@
 
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { NavItem, SocialLink } from "@/lib/types";
 
 const MOBILE_NAV_ID = "mobile-nav-drawer";
@@ -57,6 +57,14 @@ interface MobileNavProps {
 export default function MobileNav({ nav, businessName, phone, hoursText, socialLinks, ctaCount = 1, hamburgerClass = "nv3-hamburger" }: MobileNavProps) {
   const [open, setOpen] = useState(false);
   const [expandedIds, setExpandedIds] = useState<Set<string>>(new Set());
+  const [signedIn, setSignedIn] = useState(false);
+
+  useEffect(() => {
+    fetch("/api/auth/me")
+      .then((res) => { if (!res.ok) return null; return res.json(); })
+      .then((data) => { if (data?.user) setSignedIn(true); })
+      .catch(() => {});
+  }, []);
 
   function toggleExpanded(id: string) {
     setExpandedIds((prev) => {
@@ -164,19 +172,13 @@ export default function MobileNav({ nav, businessName, phone, hoursText, socialL
                     ))}
                     {ctaItems.map((cta) => (
                       <li key={cta.id} className="mobile-nav__item mobile-nav__cta">
-                        {cta.url ? (
-                          <a
-                            href={cta.url}
-                            className="btn btn--block"
-                            target={cta.open_in_new_tab ? "_blank" : undefined}
-                            rel={cta.open_in_new_tab ? "noopener noreferrer" : undefined}
-                            onClick={() => setOpen(false)}
-                          >
-                            {cta.label}
-                          </a>
-                        ) : (
-                          <span className="btn btn--block btn--disabled">{cta.label}</span>
-                        )}
+                        <a
+                          href={signedIn ? "/my-account" : (cta.url || "/sign-in")}
+                          className="btn btn--block"
+                          onClick={() => setOpen(false)}
+                        >
+                          {signedIn ? "My Account" : cta.label}
+                        </a>
                       </li>
                     ))}
                   </>
