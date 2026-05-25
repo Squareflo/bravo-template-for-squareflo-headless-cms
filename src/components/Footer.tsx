@@ -98,7 +98,7 @@ function SocialLinks({ links, prefix }: { links: SiteSettings["social_links"]; p
   );
 }
 
-function NavList({ nav, prefix, showAccount }: { nav: NavItem[]; prefix: string; showAccount?: boolean }) {
+function NavList({ nav, prefix }: { nav: NavItem[]; prefix: string }) {
   return (
     <ul className={`${prefix}__list`}>
       {nav.map((item) => (
@@ -111,7 +111,6 @@ function NavList({ nav, prefix, showAccount }: { nav: NavItem[]; prefix: string;
           )}
         </li>
       ))}
-      {showAccount !== false && <AccountLinks />}
     </ul>
   );
 }
@@ -222,7 +221,7 @@ function HoursBlock({ prefix, location }: { prefix: string; location: Location |
   );
 }
 
-function AccountLinks() {
+function AccountCol({ prefix, headingStyle, headingClass }: { prefix: string; headingStyle?: React.CSSProperties; headingClass?: string }) {
   const [signedIn, setSignedIn] = useState(false);
   const [checked, setChecked] = useState(false);
 
@@ -241,23 +240,30 @@ function AccountLinks() {
 
   if (!checked) return null;
 
-  return signedIn ? (
-    <li>
-      <button
-        className="ft-account-link"
-        onClick={async () => {
-          await fetch("/api/auth/sign-out", { method: "POST" });
-          window.location.reload();
-        }}
-      >
-        Sign Out
-      </button>
-    </li>
-  ) : (
-    <>
-      <li><a href="/sign-in">Sign In</a></li>
-      <li><a href="/sign-up">Create Account</a></li>
-    </>
+  return (
+    <div className={`${prefix}__col`}>
+      <h3 className={headingClass || `${prefix}__heading`} style={headingStyle}>My Account</h3>
+      <ul className={`${prefix}__list`}>
+        {signedIn ? (
+          <li>
+            <button
+              className="ft-account-link"
+              onClick={async () => {
+                await fetch("/api/auth/sign-out", { method: "POST" });
+                window.location.reload();
+              }}
+            >
+              Sign Out
+            </button>
+          </li>
+        ) : (
+          <>
+            <li><a href="/sign-in">Sign In</a></li>
+            <li><a href="/sign-up">Create Account</a></li>
+          </>
+        )}
+      </ul>
+    </div>
   );
 }
 
@@ -362,6 +368,7 @@ export default function Footer({ nav, settings }: FooterProps) {
               <h4 className="ft3__col-heading" style={headingStyle}>Navigate</h4>
               <NavList nav={nav} prefix="ft3" />
             </div>
+            <AccountCol prefix="ft3" headingStyle={headingStyle} headingClass="ft3__col-heading" />
             <div className="ft3__col">
               <h4 className="ft3__col-heading" style={headingStyle}>Contact</h4>
               <ContactBlock prefix="ft3" {...contactProps} />
@@ -430,6 +437,7 @@ export default function Footer({ nav, settings }: FooterProps) {
               <h3 className="ft4__heading" style={headingStyle}>Navigate</h3>
               <NavList nav={nav} prefix="ft4" />
             </div>
+            <AccountCol prefix="ft4" headingStyle={headingStyle} />
             <div className="ft4__col">
               <h3 className="ft4__heading" style={headingStyle}>Newsletter</h3>
               <Newsletter prefix="ft4" inputBgColor={inputBgColor} btnPreset={btnPreset} />
@@ -454,6 +462,7 @@ export default function Footer({ nav, settings }: FooterProps) {
             <h3 className="ft5__heading" style={headingStyle}>Navigate</h3>
             <NavList nav={nav} prefix="ft5" />
           </div>
+          <AccountCol prefix="ft5" headingStyle={headingStyle} />
           <div className="ft5__col ft5__col--location">
             <h3 className="ft5__heading" style={headingStyle}>Find a location</h3>
             <ContactBlock prefix="ft5" {...contactProps} />
@@ -498,6 +507,7 @@ export default function Footer({ nav, settings }: FooterProps) {
               <h3 className="ft6__heading" style={headingStyle}>Navigate</h3>
               <NavList nav={nav} prefix="ft6" />
             </div>
+            <AccountCol prefix="ft6" headingStyle={headingStyle} />
             <div className="ft6__col">
               <h3 className="ft6__heading" style={headingStyle}>Contact</h3>
               <ContactBlock prefix="ft6" {...contactProps} />
@@ -539,6 +549,7 @@ export default function Footer({ nav, settings }: FooterProps) {
           <h3 className="ft1__heading" style={headingStyle}>Navigate</h3>
           <NavList nav={nav} prefix="ft1" />
         </div>
+        <AccountCol prefix="ft1" headingStyle={headingStyle} />
         <div className="ft1__col">
           <h3 className="ft1__heading" style={headingStyle}>Contact</h3>
           <ContactBlock prefix="ft1" {...contactProps} />
