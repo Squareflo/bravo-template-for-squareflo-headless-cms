@@ -36,22 +36,14 @@ export default function SignInForm() {
 
   // Check if already signed in
   useEffect(() => {
-    fetch("/api/auth/me")
-      .then((res) => {
-        if (!res.ok) return null;
-        return res.json();
-      })
+    fetch("/api/auth/me", { credentials: "same-origin" })
+      .then((res) => res.json())
       .then((data) => {
-        if (data?.user) setSignedInUser(data.user);
+        if (data?.user?.id) setSignedInUser(data.user);
       })
       .catch(() => {})
       .finally(() => setChecking(false));
   }, []);
-
-  async function handleSignOut() {
-    await fetch("/api/auth/sign-out", { method: "POST" });
-    setSignedInUser(null);
-  }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();

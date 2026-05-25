@@ -226,13 +226,10 @@ function AccountLinks() {
   const [checked, setChecked] = useState(false);
 
   useEffect(() => {
-    fetch("/api/auth/me")
-      .then((res) => {
-        if (!res.ok) return null;
-        return res.json();
-      })
+    fetch("/api/auth/me", { credentials: "same-origin" })
+      .then((res) => res.json())
       .then((data) => {
-        if (data?.user) setSignedIn(true);
+        if (data?.user?.id) setSignedIn(true);
       })
       .catch(() => {})
       .finally(() => setChecked(true));

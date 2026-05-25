@@ -26,13 +26,10 @@ export default function MyAccountClient() {
   const [activeTab, setActiveTab] = useState<Tab>("profile");
 
   useEffect(() => {
-    fetch("/api/auth/me")
-      .then((res) => {
-        if (!res.ok) return null;
-        return res.json();
-      })
+    fetch("/api/auth/me", { credentials: "same-origin" })
+      .then((res) => res.json())
       .then((data) => {
-        if (data?.user) {
+        if (data?.user?.id) {
           setUser(data.user);
         } else {
           window.location.href = "/sign-in";
@@ -75,7 +72,7 @@ export default function MyAccountClient() {
         <div className="my-account__panel">
           <div className="my-account__field">
             <span className="my-account__label">First Name</span>
-            <span className="my-account__value">{user.first_name}</span>
+            <span className="my-account__value">{user.first_name || "—"}</span>
           </div>
           <div className="my-account__field">
             <span className="my-account__label">Last Name</span>
@@ -84,6 +81,10 @@ export default function MyAccountClient() {
           <div className="my-account__field">
             <span className="my-account__label">Email</span>
             <span className="my-account__value">{user.email}</span>
+          </div>
+          <div className="my-account__field">
+            <span className="my-account__label">Role</span>
+            <span className="my-account__value">{user.role}</span>
           </div>
         </div>
       )}
