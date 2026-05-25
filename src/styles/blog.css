@@ -212,6 +212,15 @@
   font-size: 0.8rem;
 }
 
+/* When recent post has no thumbnail, use single-column layout */
+.recent-post--no-thumb {
+  grid-template-columns: 1fr;
+  padding: 16px 20px;
+  background: var(--color-light, #f5f5f5);
+  border-radius: 4px;
+  border-left: 3px solid var(--color-accent);
+}
+
 /* --------------------------------------------------------------------------
    BLOG DETAIL - POST BODY
    -------------------------------------------------------------------------- */
@@ -294,6 +303,12 @@
 
 .share-btn--generic {
   background: #7ed321;
+}
+
+/* ShareThis inline share buttons spacing */
+.sharethis-inline-share-buttons {
+  margin-top: 0 !important;
+  margin-bottom: 36px;
 }
 
 .post-detail__hero {
@@ -439,6 +454,62 @@
 .comment-signin__actions .btn--outline:hover {
   background: var(--color-accent);
   color: var(--color-white, #fff);
+}
+
+/* Comment compose form (signed-in users) */
+.comment-compose {
+  display: grid;
+  grid-template-columns: 48px 1fr;
+  gap: 16px;
+  margin-bottom: 40px;
+}
+
+.comment-compose__avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.comment-compose__textarea {
+  display: block;
+  width: 100%;
+  min-height: 100px;
+  padding: 14px 16px;
+  border: 1px solid var(--color-border, #e0e0e0);
+  border-radius: 4px;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: var(--color-text);
+  resize: vertical;
+  box-sizing: border-box;
+}
+
+.comment-compose__textarea::placeholder {
+  color: #999;
+}
+
+.comment-compose__textarea:focus {
+  outline: none;
+  border-color: var(--color-accent);
+}
+
+.comment-compose__actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 12px;
+  gap: 16px;
+}
+
+.comment-compose__hint {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--color-text-muted, #777);
+}
+
+.comment-compose__submit {
+  white-space: nowrap;
 }
 
 /* Comment list */

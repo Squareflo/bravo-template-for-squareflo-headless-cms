@@ -16,6 +16,7 @@ import { SiteSettings } from "@/lib/types";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import BlogSidebarContact from "@/components/BlogSidebarContact";
+import BlogComments from "@/components/BlogComments";
 
 interface BlogPostBlock {
   id: string;
@@ -205,27 +206,10 @@ export default async function BlogDetailPage({ params }: PageProps) {
 
           {renderBody(post.body)}
 
-          {/* Comments section — placeholder until CMS comments table is ready */}
+          {/* Comments section */}
           <div className="post-detail__comments">
             <h2 className="post-detail__comments-title">Comments</h2>
-            <div className="comment-signin">
-              <div className="comment-signin__icon">
-                <i className="fas fa-comments" />
-              </div>
-              <h3 className="comment-signin__title">Join the conversation</h3>
-              <p className="comment-signin__text">
-                Sign in or create a free account to leave a comment and reply to
-                others.
-              </p>
-              <div className="comment-signin__actions">
-                <a href="/sign-in" className="btn">
-                  Sign In
-                </a>
-                <a href="/sign-up" className="btn btn--outline">
-                  Create Account
-                </a>
-              </div>
-            </div>
+            <BlogComments />
           </div>
         </article>
 
@@ -238,7 +222,7 @@ export default async function BlogDetailPage({ params }: PageProps) {
                 {recentPosts.map((rp) => {
                   const rpThumb = rp.thumbnail_image || rp.cover_image;
                   return (
-                    <div key={rp.id} className="recent-post">
+                    <div key={rp.id} className={`recent-post${rpThumb ? "" : " recent-post--no-thumb"}`}>
                       {rpThumb && (
                         <a href={`/blog/${rp.slug}`}>
                           <img
