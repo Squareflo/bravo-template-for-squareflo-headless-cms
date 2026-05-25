@@ -22,6 +22,16 @@ import Link from "next/link";
 import { NavItem, SiteSettings, SocialLink, Location } from "@/lib/types";
 import { useEditMode } from "./EditModeProvider";
 
+function autoTextColor(hex: string): string {
+  const c = hex.replace("#", "");
+  const r = parseInt(c.substring(0, 2), 16) / 255;
+  const g = parseInt(c.substring(2, 4), 16) / 255;
+  const b = parseInt(c.substring(4, 6), 16) / 255;
+  const toLinear = (v: number) => (v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4);
+  const L = 0.2126 * toLinear(r) + 0.7152 * toLinear(g) + 0.0722 * toLinear(b);
+  return L > 0.5 ? "#333" : "#fff";
+}
+
 const SOCIAL_ICONS: Record<string, string> = {
   facebook: "fab fa-facebook-f",
   instagram: "fab fa-instagram",
@@ -166,7 +176,7 @@ export default function Footer({ nav, settings }: FooterProps) {
                     <i className={`fas fa-caret-${locOpen ? "up" : "down"} ft1-loc-select__caret`} />
                   </button>
                   {locOpen && (
-                    <ul className="ft1-loc-select__menu" style={dropdownBgColor ? { background: dropdownBgColor } : undefined}>
+                    <ul className="ft1-loc-select__menu" style={dropdownBgColor ? { background: dropdownBgColor, color: autoTextColor(dropdownBgColor) } : undefined}>
                       {locations.map((loc, i) => (
                         <li key={loc.name}>
                           <button
@@ -248,7 +258,7 @@ export default function Footer({ nav, settings }: FooterProps) {
               className="ft1-newsletter__input"
               placeholder="Email address"
               aria-label="Email"
-              style={inputBgColor ? { background: inputBgColor, borderColor: inputBgColor } : undefined}
+              style={inputBgColor ? { background: inputBgColor, borderColor: inputBgColor, color: autoTextColor(inputBgColor) } : undefined}
             />
             <button type="submit" className="ft1-newsletter__btn">
               Subscribe

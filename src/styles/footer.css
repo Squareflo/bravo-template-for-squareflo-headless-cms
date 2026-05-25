@@ -223,16 +223,18 @@
   padding: 8px 14px;
   font-family: var(--font-body);
   font-size: 0.85rem;
-  color: rgba(255, 255, 255, 0.7);
+  color: inherit;
+  opacity: 0.7;
   cursor: pointer;
-  transition: background 0.15s ease, color 0.15s ease;
+  transition: background 0.15s ease, opacity 0.15s ease;
 }
 .ft1-loc-select__option:hover {
-  background: rgba(255, 255, 255, 0.08);
-  color: var(--color-white);
+  background: rgba(128, 128, 128, 0.15);
+  opacity: 1;
 }
 .ft1-loc-select__option--active {
   color: var(--color-accent);
+  opacity: 1;
 }
 
 /* Hours */
