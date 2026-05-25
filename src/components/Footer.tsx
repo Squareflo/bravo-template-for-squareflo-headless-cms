@@ -98,7 +98,7 @@ function SocialLinks({ links, prefix }: { links: SiteSettings["social_links"]; p
   );
 }
 
-function NavList({ nav, prefix }: { nav: NavItem[]; prefix: string }) {
+function NavList({ nav, prefix, showAccount }: { nav: NavItem[]; prefix: string; showAccount?: boolean }) {
   return (
     <ul className={`${prefix}__list`}>
       {nav.map((item) => (
@@ -111,6 +111,7 @@ function NavList({ nav, prefix }: { nav: NavItem[]; prefix: string }) {
           )}
         </li>
       ))}
+      {showAccount !== false && <AccountLinks />}
     </ul>
   );
 }
@@ -221,7 +222,7 @@ function HoursBlock({ prefix, location }: { prefix: string; location: Location |
   );
 }
 
-function AccountLinks({ prefix, headingStyle, headingClass, headingTag }: { prefix: string; headingStyle?: React.CSSProperties; headingClass?: string; headingTag?: "h3" | "h4" }) {
+function AccountLinks() {
   const [signedIn, setSignedIn] = useState(false);
   const [checked, setChecked] = useState(false);
 
@@ -240,33 +241,23 @@ function AccountLinks({ prefix, headingStyle, headingClass, headingTag }: { pref
 
   if (!checked) return null;
 
-  const Heading = headingTag || "h3";
-  const hClass = headingClass || `${prefix}__heading`;
-
-  return (
-    <div className={`${prefix}__col`}>
-      <Heading className={hClass} style={headingStyle}>My Account</Heading>
-      <ul className={`${prefix}__list`}>
-        {signedIn ? (
-          <li>
-            <button
-              className="ft-account-link"
-              onClick={async () => {
-                await fetch("/api/auth/sign-out", { method: "POST" });
-                window.location.reload();
-              }}
-            >
-              Sign Out
-            </button>
-          </li>
-        ) : (
-          <>
-            <li><a href="/sign-in">Sign In</a></li>
-            <li><a href="/sign-up">Create Account</a></li>
-          </>
-        )}
-      </ul>
-    </div>
+  return signedIn ? (
+    <li>
+      <button
+        className="ft-account-link"
+        onClick={async () => {
+          await fetch("/api/auth/sign-out", { method: "POST" });
+          window.location.reload();
+        }}
+      >
+        Sign Out
+      </button>
+    </li>
+  ) : (
+    <>
+      <li><a href="/sign-in">Sign In</a></li>
+      <li><a href="/sign-up">Create Account</a></li>
+    </>
   );
 }
 
@@ -379,7 +370,6 @@ export default function Footer({ nav, settings }: FooterProps) {
               <h4 className="ft3__col-heading" style={headingStyle}>Newsletter</h4>
               <Newsletter prefix="ft3" inputBgColor={inputBgColor} btnPreset={btnPreset} />
             </div>
-            <AccountLinks prefix="ft3" headingStyle={headingStyle} headingClass="ft3__col-heading" headingTag="h4" />
           </div>
         </div>
         <BottomBar prefix="ft3" businessName={business.name} year={year} />
@@ -444,7 +434,6 @@ export default function Footer({ nav, settings }: FooterProps) {
               <h3 className="ft4__heading" style={headingStyle}>Newsletter</h3>
               <Newsletter prefix="ft4" inputBgColor={inputBgColor} btnPreset={btnPreset} />
             </div>
-            <AccountLinks prefix="ft4" headingStyle={headingStyle} />
           </div>
         </div>
         <BottomBar prefix="ft4" businessName={business.name} year={year} />
@@ -478,7 +467,6 @@ export default function Footer({ nav, settings }: FooterProps) {
             <h3 className="ft5__heading" style={headingStyle}>Newsletter</h3>
             <Newsletter prefix="ft5" inputBgColor={inputBgColor} btnPreset={btnPreset} />
           </div>
-          <AccountLinks prefix="ft5" headingStyle={headingStyle} />
         </div>
         <BottomBar prefix="ft5" businessName={business.name} year={year} />
       </footer>
@@ -518,7 +506,6 @@ export default function Footer({ nav, settings }: FooterProps) {
               <h3 className="ft6__heading" style={headingStyle}>Newsletter</h3>
               <Newsletter prefix="ft6" inputBgColor={inputBgColor} btnPreset={btnPreset} />
             </div>
-            <AccountLinks prefix="ft6" headingStyle={headingStyle} />
           </div>
         </div>
         <BottomBar prefix="ft6" businessName={business.name} year={year} />
@@ -567,7 +554,6 @@ export default function Footer({ nav, settings }: FooterProps) {
           <p className="ft1__text ft1__text--sm">Get our latest updates. No spam, ever.</p>
           <Newsletter prefix="ft1" inputBgColor={inputBgColor} btnPreset={btnPreset} />
         </div>
-        <AccountLinks prefix="ft1" headingStyle={headingStyle} />
       </div>
       <BottomBar prefix="ft1" businessName={business.name} year={year} />
     </footer>
