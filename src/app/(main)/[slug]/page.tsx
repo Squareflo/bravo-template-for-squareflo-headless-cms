@@ -56,7 +56,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 /**
  * Pre-build all CMS pages at build time for fast loading.
- * Pages are revalidated every 60 seconds (set in cms.ts).
+ * Pages are fetched fresh from the CMS on every request (no caching).
  */
 export async function generateStaticParams() {
   try {

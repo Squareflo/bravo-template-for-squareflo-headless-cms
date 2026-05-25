@@ -5,8 +5,8 @@
  *
  * This is the single API client used by all server components to fetch data from
  * the SquarefloCMS headless API. It handles authentication via API key and uses
- * Next.js ISR (Incremental Static Regeneration) with a 60-second revalidation
- * so content updates in the CMS appear on the live site within a minute.
+ * Next.js dynamic rendering with no caching so content updates in the CMS
+ * appear on the live site immediately on the next page load.
  *
  * Environment variables used:
  *   - SQUAREFLO_API_URL   → CMS API base URL
@@ -40,7 +40,7 @@ export async function cms<T>(
 
   const res = await fetch(url.toString(), {
     headers: { "x-api-key": API_KEY },
-    next: { revalidate: 60 }, // ISR: re-fetch from CMS every 60 seconds
+    cache: "no-store", // Always fetch fresh data from CMS on every request
   });
 
   if (!res.ok) {
