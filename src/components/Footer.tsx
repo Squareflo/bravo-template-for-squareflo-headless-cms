@@ -20,6 +20,7 @@ import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { NavItem, SiteSettings, Location } from "@/lib/types";
 import { useEditMode, type FooterVariation, type ButtonPreset } from "./EditModeProvider";
+import NewsletterForm from "./NewsletterForm";
 
 function autoTextColor(hex: string): string {
   const c = hex.replace("#", "");
@@ -131,11 +132,7 @@ function Newsletter({ prefix, inputBgColor, btnPreset }: { prefix: string; input
       }
     : undefined;
   return (
-    <form className={`${prefix}-newsletter`} onSubmit={(e) => e.preventDefault()}>
-      <input type="email" className={`${prefix}-newsletter__input`} placeholder="Email address"
-        aria-label="Email" style={inputStyle} />
-      <button type="submit" className={`${prefix}-newsletter__btn`} style={btnStyle}>Subscribe</button>
-    </form>
+    <NewsletterForm prefix={prefix} inputStyle={inputStyle} btnStyle={btnStyle} />
   );
 }
 

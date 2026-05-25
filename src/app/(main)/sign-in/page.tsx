@@ -13,6 +13,7 @@
  *   - html-reference/sign-in-r4m7t9w2qx.html
  */
 
+import { Suspense } from "react";
 import SignInForm from "@/components/SignInForm";
 import type { Metadata } from "next";
 
@@ -28,7 +29,9 @@ export default async function SignInPage() {
           <h1 className="auth-card__title">Welcome back</h1>
           <p className="auth-card__subtitle">Sign in to your account</p>
 
-          <SignInForm />
+          <Suspense>
+            <SignInForm />
+          </Suspense>
         </div>
       </div>
     </main>

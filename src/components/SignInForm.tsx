@@ -16,6 +16,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 
 interface AuthUser {
   first_name: string;
@@ -24,7 +25,9 @@ interface AuthUser {
 }
 
 export default function SignInForm() {
-  const [email, setEmail] = useState("");
+  const searchParams = useSearchParams();
+  const prefillEmail = searchParams.get("email") || "";
+  const [email, setEmail] = useState(prefillEmail);
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
