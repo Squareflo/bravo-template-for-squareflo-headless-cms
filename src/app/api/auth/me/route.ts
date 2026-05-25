@@ -36,5 +36,7 @@ export async function GET() {
     return NextResponse.json({ user: null }, { status: 401 });
   }
 
-  return NextResponse.json({ user: data.user });
+  // CMS may return user at data.user or at the top level
+  const user = data.user || data;
+  return NextResponse.json({ user });
 }
