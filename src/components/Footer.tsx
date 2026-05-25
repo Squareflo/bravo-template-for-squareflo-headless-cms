@@ -446,7 +446,7 @@ export default function Footer({ nav, settings }: FooterProps) {
         {mapQuery && (
           <iframe
             className="ft6__map"
-            src={`https://www.google.com/maps?q=${mapQuery}&output=embed`}
+            src={`https://www.google.com/maps?q=${mapQuery}&output=embed&iwloc=near`}
             loading="lazy"
             title="Map"
           />
