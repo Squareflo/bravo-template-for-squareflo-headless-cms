@@ -19,7 +19,8 @@ interface FormField {
   type: string;
   placeholder?: string;
   required?: boolean;
-  options?: { label: string; value: string }[];
+  options?: (string | { label: string; value: string })[];
+  includeOther?: boolean;
 }
 
 interface CmsForm {
@@ -27,6 +28,8 @@ interface CmsForm {
   name: string;
   slug: string;
   fields: FormField[];
+  submit_label?: string;
+  success_message?: string;
 }
 
 interface Props {
@@ -36,6 +39,7 @@ interface Props {
 export default function BlogSidebarContact({ form }: Props) {
   const ctx = useEditMode();
   const [values, setValues] = useState<Record<string, string>>({});
+  const [checked, setChecked] = useState<Record<string, Set<string>>>({});
   const [submitted, setSubmitted] = useState(false);
 
   if (!form) {
@@ -65,8 +69,8 @@ export default function BlogSidebarContact({ form }: Props) {
   if (submitted) {
     return (
       <div className="widget widget--contact">
-        <h2 className="widget__title">Contact Us</h2>
-        <p>Thank you for your message. We will be in touch shortly.</p>
+        <h2 className="widget__title">{form.name}</h2>
+        <p>{form.success_message || "Thank you! Your submission has been received."}</p>
       </div>
     );
   }
@@ -75,40 +79,118 @@ export default function BlogSidebarContact({ form }: Props) {
     setValues((prev) => ({ ...prev, [fieldId]: val }));
   }
 
+  function toggleCheck(fieldId: string, val: string) {
+    setChecked((prev) => {
+      const set = new Set(prev[fieldId] || []);
+      if (set.has(val)) set.delete(val);
+      else set.add(val);
+      return { ...prev, [fieldId]: set };
+    });
+  }
+
+  function optionLabel(opt: string | { label: string; value: string }): string {
+    return typeof opt === "string" ? opt : opt.label;
+  }
+
+  function optionValue(opt: string | { label: string; value: string }): string {
+    return typeof opt === "string" ? opt : opt.value;
+  }
+
   return (
     <div className="widget widget--contact">
-      <h2 className="widget__title">Contact Us</h2>
+      <h2 className="widget__title">{form.name}</h2>
       <form onSubmit={handleSubmit}>
-        {form.fields.map((field) => (
-          <div key={field.id} className="form-field">
-            <label htmlFor={`form-${field.id}`} className="form-field__label">
-              {field.label}
-            </label>
-            {field.type === "select" && field.options ? (
-              <select
-                id={`form-${field.id}`}
-                className="form-field__select"
-                value={values[field.id] || ""}
-                onChange={(e) => setValue(field.id, e.target.value)}
-                required={field.required}
-              >
-                <option value="">{field.placeholder || "Select..."}</option>
-                {field.options.map((opt) => (
-                  <option key={opt.value} value={opt.value}>
-                    {opt.label}
-                  </option>
-                ))}
-              </select>
-            ) : field.type === "textarea" ? (
-              <textarea
-                id={`form-${field.id}`}
-                className="form-field__textarea"
-                placeholder={field.placeholder}
-                value={values[field.id] || ""}
-                onChange={(e) => setValue(field.id, e.target.value)}
-                required={field.required}
-              />
-            ) : (
+        {form.fields.map((field) => {
+          const allOptions = [
+            ...(field.options || []),
+            ...(field.includeOther ? ["Other"] : []),
+          ];
+
+          if (
+            (field.type === "checkbox" || field.type === "radio") &&
+            allOptions.length > 0
+          ) {
+            const fieldChecked = checked[field.id] || new Set<string>();
+            return (
+              <fieldset key={field.id} className="form-field form-field--group">
+                <legend className="form-field__label">{field.label}</legend>
+                {allOptions.map((opt) => {
+                  const val = optionValue(opt);
+                  const lbl = optionLabel(opt);
+                  const uid = `form-${field.id}-${val}`;
+                  return (
+                    <label key={val} className="form-field__check-label" htmlFor={uid}>
+                      <input
+                        id={uid}
+                        type={field.type}
+                        name={`form-${field.id}`}
+                        value={val}
+                        checked={
+                          field.type === "checkbox"
+                            ? fieldChecked.has(val)
+                            : values[field.id] === val
+                        }
+                        onChange={() =>
+                          field.type === "checkbox"
+                            ? toggleCheck(field.id, val)
+                            : setValue(field.id, val)
+                        }
+                      />
+                      {lbl}
+                    </label>
+                  );
+                })}
+              </fieldset>
+            );
+          }
+
+          if (field.type === "select" && allOptions.length > 0) {
+            return (
+              <div key={field.id} className="form-field">
+                <label htmlFor={`form-${field.id}`} className="form-field__label">
+                  {field.label}
+                </label>
+                <select
+                  id={`form-${field.id}`}
+                  className="form-field__select"
+                  value={values[field.id] || ""}
+                  onChange={(e) => setValue(field.id, e.target.value)}
+                  required={field.required}
+                >
+                  <option value="">{field.placeholder || "Select..."}</option>
+                  {allOptions.map((opt) => (
+                    <option key={optionValue(opt)} value={optionValue(opt)}>
+                      {optionLabel(opt)}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            );
+          }
+
+          if (field.type === "textarea") {
+            return (
+              <div key={field.id} className="form-field">
+                <label htmlFor={`form-${field.id}`} className="form-field__label">
+                  {field.label}
+                </label>
+                <textarea
+                  id={`form-${field.id}`}
+                  className="form-field__textarea"
+                  placeholder={field.placeholder}
+                  value={values[field.id] || ""}
+                  onChange={(e) => setValue(field.id, e.target.value)}
+                  required={field.required}
+                />
+              </div>
+            );
+          }
+
+          return (
+            <div key={field.id} className="form-field">
+              <label htmlFor={`form-${field.id}`} className="form-field__label">
+                {field.label}
+              </label>
               <input
                 id={`form-${field.id}`}
                 type={field.type || "text"}
@@ -118,12 +200,12 @@ export default function BlogSidebarContact({ form }: Props) {
                 onChange={(e) => setValue(field.id, e.target.value)}
                 required={field.required}
               />
-            )}
-          </div>
-        ))}
+            </div>
+          );
+        })}
 
         <button type="submit" className="btn">
-          Submit
+          {form.submit_label || "Submit"}
         </button>
       </form>
     </div>
