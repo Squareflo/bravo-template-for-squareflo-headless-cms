@@ -13,13 +13,6 @@
 }
 
 .faq-card {
-  padding-bottom: 36px;
-  border-bottom: 1px solid var(--color-border);
-}
-
-.faq-card:last-child {
-  border-bottom: 0;
-  padding-bottom: 0;
 }
 
 .faq-card__question {
