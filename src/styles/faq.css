@@ -1,0 +1,197 @@
+/* ==========================================================================
+   FAQ Styles — SquarefloCMS Bravo Template
+   Powered by SquarefloCMS (https://squareflo.com) — free headless CMS.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   FAQ - LIST VIEW
+   -------------------------------------------------------------------------- */
+.faq-list {
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+}
+
+.faq-card {
+  padding-bottom: 36px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.faq-card:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.faq-card__question {
+  font-family: var(--font-heading);
+  font-size: 1.4rem;
+  font-weight: 700;
+  line-height: 1.3;
+  margin: 0 0 10px;
+  color: var(--color-text);
+}
+
+.faq-card__question a {
+  color: inherit;
+}
+
+.faq-card__question a:hover {
+  color: var(--color-accent);
+}
+
+.faq-card__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 12px;
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}
+
+.faq-card__meta-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.faq-card__meta-item a {
+  color: inherit;
+}
+
+.faq-card__meta-item a:hover {
+  color: var(--color-accent);
+}
+
+.faq-card__excerpt {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--color-text);
+  margin: 0 0 14px;
+}
+
+.faq-card__more {
+  display: inline-block;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  color: var(--color-accent);
+  font-size: 0.95rem;
+}
+
+.faq-card__more:hover {
+  color: var(--color-accent-hover);
+}
+
+/* --------------------------------------------------------------------------
+   FAQ - DETAIL PAGE
+   -------------------------------------------------------------------------- */
+.faq-detail__question {
+  font-family: var(--font-heading);
+  font-size: 2.4rem;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--color-text);
+  margin: 0 0 24px;
+}
+
+.faq-detail__rule {
+  height: 2px;
+  background: var(--color-accent);
+  border: 0;
+  margin: 0 0 32px;
+}
+
+.faq-detail__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  margin-bottom: 28px;
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+}
+
+.faq-detail__meta-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.faq-detail__meta-item a {
+  color: inherit;
+}
+
+.faq-detail__meta-item a:hover {
+  color: var(--color-accent);
+}
+
+.faq-detail__answer {
+  font-size: 1rem;
+  line-height: 1.8;
+  color: var(--color-text);
+  margin-bottom: 40px;
+}
+
+.faq-detail__answer p {
+  margin: 0 0 1.4em;
+}
+
+.faq-detail__answer h2,
+.faq-detail__answer h3 {
+  font-family: var(--font-heading);
+  color: var(--color-text);
+  margin: 1.6em 0 0.6em;
+}
+
+.faq-detail__answer h2 { font-size: 1.6rem; }
+.faq-detail__answer h3 { font-size: 1.3rem; }
+
+.faq-detail__answer ul,
+.faq-detail__answer ol {
+  margin: 0 0 1.4em;
+  padding-left: 1.4em;
+}
+
+.faq-detail__answer li {
+  margin-bottom: 0.4em;
+}
+
+.faq-detail__answer a {
+  color: var(--color-accent);
+  text-decoration: underline;
+}
+
+.faq-detail__tags {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 32px;
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}
+
+.faq-detail__tag {
+  display: inline-block;
+  padding: 4px 12px;
+  background: var(--color-light);
+  border-radius: 3px;
+  color: var(--color-text);
+  font-size: 0.82rem;
+}
+
+.faq-detail__tag:hover {
+  background: var(--color-accent);
+  color: var(--color-white);
+}
+
+/* --------------------------------------------------------------------------
+   RESPONSIVE
+   -------------------------------------------------------------------------- */
+@media (max-width: 767px) {
+  .faq-card__question {
+    font-size: 1.2rem;
+  }
+
+  .faq-detail__question {
+    font-size: 1.6rem;
+  }
+}

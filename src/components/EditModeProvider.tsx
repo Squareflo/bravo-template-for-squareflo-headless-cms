@@ -77,6 +77,12 @@ export interface ServiceDetailSettings {
   formSlug: string;
 }
 
+export interface FAQSettings {
+  formSlug: string;
+  listMode: ListMode;
+  itemsPerPage: number;
+}
+
 export interface SectionSettings {
   navigation: NavSettings;
   footer: FooterSettings;
@@ -84,6 +90,7 @@ export interface SectionSettings {
   blogDetail: BlogDetailSettings;
   services: ServicesSettings;
   serviceDetail: ServiceDetailSettings;
+  faqs: FAQSettings;
 }
 
 export interface ColorPreset {
@@ -126,6 +133,11 @@ const DEFAULTS: SectionSettings = {
   serviceDetail: {
     coverLayout: "full",
     formSlug: "",
+  },
+  faqs: {
+    formSlug: "",
+    listMode: "pagination",
+    itemsPerPage: 10,
   },
   footer: {
     variation: "ft1",
@@ -178,6 +190,7 @@ interface EditModeCtx {
   updateBlogDetailSettings: (u: Partial<BlogDetailSettings>) => void;
   updateServicesSettings: (u: Partial<ServicesSettings>) => void;
   updateServiceDetailSettings: (u: Partial<ServiceDetailSettings>) => void;
+  updateFAQSettings: (u: Partial<FAQSettings>) => void;
   colorPresets: ColorPreset[];
   buttonPresets: ButtonPreset[];
 }
@@ -212,6 +225,7 @@ export default function EditModeProvider({
         const blogDetail = { ...DEFAULTS.blogDetail, ...parsed.blogDetail };
         const services = { ...DEFAULTS.services, ...parsed.services };
         const serviceDetail = { ...DEFAULTS.serviceDetail, ...parsed.serviceDetail };
+        const faqs = { ...DEFAULTS.faqs, ...parsed.faqs };
         // Migrate legacy variation names
         if (LEGACY_MAP[nav.variation]) {
           nav.variation = LEGACY_MAP[nav.variation];
@@ -219,7 +233,7 @@ export default function EditModeProvider({
         if (FOOTER_LEGACY_MAP[footer.variation]) {
           footer.variation = FOOTER_LEGACY_MAP[footer.variation];
         }
-        setSettings((s) => ({ ...s, navigation: nav, footer, blog, blogDetail, services, serviceDetail }));
+        setSettings((s) => ({ ...s, navigation: nav, footer, blog, blogDetail, services, serviceDetail, faqs }));
       }
     } catch {}
     setMounted(true);
@@ -305,6 +319,17 @@ export default function EditModeProvider({
     });
   }, []);
 
+  const updateFAQSettings = useCallback((updates: Partial<FAQSettings>) => {
+    setSettings((prev) => {
+      const next = {
+        ...prev,
+        faqs: { ...prev.faqs, ...updates },
+      };
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
+      return next;
+    });
+  }, []);
+
   return (
     <Ctx.Provider
       value={{
@@ -319,6 +344,7 @@ export default function EditModeProvider({
         updateBlogDetailSettings,
         updateServicesSettings,
         updateServiceDetailSettings,
+        updateFAQSettings,
         colorPresets,
         buttonPresets,
       }}

@@ -19,6 +19,7 @@ import FooterSettingsDrawer from "@/components/FooterSettingsDrawer";
 import BlogSettingsDrawer from "@/components/BlogSettingsDrawer";
 import ServicesSettingsDrawer from "@/components/ServicesSettingsDrawer";
 import ServiceDetailSettingsDrawer from "@/components/ServiceDetailSettingsDrawer";
+import FAQSettingsDrawer from "@/components/FAQSettingsDrawer";
 import AuthBar from "@/components/AuthBar";
 
 export default async function MainLayout({
@@ -109,6 +110,7 @@ export default async function MainLayout({
       <BlogSettingsDrawer />
       <ServicesSettingsDrawer />
       <ServiceDetailSettingsDrawer />
+      <FAQSettingsDrawer />
     </EditModeProvider>
   );
 }
