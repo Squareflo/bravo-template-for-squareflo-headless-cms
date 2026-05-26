@@ -5,7 +5,7 @@
 
 "use client";
 
-import { useEditMode, type ServicesLayout } from "./EditModeProvider";
+import { useEditMode, type ServicesLayout, type ListMode } from "./EditModeProvider";
 import FormSlugDropdown from "./FormSlugDropdown";
 
 const LAYOUT_OPTIONS: { value: ServicesLayout; label: string }[] = [
@@ -71,6 +71,46 @@ export default function ServicesSettingsDrawer() {
                 value={formSlug}
                 onChange={(slug) =>
                   ctx.updateServicesSettings({ formSlug: slug })
+                }
+              />
+            </div>
+          )}
+
+          <div className="drawer-field">
+            <label className="drawer-field__label" htmlFor="services-list-mode">
+              Listing Mode
+            </label>
+            <select
+              id="services-list-mode"
+              className="drawer-select"
+              value={ctx.settings.services.listMode}
+              onChange={(e) =>
+                ctx.updateServicesSettings({
+                  listMode: e.target.value as ListMode,
+                })
+              }
+            >
+              <option value="pagination">Pagination</option>
+              <option value="infinite">Infinite Scroll</option>
+            </select>
+          </div>
+
+          {ctx.settings.services.listMode === "pagination" && (
+            <div className="drawer-field">
+              <label className="drawer-field__label" htmlFor="services-per-page">
+                Items Per Page
+              </label>
+              <input
+                id="services-per-page"
+                type="number"
+                className="drawer-input"
+                min={1}
+                max={100}
+                value={ctx.settings.services.itemsPerPage}
+                onChange={(e) =>
+                  ctx.updateServicesSettings({
+                    itemsPerPage: Math.max(1, parseInt(e.target.value) || 6),
+                  })
                 }
               />
             </div>

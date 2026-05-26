@@ -15,6 +15,7 @@ import { SiteSettings } from "@/lib/types";
 import type { Metadata } from "next";
 import EditableSection from "@/components/EditableSection";
 import BlogSidebarFormLoader from "@/components/BlogSidebarFormLoader";
+import BlogPostList from "@/components/BlogPostList";
 
 interface BlogPost {
   id: string;
@@ -38,15 +39,6 @@ interface BlogCategory {
 export const metadata: Metadata = {
   title: "Blog",
 };
-
-function formatDate(dateStr: string): string {
-  const d = new Date(dateStr);
-  return d.toLocaleDateString("en-US", {
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-  });
-}
 
 export default async function BlogPage() {
   let posts: BlogPost[] = [];
@@ -87,56 +79,7 @@ export default async function BlogPage() {
           <h1 className="page-title">The Latest</h1>
           <hr className="page-title-rule page-title-rule--blog" />
 
-          {posts.length === 0 ? (
-            <p className="blog-empty">No blog posts yet. Check back soon.</p>
-          ) : (
-            <div className="post-list">
-              {posts.map((post) => {
-                const thumb = post.thumbnail_image || post.cover_image;
-                const excerpt = post.short_summary || post.first_paragraph;
-                return (
-                  <article key={post.id} className={`post-card${thumb ? "" : " post-card--no-thumb"}`}>
-                    {thumb && (
-                      <a href={`/blog/${post.slug}`}>
-                        <img src={thumb} alt="" className="post-card__thumb" />
-                      </a>
-                    )}
-                    <div className="post-card__body">
-                      <h2 className="post-card__title">
-                        <a href={`/blog/${post.slug}`}>{post.title}</a>
-                      </h2>
-                      <div className="post-card__meta">
-                        {post.published_at && (
-                          <span className="post-card__meta-item">
-                            <i className="far fa-calendar-alt" />{" "}
-                            {formatDate(post.published_at)}
-                          </span>
-                        )}
-                        {post.categories?.length > 0 && (
-                          <span className="post-card__meta-item">
-                            <i className="fas fa-folder-open" /> Posted in{" "}
-                            {post.categories.map((cat, i) => (
-                              <span key={cat.id}>
-                                {i > 0 && " / "}
-                                {cat.name}
-                              </span>
-                            ))}
-                          </span>
-                        )}
-                      </div>
-                      {excerpt && (
-                        <p className="post-card__excerpt">
-                          {excerpt.length > 280
-                            ? excerpt.slice(0, 280).replace(/\s+\S*$/, "") + "..."
-                            : excerpt}
-                        </p>
-                      )}
-                    </div>
-                  </article>
-                );
-              })}
-            </div>
-          )}
+          <BlogPostList posts={posts} />
         </div>
 
         {/* SIDEBAR COLUMN */}

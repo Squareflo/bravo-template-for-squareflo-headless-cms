@@ -55,8 +55,12 @@ export interface BlogDetailSettings {
   formSlug: string;
 }
 
+export type ListMode = "pagination" | "infinite";
+
 export interface BlogSettings {
   formSlug: string;
+  listMode: ListMode;
+  itemsPerPage: number;
 }
 
 export type ServicesLayout = "list" | "grid";
@@ -64,6 +68,8 @@ export type ServicesLayout = "list" | "grid";
 export interface ServicesSettings {
   layout: ServicesLayout;
   formSlug: string;
+  listMode: ListMode;
+  itemsPerPage: number;
 }
 
 export interface ServiceDetailSettings {
@@ -104,6 +110,8 @@ export interface ButtonPreset {
 const DEFAULTS: SectionSettings = {
   blog: {
     formSlug: "",
+    listMode: "pagination",
+    itemsPerPage: 6,
   },
   blogDetail: {
     coverLayout: "full",
@@ -112,6 +120,8 @@ const DEFAULTS: SectionSettings = {
   services: {
     layout: "list",
     formSlug: "",
+    listMode: "pagination",
+    itemsPerPage: 6,
   },
   serviceDetail: {
     coverLayout: "full",
