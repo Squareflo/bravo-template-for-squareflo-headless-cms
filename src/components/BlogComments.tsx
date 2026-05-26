@@ -108,6 +108,23 @@ export default function BlogComments({ postId }: Props) {
     ]).finally(() => setLoading(false));
   }, [postId]);
 
+  const handleDelete = useCallback(async (commentId: string) => {
+    if (!confirm("Delete this comment?")) return;
+
+    // Optimistic removal (including any replies to this comment)
+    const prev = comments;
+    setComments((c) => c.filter((x) => x.id !== commentId && x.parent_id !== commentId));
+
+    try {
+      const res = await fetch(`/api/comments/${commentId}`, { method: "DELETE" });
+      if (!res.ok && res.status !== 204) {
+        setComments(prev);
+      }
+    } catch {
+      setComments(prev);
+    }
+  }, [comments]);
+
   const handleLike = useCallback(async (commentId: string) => {
     const alreadyLiked = likedIds.has(commentId);
     const method = alreadyLiked ? "DELETE" : "POST";
@@ -339,6 +356,16 @@ export default function BlogComments({ postId }: Props) {
                 >
                   <i className="far fa-comment" />
                   <span>Reply</span>
+                </button>
+              )}
+              {user && c.user.id === user.id && (
+                <button
+                  type="button"
+                  className="comment__action comment__action--delete"
+                  onClick={() => handleDelete(c.id)}
+                  aria-label="Delete comment"
+                >
+                  <i className="far fa-trash-alt" />
                 </button>
               )}
             </div>

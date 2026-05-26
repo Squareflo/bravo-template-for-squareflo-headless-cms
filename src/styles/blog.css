@@ -642,6 +642,10 @@
   color: var(--color-accent);
 }
 
+.comment__action--delete:hover {
+  color: #c0392b;
+}
+
 /* Nested replies */
 .comment-replies {
   list-style: none;
