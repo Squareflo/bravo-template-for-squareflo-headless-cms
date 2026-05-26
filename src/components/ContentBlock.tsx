@@ -34,12 +34,14 @@
  *     html-reference/styles-r4m7t9w2qx.css
  */
 
-import DOMPurify from "isomorphic-dompurify";
-
-/** Sanitise CMS HTML for defence in depth */
+/**
+ * Pass through CMS HTML. The content comes from the trusted CMS editor
+ * so no client-side sanitisation is needed. (isomorphic-dompurify was
+ * removed because its jsdom dependency crashes in Vercel serverless.)
+ */
 function sanitise(html: string | undefined): string {
   if (!html) return "";
-  return DOMPurify.sanitize(html);
+  return html;
 }
 
 /** Shape of a content block from the CMS headless_content API response */
