@@ -61,7 +61,7 @@ export default function ServicesPageClient({ entries }: Props) {
   const content = (
     <>
       <h1 className="page-title">Services</h1>
-      <hr className="page-title-rule" />
+      <hr className="page-title-rule page-title-rule--blog" />
 
       {entries.length === 0 ? (
         <p>No services yet. Check back soon.</p>
@@ -146,7 +146,7 @@ export default function ServicesPageClient({ entries }: Props) {
   const wrapped = (
     <EditableSection id="services" label="Services Page">
       {isList ? (
-        <div className="container page">
+        <div className="container page page--blog">
           <div className="page__layout">
             <div>{content}</div>
             <aside className="sidebar">
@@ -157,7 +157,7 @@ export default function ServicesPageClient({ entries }: Props) {
           </div>
         </div>
       ) : (
-        <div className="container page">{content}</div>
+        <div className="container page page--blog">{content}</div>
       )}
     </EditableSection>
   );
