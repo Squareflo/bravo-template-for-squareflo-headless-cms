@@ -26,6 +26,7 @@ interface BlogPostBlock {
   type: string;
   text?: string;
   url?: string;
+  src?: string;
   alt?: string;
   level?: number;
 }
@@ -112,7 +113,7 @@ function renderBody(body: string | BlogPostBlock[]) {
             return (
               <img
                 key={block.id}
-                src={block.url || block.text || ""}
+                src={block.src || block.url || block.text || ""}
                 alt={block.alt || ""}
               />
             );
