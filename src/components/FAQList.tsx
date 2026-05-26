@@ -80,10 +80,10 @@ export default function FAQList({ faqs }: Props) {
         <div className="faq-list">
           {displayFaqs.map((faq) => {
             const plainAnswer = stripHtml(faq.answer);
-            const excerpt =
-              plainAnswer.length > 200
-                ? plainAnswer.slice(0, 200).replace(/\s+\S*$/, "") + "..."
-                : plainAnswer;
+            const isTruncated = plainAnswer.length > 150;
+            const excerpt = isTruncated
+              ? plainAnswer.slice(0, 150).replace(/\s+\S*$/, "") + "…"
+              : plainAnswer;
             return (
               <article key={faq.id} className="faq-card">
                 <h2 className="faq-card__question">
@@ -91,10 +91,15 @@ export default function FAQList({ faqs }: Props) {
                 </h2>
                 {excerpt && (
                   <p className="faq-card__excerpt">
-                    {excerpt}{" "}
-                    <a href={`/faqs/${faq.id}`} className="faq-card__more">
-                      Read more
-                    </a>
+                    {excerpt}
+                    {isTruncated && (
+                      <>
+                        {" "}
+                        <a href={`/faqs/${faq.id}`} className="faq-card__more">
+                          Read more
+                        </a>
+                      </>
+                    )}
                   </p>
                 )}
               </article>
