@@ -340,9 +340,9 @@ export default function Footer({ nav, settings }: FooterProps) {
           </div>
           <div className="ft2__nav">
             <NavList nav={nav} prefix="ft2" />
-            <p className="ft2__copy">&copy; {year} {business.name}. All rights reserved.</p>
           </div>
         </div>
+        <BottomBar prefix="ft2" businessName={business.name} year={year} />
       </footer>
     );
   }
@@ -524,8 +524,8 @@ export default function Footer({ nav, settings }: FooterProps) {
           <Logo business={business} prefix="ft7" />
           <NavList nav={nav} prefix="ft7" />
           <SocialLinks links={socialLinks} prefix="ft7" />
-          <p className="ft7__copy">&copy; {year} {business.name}. All rights reserved.</p>
         </div>
+        <BottomBar prefix="ft7" businessName={business.name} year={year} />
       </footer>
     );
   }
