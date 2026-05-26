@@ -74,12 +74,13 @@ export default async function BlogCategoryPage({ params }: PageProps) {
   let settings: SiteSettings | null = null;
   let currentCategory: BlogCategory | null = null;
 
-  const [filteredResult, allPostsResult, categoriesResult, settingsResult] =
+  const [filteredResult, allPostsResult, categoriesResult, settingsResult, formResult] =
     await Promise.allSettled([
       cms<{ posts: BlogPost[] }>("/blog", { category: slug }),
       cms<{ posts: BlogPost[] }>("/blog"),
       cms<{ categories: BlogCategory[] }>("/blog/categories"),
       cms<SiteSettings>("/settings"),
+      cms<{ form: any }>("/forms/contact-us"),
     ]);
 
   if (filteredResult.status === "fulfilled") {
@@ -94,6 +95,9 @@ export default async function BlogCategoryPage({ params }: PageProps) {
   if (settingsResult.status === "fulfilled") {
     settings = settingsResult.value;
   }
+  const contactForm = formResult.status === "fulfilled"
+    ? (formResult.value as any).form || null
+    : null;
 
   currentCategory = categories.find((c) => c.slug === slug) || null;
   if (!currentCategory) notFound();
@@ -105,8 +109,6 @@ export default async function BlogCategoryPage({ params }: PageProps) {
       catCounts[c.slug] = (catCounts[c.slug] || 0) + 1;
     })
   );
-
-  const locations = settings?.business?.locations || [];
 
   return (
     <div className="container page page--blog">
@@ -203,10 +205,7 @@ export default async function BlogCategoryPage({ params }: PageProps) {
             </div>
           )}
 
-          <div className="widget widget--contact">
-            <h2 className="widget__title">Contact Us</h2>
-            <BlogSidebarContact locations={locations} />
-          </div>
+          <BlogSidebarContact form={contactForm} />
         </aside>
       </div>
     </div>

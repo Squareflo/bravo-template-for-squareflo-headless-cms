@@ -52,10 +52,11 @@ export default async function BlogPage() {
   let categories: BlogCategory[] = [];
   let settings: SiteSettings | null = null;
 
-  const [postsResult, categoriesResult, settingsResult] = await Promise.allSettled([
+  const [postsResult, categoriesResult, settingsResult, formResult] = await Promise.allSettled([
     cms<{ posts: BlogPost[] }>("/blog"),
     cms<{ categories: BlogCategory[] }>("/blog/categories"),
     cms<SiteSettings>("/settings"),
+    cms<{ form: any }>("/forms/contact-us"),
   ]);
 
   if (postsResult.status === "fulfilled") {
@@ -68,6 +69,9 @@ export default async function BlogPage() {
   if (settingsResult.status === "fulfilled") {
     settings = settingsResult.value;
   }
+  const contactForm = formResult.status === "fulfilled"
+    ? (formResult.value as any).form || null
+    : null;
 
   // Count posts per category
   const catCounts: Record<string, number> = {};
@@ -76,8 +80,6 @@ export default async function BlogPage() {
       catCounts[c.slug] = (catCounts[c.slug] || 0) + 1;
     })
   );
-
-  const locations = settings?.business?.locations || [];
 
   return (
     <div className="container page page--blog">
@@ -157,10 +159,7 @@ export default async function BlogPage() {
             </div>
           )}
 
-          <div className="widget widget--contact">
-            <h2 className="widget__title">Contact Us</h2>
-            <BlogSidebarContact locations={locations} />
-          </div>
+          <BlogSidebarContact form={contactForm} />
         </aside>
       </div>
     </div>

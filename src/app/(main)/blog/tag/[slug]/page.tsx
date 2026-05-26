@@ -61,11 +61,12 @@ export default async function BlogTagPage({ params }: PageProps) {
   let categories: BlogCategory[] = [];
   let settings: SiteSettings | null = null;
 
-  const [postsResult, categoriesResult, settingsResult] =
+  const [postsResult, categoriesResult, settingsResult, formResult] =
     await Promise.allSettled([
       cms<{ posts: BlogPost[] }>("/blog", { tag: slug }),
       cms<{ categories: BlogCategory[] }>("/blog/categories"),
       cms<SiteSettings>("/settings"),
+      cms<{ form: any }>("/forms/contact-us"),
     ]);
 
   let posts: BlogPost[] = [];
@@ -96,6 +97,9 @@ export default async function BlogTagPage({ params }: PageProps) {
   if (settingsResult.status === "fulfilled") {
     settings = settingsResult.value;
   }
+  const contactForm = formResult.status === "fulfilled"
+    ? (formResult.value as any).form || null
+    : null;
 
   // Find the tag name from the first post that has it
   let tagName = slug.replace(/-/g, " ");
@@ -116,8 +120,6 @@ export default async function BlogTagPage({ params }: PageProps) {
       catCounts[c.slug] = (catCounts[c.slug] || 0) + 1;
     })
   );
-
-  const locations = settings?.business?.locations || [];
 
   return (
     <div className="container page page--blog">
@@ -201,10 +203,7 @@ export default async function BlogTagPage({ params }: PageProps) {
             </div>
           )}
 
-          <div className="widget widget--contact">
-            <h2 className="widget__title">Contact Us</h2>
-            <BlogSidebarContact locations={locations} />
-          </div>
+          <BlogSidebarContact form={contactForm} />
         </aside>
       </div>
     </div>

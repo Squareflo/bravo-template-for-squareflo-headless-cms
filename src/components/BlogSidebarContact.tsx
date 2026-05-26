@@ -1,121 +1,131 @@
 /**
- * Blog Sidebar Contact Form — SquarefloCMS Bravo Template
+ * Blog Sidebar Contact Widget — SquarefloCMS Bravo Template
  * ========================================================
  * Powered by SquarefloCMS (https://squareflo.com)
  *
- * Client component that renders a contact form in the blog sidebar.
- * Matches the contact widget from html-reference/blog-b6n3k8q5jw.html.
+ * Renders the contact form widget in the blog sidebar only if the CMS
+ * has a form with slug "contact-us". Otherwise shows an edit-mode hint
+ * or nothing at all. Includes its own wrapper div + heading.
  */
 
 "use client";
 
 import { useState } from "react";
-import { Location } from "@/lib/types";
+import { useEditMode } from "./EditModeProvider";
 
-interface Props {
-  locations: Location[];
+interface FormField {
+  id: string;
+  label: string;
+  type: string;
+  placeholder?: string;
+  required?: boolean;
+  options?: { label: string; value: string }[];
 }
 
-export default function BlogSidebarContact({ locations }: Props) {
-  const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
-  const [email, setEmail] = useState("");
-  const [message, setMessage] = useState("");
-  const [location, setLocation] = useState(locations[0]?.name || "");
+interface CmsForm {
+  id: string;
+  name: string;
+  slug: string;
+  fields: FormField[];
+}
+
+interface Props {
+  form: CmsForm | null;
+}
+
+export default function BlogSidebarContact({ form }: Props) {
+  const ctx = useEditMode();
+  const [values, setValues] = useState<Record<string, string>>({});
   const [submitted, setSubmitted] = useState(false);
+
+  if (!form) {
+    if (ctx?.editMode) {
+      return (
+        <div className="widget widget--contact">
+          <h2 className="widget__title">Contact Us</h2>
+          <div className="sidebar-hint">
+            <i className="fas fa-info-circle" />
+            <p>
+              To show a contact form here, create a form in the CMS using the
+              <strong> Forms</strong> module with the slug <code>contact-us</code>.
+            </p>
+          </div>
+        </div>
+      );
+    }
+    return null;
+  }
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    // TODO: POST to CMS forms API when available
+    // TODO: POST to CMS forms submission API
     setSubmitted(true);
   }
 
   if (submitted) {
-    return <p>Thank you for your message. We will be in touch shortly.</p>;
+    return (
+      <div className="widget widget--contact">
+        <h2 className="widget__title">Contact Us</h2>
+        <p>Thank you for your message. We will be in touch shortly.</p>
+      </div>
+    );
+  }
+
+  function setValue(fieldId: string, val: string) {
+    setValues((prev) => ({ ...prev, [fieldId]: val }));
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      {locations.length > 1 && (
-        <div className="form-field">
-          <label htmlFor="blog-contact-location" className="form-field__label">
-            Location
-          </label>
-          <select
-            id="blog-contact-location"
-            className="form-field__select"
-            value={location}
-            onChange={(e) => setLocation(e.target.value)}
-          >
-            {locations.map((loc) => (
-              <option key={loc.id} value={loc.name}>
-                {loc.name}
-              </option>
-            ))}
-          </select>
-        </div>
-      )}
+    <div className="widget widget--contact">
+      <h2 className="widget__title">Contact Us</h2>
+      <form onSubmit={handleSubmit}>
+        {form.fields.map((field) => (
+          <div key={field.id} className="form-field">
+            <label htmlFor={`form-${field.id}`} className="form-field__label">
+              {field.label}
+            </label>
+            {field.type === "select" && field.options ? (
+              <select
+                id={`form-${field.id}`}
+                className="form-field__select"
+                value={values[field.id] || ""}
+                onChange={(e) => setValue(field.id, e.target.value)}
+                required={field.required}
+              >
+                <option value="">{field.placeholder || "Select..."}</option>
+                {field.options.map((opt) => (
+                  <option key={opt.value} value={opt.value}>
+                    {opt.label}
+                  </option>
+                ))}
+              </select>
+            ) : field.type === "textarea" ? (
+              <textarea
+                id={`form-${field.id}`}
+                className="form-field__textarea"
+                placeholder={field.placeholder}
+                value={values[field.id] || ""}
+                onChange={(e) => setValue(field.id, e.target.value)}
+                required={field.required}
+              />
+            ) : (
+              <input
+                id={`form-${field.id}`}
+                type={field.type || "text"}
+                className="form-field__input"
+                placeholder={field.placeholder}
+                value={values[field.id] || ""}
+                onChange={(e) => setValue(field.id, e.target.value)}
+                required={field.required}
+              />
+            )}
+          </div>
+        ))}
 
-      <div className="form-field">
-        <label htmlFor="blog-contact-name" className="form-field__label">
-          Name
-        </label>
-        <input
-          id="blog-contact-name"
-          type="text"
-          className="form-field__input"
-          placeholder="Name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          required
-        />
-      </div>
-
-      <div className="form-field">
-        <label htmlFor="blog-contact-phone" className="form-field__label">
-          Phone#
-        </label>
-        <input
-          id="blog-contact-phone"
-          type="tel"
-          className="form-field__input"
-          placeholder="Phone"
-          value={phone}
-          onChange={(e) => setPhone(e.target.value)}
-        />
-      </div>
-
-      <div className="form-field">
-        <label htmlFor="blog-contact-email" className="form-field__label">
-          E-mail
-        </label>
-        <input
-          id="blog-contact-email"
-          type="email"
-          className="form-field__input"
-          placeholder="E-mail"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-      </div>
-
-      <div className="form-field">
-        <label htmlFor="blog-contact-message" className="form-field__label">
-          Message
-        </label>
-        <textarea
-          id="blog-contact-message"
-          className="form-field__textarea"
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          required
-        />
-      </div>
-
-      <button type="submit" className="btn">
-        Submit
-      </button>
-    </form>
+        <button type="submit" className="btn">
+          Submit
+        </button>
+      </form>
+    </div>
   );
 }

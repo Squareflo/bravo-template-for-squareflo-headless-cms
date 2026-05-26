@@ -839,6 +839,33 @@
   padding-right: 32px;
 }
 
+/* Edit-mode sidebar hint */
+.sidebar-hint {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--color-text-muted, #777);
+}
+
+.sidebar-hint i {
+  margin-top: 3px;
+  color: var(--color-accent);
+  flex-shrink: 0;
+}
+
+.sidebar-hint p {
+  margin: 0;
+}
+
+.sidebar-hint code {
+  background: rgba(0,0,0,0.06);
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-size: 0.85em;
+}
+
 /* No posts message */
 .blog-empty {
   text-align: center;

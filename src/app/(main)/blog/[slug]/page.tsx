@@ -151,10 +151,11 @@ export default async function BlogDetailPage({ params }: PageProps) {
   if (!post!) notFound();
 
   // Fetch sidebar data in parallel
-  const [listResult, catResult, settingsResult] = await Promise.allSettled([
+  const [listResult, catResult, settingsResult, formResult] = await Promise.allSettled([
     cms<{ posts: BlogPost[] }>("/blog"),
     cms<{ categories: BlogCategory[] }>("/blog/categories"),
     cms<SiteSettings>("/settings"),
+    cms<{ form: any }>("/forms/contact-us"),
   ]);
 
   if (listResult.status === "fulfilled") {
@@ -167,9 +168,11 @@ export default async function BlogDetailPage({ params }: PageProps) {
   if (settingsResult.status === "fulfilled") {
     settings = settingsResult.value;
   }
+  const contactForm = formResult.status === "fulfilled"
+    ? (formResult.value as any).form || null
+    : null;
 
   const heroImage = post.cover_image || post.thumbnail_image;
-  const locations = settings?.business?.locations || [];
 
   // Count posts per category from all posts
   const allPosts = listResult.status === "fulfilled"
@@ -290,10 +293,7 @@ export default async function BlogDetailPage({ params }: PageProps) {
             </div>
           )}
 
-          <div className="widget widget--contact">
-            <h2 className="widget__title">Contact Us</h2>
-            <BlogSidebarContact locations={locations} />
-          </div>
+          <BlogSidebarContact form={contactForm} />
         </aside>
       </div>
       <BlogDetailSettingsDrawer />
