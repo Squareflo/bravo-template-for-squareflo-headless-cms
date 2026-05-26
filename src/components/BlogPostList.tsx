@@ -115,7 +115,7 @@ export default function BlogPostList({ posts }: Props) {
                         {post.categories.map((cat, i) => (
                           <span key={cat.id}>
                             {i > 0 && " / "}
-                            {cat.name}
+                            <a href={`/blog/category/${cat.slug}`} className="post-card__category-link">{cat.name}</a>
                           </span>
                         ))}
                       </span>

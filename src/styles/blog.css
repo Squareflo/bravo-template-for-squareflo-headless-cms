@@ -99,12 +99,14 @@
   font-size: 0.9rem;
 }
 
-.post-card__meta a {
-  color: var(--color-accent);
+.post-card__category-link {
+  font-weight: 700;
+  text-decoration: underline;
+  color: var(--color-text);
 }
 
-.post-card__meta a:hover {
-  color: var(--color-accent-hover);
+.post-card__category-link:hover {
+  color: var(--color-accent);
 }
 
 .post-card__excerpt {
