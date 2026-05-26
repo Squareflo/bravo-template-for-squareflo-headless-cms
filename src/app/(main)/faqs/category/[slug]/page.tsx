@@ -43,41 +43,27 @@ export default async function FAQCategoryPage({ params }: PageProps) {
   const category = decodeURIComponent(slug);
 
   let allFaqs: FAQ[] = [];
+  let filteredFaqs: FAQ[] = [];
   let categories: string[] = [];
 
+  // Always fetch all FAQs to get full category list and counts
   try {
-    const data = await cms<{ faqs: FAQ[]; categories: string[]; tags: string[] }>("/faqs", {
-      category,
-    });
+    const data = await cms<{ faqs: FAQ[]; categories: string[]; tags: string[] }>("/faqs");
     allFaqs = data.faqs || [];
     categories = data.categories || [];
-  } catch {
-    // If filtering fails, fetch all and filter client-side
-    try {
-      const data = await cms<{ faqs: FAQ[]; categories: string[]; tags: string[] }>("/faqs");
-      allFaqs = (data.faqs || []).filter((f) => f.category === category);
-      categories = data.categories || [];
-    } catch {
-      // Both failed
-    }
-  }
+    filteredFaqs = allFaqs.filter((f) => f.category === category);
+  } catch {}
 
-  if (allFaqs.length === 0 && !categories.includes(category)) {
+  if (filteredFaqs.length === 0 && !categories.includes(category)) {
     notFound();
   }
 
   // Sort by sort_order
-  allFaqs.sort((a, b) => (a.sort_order ?? 0) - (b.sort_order ?? 0));
+  filteredFaqs.sort((a, b) => (a.sort_order ?? 0) - (b.sort_order ?? 0));
 
-  // Count FAQs per category (need all FAQs for this)
-  let allForCounts: FAQ[] = allFaqs;
-  try {
-    const full = await cms<{ faqs: FAQ[] }>("/faqs");
-    allForCounts = full.faqs || [];
-  } catch {}
-
+  // Count FAQs per category
   const catCounts: Record<string, number> = {};
-  allForCounts.forEach((f) => {
+  allFaqs.forEach((f) => {
     if (f.category) {
       catCounts[f.category] = (catCounts[f.category] || 0) + 1;
     }
@@ -91,7 +77,7 @@ export default async function FAQCategoryPage({ params }: PageProps) {
           <h1 className="page-title">{category}</h1>
           <hr className="page-title-rule page-title-rule--blog" />
 
-          <FAQList faqs={allFaqs} />
+          <FAQList faqs={filteredFaqs} />
         </div>
 
         {/* SIDEBAR COLUMN */}

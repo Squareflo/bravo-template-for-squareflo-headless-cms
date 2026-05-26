@@ -89,22 +89,14 @@ export default function FAQList({ faqs }: Props) {
                 <h2 className="faq-card__question">
                   <a href={`/faqs/${faq.id}`}>{faq.question}</a>
                 </h2>
-                {faq.category && (
-                  <div className="faq-card__meta">
-                    <span className="faq-card__meta-item">
-                      <i className="fas fa-folder-open" />{" "}
-                      <a href={`/faqs/category/${encodeURIComponent(faq.category)}`}>
-                        {faq.category}
-                      </a>
-                    </span>
-                  </div>
-                )}
                 {excerpt && (
-                  <p className="faq-card__excerpt">{excerpt}</p>
+                  <p className="faq-card__excerpt">
+                    {excerpt}{" "}
+                    <a href={`/faqs/${faq.id}`} className="faq-card__more">
+                      Read more
+                    </a>
+                  </p>
                 )}
-                <a href={`/faqs/${faq.id}`} className="faq-card__more">
-                  Read full answer
-                </a>
               </article>
             );
           })}
