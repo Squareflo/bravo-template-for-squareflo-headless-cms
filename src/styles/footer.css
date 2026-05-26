@@ -137,6 +137,8 @@
 .ft1__list li, .ft3__list li, .ft4__list li, .ft5__list li, .ft6__list li {
   margin-bottom: 0; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.06);
 }
+.ft1__list li:first-child, .ft3__list li:first-child, .ft4__list li:first-child,
+.ft5__list li:first-child, .ft6__list li:first-child { padding-top: 0; }
 .ft1__list li:last-child, .ft3__list li:last-child, .ft4__list li:last-child,
 .ft5__list li:last-child, .ft6__list li:last-child { border-bottom: none; }
 .ft1__list a, .ft3__list a, .ft4__list a, .ft5__list a, .ft6__list a {
