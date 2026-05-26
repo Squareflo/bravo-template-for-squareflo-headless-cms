@@ -152,14 +152,29 @@
   text-decoration: underline;
 }
 
-.faq-detail__tags {
+.faq-detail__footer-meta {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 8px;
+  gap: 24px;
   margin-bottom: 32px;
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   color: var(--color-text-muted);
+}
+
+.faq-detail__footer-meta .faq-detail__meta-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.faq-detail__footer-meta a {
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+.faq-detail__footer-meta a:hover {
+  color: var(--color-accent);
 }
 
 .faq-detail__tag {

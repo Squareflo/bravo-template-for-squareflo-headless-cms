@@ -101,30 +101,31 @@ export default async function FAQDetailPage({ params }: PageProps) {
           <h1 className="faq-detail__question">{faq.question}</h1>
           <hr className="faq-detail__rule" />
 
-          {faq.category && (
-            <div className="faq-detail__meta">
-              <span className="faq-detail__meta-item">
-                <i className="fas fa-folder-open" />{" "}
-                <a href={`/faqs/category/${encodeURIComponent(faq.category)}`}>
-                  {faq.category}
-                </a>
-              </span>
-            </div>
-          )}
-
           <div
             className="faq-detail__answer"
             dangerouslySetInnerHTML={{ __html: faq.answer }}
           />
 
-          {faq.tags?.length > 0 && (
-            <div className="faq-detail__tags">
-              <i className="fas fa-tags" />
-              {faq.tags.map((tag) => (
-                <span key={tag} className="faq-detail__tag">
-                  {tag}
+          {(faq.category || faq.tags?.length > 0) && (
+            <div className="faq-detail__footer-meta">
+              {faq.category && (
+                <span className="faq-detail__meta-item">
+                  <i className="fas fa-folder-open" />{" "}
+                  <a href={`/faqs/category/${encodeURIComponent(faq.category)}`}>
+                    {faq.category}
+                  </a>
                 </span>
-              ))}
+              )}
+              {faq.tags?.length > 0 && (
+                <span className="faq-detail__meta-item">
+                  <i className="fas fa-tags" />{" "}
+                  {faq.tags.map((tag, i) => (
+                    <span key={tag} className="faq-detail__tag">
+                      {tag}
+                    </span>
+                  ))}
+                </span>
+              )}
             </div>
           )}
         </article>
