@@ -316,11 +316,28 @@
   margin-bottom: 36px;
 }
 
+/* Cover image: full width (default) — landscape 16:9 */
 .post-detail__hero {
   width: 100%;
-  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
   border-radius: 4px;
   margin-bottom: 36px;
+}
+
+/* Cover image: half width — square 1:1, text wraps around */
+.post-detail__hero--half {
+  width: 50%;
+  aspect-ratio: 1 / 1;
+  float: left;
+  margin: 0 28px 20px 0;
+}
+
+/* Wrapper for float containment when using half-width cover */
+.post-detail__body-wrap::after {
+  content: "";
+  display: table;
+  clear: both;
 }
 
 .post-detail__body {
@@ -822,6 +839,13 @@
 
   .post-detail__title {
     font-size: 1.8rem;
+  }
+
+  .post-detail__hero--half {
+    width: 100%;
+    float: none;
+    margin: 0 0 36px;
+    aspect-ratio: 16 / 9;
   }
 
   .post-detail__body > p:first-of-type {

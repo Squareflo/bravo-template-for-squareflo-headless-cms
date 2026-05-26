@@ -17,6 +17,9 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import BlogSidebarContact from "@/components/BlogSidebarContact";
 import BlogComments from "@/components/BlogComments";
+import BlogCoverImage from "@/components/BlogCoverImage";
+import BlogDetailSettingsDrawer from "@/components/BlogDetailSettingsDrawer";
+import EditableSection from "@/components/EditableSection";
 
 interface BlogPostBlock {
   id: string;
@@ -174,44 +177,44 @@ export default async function BlogDetailPage({ params }: PageProps) {
     <div className="container page">
       <div className="page__layout">
         {/* POST CONTENT COLUMN */}
-        <article>
-          <h1 className="post-detail__title">{post.title}</h1>
-          <hr className="post-detail__rule" />
+        <EditableSection id="blogDetail" label="Blog Detail">
+          <article>
+            <h1 className="post-detail__title">{post.title}</h1>
+            <hr className="post-detail__rule" />
 
-          <div className="post-detail__meta">
-            {post.published_at && (
-              <span className="post-detail__meta-item">
-                <i className="far fa-calendar-alt" />{" "}
-                {formatDate(post.published_at)}
-              </span>
-            )}
-            {post.categories?.length > 0 && (
-              <span className="post-detail__meta-item">
-                <i className="fas fa-folder-open" /> Posted in{" "}
-                {post.categories.map((cat, i) => (
-                  <span key={cat.id}>
-                    {i > 0 && " / "}
-                    {cat.name}
-                  </span>
-                ))}
-              </span>
-            )}
-          </div>
+            <div className="post-detail__meta">
+              {post.published_at && (
+                <span className="post-detail__meta-item">
+                  <i className="far fa-calendar-alt" />{" "}
+                  {formatDate(post.published_at)}
+                </span>
+              )}
+              {post.categories?.length > 0 && (
+                <span className="post-detail__meta-item">
+                  <i className="fas fa-folder-open" /> Posted in{" "}
+                  {post.categories.map((cat, i) => (
+                    <span key={cat.id}>
+                      {i > 0 && " / "}
+                      {cat.name}
+                    </span>
+                  ))}
+                </span>
+              )}
+            </div>
 
-          <div className="sharethis-inline-share-buttons" />
+            <div className="sharethis-inline-share-buttons" />
 
-          {heroImage && (
-            <img src={heroImage} alt="" className="post-detail__hero" />
-          )}
+            <BlogCoverImage src={heroImage}>
+              {renderBody(post.body)}
+            </BlogCoverImage>
 
-          {renderBody(post.body)}
-
-          {/* Comments section */}
-          <div className="post-detail__comments">
-            <h2 className="post-detail__comments-title">Comments</h2>
-            <BlogComments postId={post.id} />
-          </div>
-        </article>
+            {/* Comments section */}
+            <div className="post-detail__comments">
+              <h2 className="post-detail__comments-title">Comments</h2>
+              <BlogComments postId={post.id} />
+            </div>
+          </article>
+        </EditableSection>
 
         {/* SIDEBAR COLUMN */}
         <aside className="sidebar">
@@ -272,6 +275,7 @@ export default async function BlogDetailPage({ params }: PageProps) {
           </div>
         </aside>
       </div>
+      <BlogDetailSettingsDrawer />
     </div>
   );
 }
