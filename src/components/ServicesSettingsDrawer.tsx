@@ -6,6 +6,7 @@
 "use client";
 
 import { useEditMode, type ServicesLayout } from "./EditModeProvider";
+import FormSlugDropdown from "./FormSlugDropdown";
 
 const LAYOUT_OPTIONS: { value: ServicesLayout; label: string }[] = [
   { value: "list", label: "List View (2-column with sidebar)" },
@@ -63,22 +64,15 @@ export default function ServicesSettingsDrawer() {
           {layout === "list" && (
             <div className="drawer-field">
               <label className="drawer-field__label" htmlFor="services-form-slug">
-                Sidebar Form Slug
+                Sidebar Form
               </label>
-              <input
+              <FormSlugDropdown
                 id="services-form-slug"
-                type="text"
-                className="drawer-input"
-                placeholder="e.g. contact-us"
                 value={formSlug}
-                onChange={(e) =>
-                  ctx.updateServicesSettings({ formSlug: e.target.value })
+                onChange={(slug) =>
+                  ctx.updateServicesSettings({ formSlug: slug })
                 }
               />
-              <p className="drawer-field__hint">
-                Enter the slug of the form you created in the CMS Forms module.
-                Leave blank to hide the sidebar form.
-              </p>
             </div>
           )}
         </div>

@@ -6,6 +6,7 @@
 "use client";
 
 import { useEditMode, type BlogCoverLayout } from "./EditModeProvider";
+import FormSlugDropdown from "./FormSlugDropdown";
 
 const COVER_OPTIONS: { value: BlogCoverLayout; label: string }[] = [
   { value: "full", label: "Full Width (landscape)" },
@@ -58,22 +59,15 @@ export default function BlogDetailSettingsDrawer() {
 
           <div className="drawer-field">
             <label className="drawer-field__label" htmlFor="blog-detail-form-slug">
-              Sidebar Form Slug
+              Sidebar Form
             </label>
-            <input
+            <FormSlugDropdown
               id="blog-detail-form-slug"
-              type="text"
-              className="drawer-input"
-              placeholder="e.g. contact-us"
               value={ctx.settings.blogDetail.formSlug}
-              onChange={(e) =>
-                ctx.updateBlogDetailSettings({ formSlug: e.target.value })
+              onChange={(slug) =>
+                ctx.updateBlogDetailSettings({ formSlug: slug })
               }
             />
-            <p className="drawer-field__hint">
-              Enter the slug of the form you created in the CMS Forms module.
-              Leave blank to hide the sidebar form.
-            </p>
           </div>
         </div>
       </div>
