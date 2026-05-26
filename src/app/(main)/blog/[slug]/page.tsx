@@ -96,19 +96,25 @@ function formatDateShort(dateStr: string): string {
   });
 }
 
-function renderBody(body: string | BlogPostBlock[]) {
+function renderBody(firstParagraph: string | null, body: string | BlogPostBlock[]) {
   if (typeof body === "string") {
-    return <div className="post-detail__body" dangerouslySetInnerHTML={{ __html: body }} />;
+    const combined = (firstParagraph || "") + body;
+    return <div className="post-detail__body" dangerouslySetInnerHTML={{ __html: combined }} />;
   }
 
   return (
     <div className="post-detail__body">
+      {firstParagraph && (
+        <div dangerouslySetInnerHTML={{ __html: firstParagraph }} />
+      )}
       {body.map((block) => {
         switch (block.type) {
           case "heading":
             return <h2 key={block.id}>{block.text}</h2>;
           case "paragraph":
-            return <p key={block.id}>{block.text}</p>;
+            return block.text ? (
+              <div key={block.id} dangerouslySetInnerHTML={{ __html: block.text }} />
+            ) : null;
           case "image":
             return (
               <img
@@ -118,7 +124,9 @@ function renderBody(body: string | BlogPostBlock[]) {
               />
             );
           default:
-            return block.text ? <p key={block.id}>{block.text}</p> : null;
+            return block.text ? (
+              <div key={block.id} dangerouslySetInnerHTML={{ __html: block.text }} />
+            ) : null;
         }
       })}
     </div>
@@ -206,7 +214,7 @@ export default async function BlogDetailPage({ params }: PageProps) {
             <div className="sharethis-inline-share-buttons" />
 
             <BlogCoverImage src={heroImage}>
-              {renderBody(post.body)}
+              {renderBody(post.first_paragraph, post.body)}
             </BlogCoverImage>
 
             {/* Comments section */}
