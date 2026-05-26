@@ -23,6 +23,7 @@ import "@/styles/pages.css";
 import "@/styles/auth.css";
 import "@/styles/footer.css";
 import "@/styles/blog.css";
+import "@/styles/services.css";
 
 export async function generateMetadata(): Promise<Metadata> {
   try {
