@@ -80,7 +80,7 @@ export default async function BlogPage() {
   const locations = settings?.business?.locations || [];
 
   return (
-    <div className="container page">
+    <div className="container page page--blog">
       <div className="page__layout">
         {/* POSTS COLUMN */}
         <div>
