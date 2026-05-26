@@ -65,6 +65,7 @@ export interface SiteSettings {
       pageBg: string;       // Page background color
       [key: string]: string; // Additional custom colors from CMS
     };
+    font_families: string[];                      // Site-level Google Font families (e.g. ["Bad Script"])
     typography: Record<string, TypographyToken>; // Keys: h1, h2, h3, body, etc.
     buttons: Record<string, ButtonToken>;        // Keys: primary, secondary, etc.
     forms: FormToken;
