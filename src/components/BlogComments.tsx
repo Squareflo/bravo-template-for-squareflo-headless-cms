@@ -31,6 +31,7 @@ interface Comment {
   created_at: string;
   likes_count: number;
   parent_id: string | null;
+  user_id?: string;
   user: {
     id?: string;
     first_name: string | null;
@@ -76,6 +77,14 @@ function timeAgo(dateStr: string): string {
 
 function isAuthorRole(role?: string): boolean {
   return role === "owner" || role === "webmaster" || role === "editor";
+}
+
+function isOwnComment(c: Comment, user: User | null): boolean {
+  if (!user) return false;
+  // Match by user_id at comment level, or user.id inside nested user object
+  if (c.user_id && c.user_id === user.id) return true;
+  if (c.user.id && c.user.id === user.id) return true;
+  return false;
 }
 
 export default function BlogComments({ postId }: Props) {
@@ -202,6 +211,7 @@ export default function BlogComments({ postId }: Props) {
         created_at: data.comment.created_at,
         likes_count: 0,
         parent_id: null,
+        user_id: user?.id,
         user: {
           id: user?.id,
           first_name: user?.first_name || null,
@@ -258,6 +268,7 @@ export default function BlogComments({ postId }: Props) {
         created_at: data.comment.created_at,
         likes_count: 0,
         parent_id: parentId,
+        user_id: user?.id,
         user: {
           id: user?.id,
           first_name: user?.first_name || null,
@@ -358,7 +369,7 @@ export default function BlogComments({ postId }: Props) {
                   <span>Reply</span>
                 </button>
               )}
-              {user && c.user.id === user.id && (
+              {isOwnComment(c, user) && (
                 <button
                   type="button"
                   className="comment__action comment__action--delete"
