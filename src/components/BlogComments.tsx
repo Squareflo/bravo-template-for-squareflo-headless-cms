@@ -43,6 +43,7 @@ interface Comment {
 
 interface Props {
   postId: string;
+  moduleType?: string;
 }
 
 function getGuestId(): string {
@@ -87,7 +88,7 @@ function isOwnComment(c: Comment, user: User | null): boolean {
   return false;
 }
 
-export default function BlogComments({ postId }: Props) {
+export default function BlogComments({ postId, moduleType = "blog" }: Props) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const [comments, setComments] = useState<Comment[]>([]);
@@ -108,7 +109,7 @@ export default function BlogComments({ postId }: Props) {
           if (data?.user) setUser(data.user);
         })
         .catch(() => {}),
-      fetch(`/api/comments?module_type=blog&module_item_id=${postId}&sort=newest`)
+      fetch(`/api/comments?module_type=${moduleType}&module_item_id=${postId}&sort=newest`)
         .then((res) => (res.ok ? res.json() : null))
         .then((data) => {
           if (data?.comments) setComments(data.comments);
@@ -192,7 +193,7 @@ export default function BlogComments({ postId }: Props) {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          module_type: "blog",
+          module_type: moduleType,
           module_item_id: postId,
           content: comment.trim(),
         }),
@@ -248,7 +249,7 @@ export default function BlogComments({ postId }: Props) {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          module_type: "blog",
+          module_type: moduleType,
           module_item_id: postId,
           content: replyText.trim(),
           parent_id: parentId,

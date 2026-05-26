@@ -12,6 +12,7 @@ import { faqSlug } from "@/lib/faq-utils";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import BlogSidebarFormLoader from "@/components/BlogSidebarFormLoader";
+import BlogComments from "@/components/BlogComments";
 import "@/styles/faq.css";
 
 interface FAQ {
@@ -128,14 +129,11 @@ export default async function FAQDetailPage({ params }: PageProps) {
               )}
             </div>
           )}
-        </article>
 
-        {/* SIDEBAR COLUMN */}
-        <aside className="sidebar">
           {related.length > 0 && (
-            <div className="widget">
-              <h2 className="widget__title">Related FAQs</h2>
-              <ul className="topic-list">
+            <div className="faq-detail__related">
+              <h2 className="faq-detail__related-title">Related FAQs</h2>
+              <ul className="faq-detail__related-list">
                 {related.map((r) => (
                   <li key={r.id}>
                     <a href={`/faqs/${faqSlug(r.question)}`}>{r.question}</a>
@@ -145,6 +143,14 @@ export default async function FAQDetailPage({ params }: PageProps) {
             </div>
           )}
 
+          <div className="post-detail__comments">
+            <h2 className="post-detail__comments-title">Comments</h2>
+            <BlogComments postId={faq.id} moduleType="faq" />
+          </div>
+        </article>
+
+        {/* SIDEBAR COLUMN */}
+        <aside className="sidebar">
           {categories.length > 0 && (
             <div className="widget">
               <h2 className="widget__title">Categories</h2>
