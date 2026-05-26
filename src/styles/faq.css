@@ -120,7 +120,7 @@
   font-size: 1rem;
   line-height: 1.8;
   color: var(--color-text);
-  margin-bottom: 40px;
+  margin-bottom: 16px;
 }
 
 .faq-detail__answer p {
