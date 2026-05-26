@@ -204,7 +204,7 @@ export default async function BlogDetailPage({ params }: PageProps) {
                   {post.categories.map((cat, i) => (
                     <span key={cat.id}>
                       {i > 0 && " / "}
-                      {cat.name}
+                      <a href={`/blog/category/${cat.slug}`} className="post-detail__category-link">{cat.name}</a>
                     </span>
                   ))}
                 </span>
@@ -216,6 +216,18 @@ export default async function BlogDetailPage({ params }: PageProps) {
             <BlogCoverImage src={heroImage}>
               {renderBody(post.first_paragraph, post.body)}
             </BlogCoverImage>
+
+            {/* Tags */}
+            {post.tags?.length > 0 && (
+              <div className="post-detail__tags">
+                <i className="fas fa-tags" />
+                {post.tags.map((tag) => (
+                  <a key={tag.id} href={`/blog/tag/${tag.slug}`} className="post-detail__tag">
+                    {tag.name}
+                  </a>
+                ))}
+              </div>
+            )}
 
             {/* Comments section */}
             <div className="post-detail__comments">
