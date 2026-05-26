@@ -13,7 +13,8 @@
 import { cms } from "@/lib/cms";
 import { SiteSettings } from "@/lib/types";
 import type { Metadata } from "next";
-import BlogSidebarContact from "@/components/BlogSidebarContact";
+import EditableSection from "@/components/EditableSection";
+import BlogSidebarFormLoader from "@/components/BlogSidebarFormLoader";
 
 interface BlogPost {
   id: string;
@@ -52,11 +53,10 @@ export default async function BlogPage() {
   let categories: BlogCategory[] = [];
   let settings: SiteSettings | null = null;
 
-  const [postsResult, categoriesResult, settingsResult, formResult] = await Promise.allSettled([
+  const [postsResult, categoriesResult, settingsResult] = await Promise.allSettled([
     cms<{ posts: BlogPost[] }>("/blog"),
     cms<{ categories: BlogCategory[] }>("/blog/categories"),
     cms<SiteSettings>("/settings"),
-    cms<{ form: any }>("/forms/contact-us"),
   ]);
 
   if (postsResult.status === "fulfilled") {
@@ -69,9 +69,6 @@ export default async function BlogPage() {
   if (settingsResult.status === "fulfilled") {
     settings = settingsResult.value;
   }
-  const contactForm = formResult.status === "fulfilled"
-    ? (formResult.value as any).form || null
-    : null;
 
   // Count posts per category
   const catCounts: Record<string, number> = {};
@@ -82,6 +79,7 @@ export default async function BlogPage() {
   );
 
   return (
+    <EditableSection id="blog" label="Blog Page">
     <div className="container page page--blog">
       <div className="page__layout">
         {/* POSTS COLUMN */}
@@ -159,9 +157,10 @@ export default async function BlogPage() {
             </div>
           )}
 
-          <BlogSidebarContact form={contactForm} />
+          <BlogSidebarFormLoader settingsKey="blog" />
         </aside>
       </div>
     </div>
+    </EditableSection>
   );
 }

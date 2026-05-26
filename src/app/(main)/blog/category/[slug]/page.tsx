@@ -14,7 +14,7 @@ import { cms } from "@/lib/cms";
 import { SiteSettings } from "@/lib/types";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import BlogSidebarContact from "@/components/BlogSidebarContact";
+import BlogSidebarFormLoader from "@/components/BlogSidebarFormLoader";
 
 interface BlogPost {
   id: string;
@@ -74,13 +74,12 @@ export default async function BlogCategoryPage({ params }: PageProps) {
   let settings: SiteSettings | null = null;
   let currentCategory: BlogCategory | null = null;
 
-  const [filteredResult, allPostsResult, categoriesResult, settingsResult, formResult] =
+  const [filteredResult, allPostsResult, categoriesResult, settingsResult] =
     await Promise.allSettled([
       cms<{ posts: BlogPost[] }>("/blog", { category: slug }),
       cms<{ posts: BlogPost[] }>("/blog"),
       cms<{ categories: BlogCategory[] }>("/blog/categories"),
       cms<SiteSettings>("/settings"),
-      cms<{ form: any }>("/forms/contact-us"),
     ]);
 
   if (filteredResult.status === "fulfilled") {
@@ -95,10 +94,6 @@ export default async function BlogCategoryPage({ params }: PageProps) {
   if (settingsResult.status === "fulfilled") {
     settings = settingsResult.value;
   }
-  const contactForm = formResult.status === "fulfilled"
-    ? (formResult.value as any).form || null
-    : null;
-
   currentCategory = categories.find((c) => c.slug === slug) || null;
   if (!currentCategory) notFound();
 
@@ -205,7 +200,7 @@ export default async function BlogCategoryPage({ params }: PageProps) {
             </div>
           )}
 
-          <BlogSidebarContact form={contactForm} />
+          <BlogSidebarFormLoader settingsKey="blog" />
         </aside>
       </div>
     </div>

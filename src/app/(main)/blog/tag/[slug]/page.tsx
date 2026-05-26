@@ -11,7 +11,7 @@ import { cms } from "@/lib/cms";
 import { SiteSettings } from "@/lib/types";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import BlogSidebarContact from "@/components/BlogSidebarContact";
+import BlogSidebarFormLoader from "@/components/BlogSidebarFormLoader";
 
 interface BlogPost {
   id: string;
@@ -61,12 +61,11 @@ export default async function BlogTagPage({ params }: PageProps) {
   let categories: BlogCategory[] = [];
   let settings: SiteSettings | null = null;
 
-  const [postsResult, categoriesResult, settingsResult, formResult] =
+  const [postsResult, categoriesResult, settingsResult] =
     await Promise.allSettled([
       cms<{ posts: BlogPost[] }>("/blog", { tag: slug }),
       cms<{ categories: BlogCategory[] }>("/blog/categories"),
       cms<SiteSettings>("/settings"),
-      cms<{ form: any }>("/forms/contact-us"),
     ]);
 
   let posts: BlogPost[] = [];
@@ -97,10 +96,6 @@ export default async function BlogTagPage({ params }: PageProps) {
   if (settingsResult.status === "fulfilled") {
     settings = settingsResult.value;
   }
-  const contactForm = formResult.status === "fulfilled"
-    ? (formResult.value as any).form || null
-    : null;
-
   // Find the tag name from the first post that has it
   let tagName = slug.replace(/-/g, " ");
   for (const p of posts) {
@@ -203,7 +198,7 @@ export default async function BlogTagPage({ params }: PageProps) {
             </div>
           )}
 
-          <BlogSidebarContact form={contactForm} />
+          <BlogSidebarFormLoader settingsKey="blog" />
         </aside>
       </div>
     </div>

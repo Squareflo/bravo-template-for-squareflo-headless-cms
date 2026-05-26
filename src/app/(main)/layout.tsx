@@ -16,6 +16,7 @@ import EditableSection from "@/components/EditableSection";
 import NavSettingsDrawer from "@/components/NavSettingsDrawer";
 import Footer from "@/components/Footer";
 import FooterSettingsDrawer from "@/components/FooterSettingsDrawer";
+import BlogSettingsDrawer from "@/components/BlogSettingsDrawer";
 import ServicesSettingsDrawer from "@/components/ServicesSettingsDrawer";
 import AuthBar from "@/components/AuthBar";
 
@@ -104,6 +105,7 @@ export default async function MainLayout({
       )}
       <NavSettingsDrawer />
       <FooterSettingsDrawer />
+      <BlogSettingsDrawer />
       <ServicesSettingsDrawer />
     </EditModeProvider>
   );

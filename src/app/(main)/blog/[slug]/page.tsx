@@ -15,7 +15,7 @@ import { cms } from "@/lib/cms";
 import { SiteSettings } from "@/lib/types";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import BlogSidebarContact from "@/components/BlogSidebarContact";
+import BlogSidebarFormLoader from "@/components/BlogSidebarFormLoader";
 import BlogComments from "@/components/BlogComments";
 import BlogCoverImage from "@/components/BlogCoverImage";
 import BlogDetailSettingsDrawer from "@/components/BlogDetailSettingsDrawer";
@@ -151,11 +151,10 @@ export default async function BlogDetailPage({ params }: PageProps) {
   if (!post!) notFound();
 
   // Fetch sidebar data in parallel
-  const [listResult, catResult, settingsResult, formResult] = await Promise.allSettled([
+  const [listResult, catResult, settingsResult] = await Promise.allSettled([
     cms<{ posts: BlogPost[] }>("/blog"),
     cms<{ categories: BlogCategory[] }>("/blog/categories"),
     cms<SiteSettings>("/settings"),
-    cms<{ form: any }>("/forms/contact-us"),
   ]);
 
   if (listResult.status === "fulfilled") {
@@ -168,9 +167,6 @@ export default async function BlogDetailPage({ params }: PageProps) {
   if (settingsResult.status === "fulfilled") {
     settings = settingsResult.value;
   }
-  const contactForm = formResult.status === "fulfilled"
-    ? (formResult.value as any).form || null
-    : null;
 
   const heroImage = post.cover_image || post.thumbnail_image;
 
@@ -293,7 +289,7 @@ export default async function BlogDetailPage({ params }: PageProps) {
             </div>
           )}
 
-          <BlogSidebarContact form={contactForm} />
+          <BlogSidebarFormLoader settingsKey="blogDetail" />
         </aside>
       </div>
       <BlogDetailSettingsDrawer />

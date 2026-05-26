@@ -52,6 +52,11 @@ export type BlogCoverLayout = "full" | "half";
 
 export interface BlogDetailSettings {
   coverLayout: BlogCoverLayout;
+  formSlug: string;
+}
+
+export interface BlogSettings {
+  formSlug: string;
 }
 
 export type ServicesLayout = "list" | "grid";
@@ -64,6 +69,7 @@ export interface ServicesSettings {
 export interface SectionSettings {
   navigation: NavSettings;
   footer: FooterSettings;
+  blog: BlogSettings;
   blogDetail: BlogDetailSettings;
   services: ServicesSettings;
 }
@@ -90,8 +96,12 @@ export interface ButtonPreset {
 }
 
 const DEFAULTS: SectionSettings = {
+  blog: {
+    formSlug: "",
+  },
   blogDetail: {
     coverLayout: "full",
+    formSlug: "",
   },
   services: {
     layout: "list",
@@ -144,6 +154,7 @@ interface EditModeCtx {
   settings: SectionSettings;
   updateNavSettings: (u: Partial<NavSettings>) => void;
   updateFooterSettings: (u: Partial<FooterSettings>) => void;
+  updateBlogSettings: (u: Partial<BlogSettings>) => void;
   updateBlogDetailSettings: (u: Partial<BlogDetailSettings>) => void;
   updateServicesSettings: (u: Partial<ServicesSettings>) => void;
   colorPresets: ColorPreset[];
@@ -176,6 +187,7 @@ export default function EditModeProvider({
         const parsed = JSON.parse(raw);
         const nav = { ...DEFAULTS.navigation, ...parsed.navigation };
         const footer = { ...DEFAULTS.footer, ...parsed.footer };
+        const blog = { ...DEFAULTS.blog, ...parsed.blog };
         const blogDetail = { ...DEFAULTS.blogDetail, ...parsed.blogDetail };
         const services = { ...DEFAULTS.services, ...parsed.services };
         // Migrate legacy variation names
@@ -185,7 +197,7 @@ export default function EditModeProvider({
         if (FOOTER_LEGACY_MAP[footer.variation]) {
           footer.variation = FOOTER_LEGACY_MAP[footer.variation];
         }
-        setSettings((s) => ({ ...s, navigation: nav, footer, blogDetail, services }));
+        setSettings((s) => ({ ...s, navigation: nav, footer, blog, blogDetail, services }));
       }
     } catch {}
     setMounted(true);
@@ -227,6 +239,17 @@ export default function EditModeProvider({
     });
   }, []);
 
+  const updateBlogSettings = useCallback((updates: Partial<BlogSettings>) => {
+    setSettings((prev) => {
+      const next = {
+        ...prev,
+        blog: { ...prev.blog, ...updates },
+      };
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
+      return next;
+    });
+  }, []);
+
   const updateBlogDetailSettings = useCallback((updates: Partial<BlogDetailSettings>) => {
     setSettings((prev) => {
       const next = {
@@ -259,6 +282,7 @@ export default function EditModeProvider({
         settings,
         updateNavSettings,
         updateFooterSettings,
+        updateBlogSettings,
         updateBlogDetailSettings,
         updateServicesSettings,
         colorPresets,

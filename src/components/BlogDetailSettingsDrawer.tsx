@@ -55,6 +55,26 @@ export default function BlogDetailSettingsDrawer() {
               ))}
             </select>
           </div>
+
+          <div className="drawer-field">
+            <label className="drawer-field__label" htmlFor="blog-detail-form-slug">
+              Sidebar Form Slug
+            </label>
+            <input
+              id="blog-detail-form-slug"
+              type="text"
+              className="drawer-input"
+              placeholder="e.g. contact-us"
+              value={ctx.settings.blogDetail.formSlug}
+              onChange={(e) =>
+                ctx.updateBlogDetailSettings({ formSlug: e.target.value })
+              }
+            />
+            <p className="drawer-field__hint">
+              Enter the slug of the form you created in the CMS Forms module.
+              Leave blank to hide the sidebar form.
+            </p>
+          </div>
         </div>
       </div>
     </>
