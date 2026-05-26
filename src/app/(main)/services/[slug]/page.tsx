@@ -14,7 +14,7 @@
 import { cms } from "@/lib/cms";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import BlogSidebarContact from "@/components/BlogSidebarContact";
+import BlogSidebarFormLoader from "@/components/BlogSidebarFormLoader";
 
 interface ContentBlock {
   id: string;
@@ -52,15 +52,22 @@ interface PageProps {
   params: Promise<{ slug: string }>;
 }
 
+async function fetchServiceBySlug(slug: string) {
+  const data = await cms<{ entries: FeedEntry[] }>("/feed-entries", {
+    module: "services",
+  });
+  const entries = data.entries || [];
+  const entry = entries.find((e) => e.slug === slug) || null;
+  return { entry, allEntries: entries };
+}
+
 export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
   const { slug } = await params;
   try {
-    const data = await cms<{ entry: FeedEntry }>(`/feed-entries/${slug}`, {
-      module: "services",
-    });
-    const entry = data.entry;
+    const { entry } = await fetchServiceBySlug(slug);
+    if (!entry) return {};
     const title =
       entry.meta?.title ||
       entry.data.h1_heading ||
@@ -121,37 +128,22 @@ function renderBody(
 export default async function ServiceDetailPage({ params }: PageProps) {
   const { slug } = await params;
 
-  let entry: FeedEntry;
+  let entry: FeedEntry | null = null;
+  let allEntries: FeedEntry[] = [];
 
   try {
-    const data = await cms<{ entry: FeedEntry }>(`/feed-entries/${slug}`, {
-      module: "services",
-    });
-    entry = data.entry;
+    const result = await fetchServiceBySlug(slug);
+    entry = result.entry;
+    allEntries = result.allEntries;
   } catch {
     notFound();
   }
 
-  if (!entry!) notFound();
+  if (!entry) notFound();
 
-  // Fetch related services + contact form in parallel
-  const [listResult, formResult] = await Promise.allSettled([
-    cms<{ entries: FeedEntry[] }>("/feed-entries", { module: "services" }),
-    cms<{ form: any }>("/forms/contact-us"),
-  ]);
-
-  let relatedServices: FeedEntry[] = [];
-  if (listResult.status === "fulfilled") {
-    const allEntries = (listResult.value as any).entries || [];
-    relatedServices = allEntries
-      .filter((e: FeedEntry) => e.slug !== slug)
-      .slice(0, 4);
-  }
-
-  const contactForm =
-    formResult.status === "fulfilled"
-      ? (formResult.value as any).form || null
-      : null;
+  const relatedServices = allEntries
+    .filter((e) => e.slug !== slug)
+    .slice(0, 4);
 
   const title =
     entry.data.h1_heading || entry.data.service_name || entry.title;
@@ -173,18 +165,11 @@ export default async function ServiceDetailPage({ params }: PageProps) {
             entry.data.first_paragraph,
             entry.data.additional_content
           )}
-
-          {/* Inline Request A Quote form */}
-          {contactForm && (
-            <section className="quote-form-inline">
-              <h2 className="quote-form-inline__title">Request A Quote</h2>
-              <InlineQuoteForm form={contactForm} />
-            </section>
-          )}
         </article>
 
         {/* SIDEBAR COLUMN */}
         <aside className="sidebar">
+          <BlogSidebarFormLoader settingsKey="services" />
           {relatedServices.length > 0 && (
             <div className="widget">
               <h2 className="widget__title">Related Services</h2>
@@ -229,37 +214,5 @@ export default async function ServiceDetailPage({ params }: PageProps) {
         </aside>
       </div>
     </div>
-  );
-}
-
-function InlineQuoteForm({ form }: { form: any }) {
-  const fields = form.fields || [];
-  return (
-    <form>
-      {fields.map((field: any) => (
-        <div key={field.id} className="form-field">
-          <label htmlFor={`quote-${field.id}`} className="form-field__label">
-            {field.label}
-          </label>
-          {field.type === "textarea" ? (
-            <textarea
-              id={`quote-${field.id}`}
-              className="form-field__textarea"
-              placeholder={field.placeholder}
-            />
-          ) : (
-            <input
-              id={`quote-${field.id}`}
-              type={field.type || "text"}
-              className="form-field__input"
-              placeholder={field.placeholder}
-            />
-          )}
-        </div>
-      ))}
-      <button type="submit" className="btn btn--block">
-        Submit
-      </button>
-    </form>
   );
 }
