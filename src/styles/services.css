@@ -255,6 +255,22 @@
   margin-bottom: 36px;
 }
 
+/* Cover image: half width — square 1:1, text wraps around */
+.service-detail__hero--half {
+  width: 50%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  float: left;
+  margin: 0 28px 20px 0;
+}
+
+/* Wrapper for float containment when using half-width cover */
+.service-detail__body-wrap::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
 .service-detail__body {
   font-size: 1rem;
   line-height: 1.8;
@@ -427,6 +443,13 @@
 
   .service-detail__title {
     font-size: 1.8rem;
+  }
+
+  .service-detail__hero--half {
+    width: 100%;
+    float: none;
+    margin: 0 0 36px;
+    aspect-ratio: 16 / 9;
   }
 
   .service-detail__body > p:first-of-type {

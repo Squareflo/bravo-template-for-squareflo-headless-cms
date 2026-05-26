@@ -15,6 +15,8 @@ import { cms } from "@/lib/cms";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import BlogSidebarFormLoader from "@/components/BlogSidebarFormLoader";
+import ServiceCoverImage from "@/components/ServiceCoverImage";
+import EditableSection from "@/components/EditableSection";
 
 interface ContentBlock {
   id: string;
@@ -150,6 +152,7 @@ export default async function ServiceDetailPage({ params }: PageProps) {
   const heroImage = entry.data.main_image || entry.data.thumbnail;
 
   return (
+    <EditableSection id="serviceDetail" label="Service Detail Page">
     <div className="container page">
       <div className="page__layout">
         {/* SERVICE CONTENT COLUMN */}
@@ -157,19 +160,17 @@ export default async function ServiceDetailPage({ params }: PageProps) {
           <h1 className="service-detail__title">{title}</h1>
           <hr className="service-detail__rule" />
 
-          {heroImage && (
-            <img src={heroImage} alt="" className="service-detail__hero" />
-          )}
-
-          {renderBody(
-            entry.data.first_paragraph,
-            entry.data.additional_content
-          )}
+          <ServiceCoverImage src={heroImage || null}>
+            {renderBody(
+              entry.data.first_paragraph,
+              entry.data.additional_content
+            )}
+          </ServiceCoverImage>
         </article>
 
         {/* SIDEBAR COLUMN */}
         <aside className="sidebar">
-          <BlogSidebarFormLoader settingsKey="services" />
+          <BlogSidebarFormLoader settingsKey="serviceDetail" />
           {relatedServices.length > 0 && (
             <div className="widget">
               <h2 className="widget__title">Related Services</h2>
@@ -214,5 +215,6 @@ export default async function ServiceDetailPage({ params }: PageProps) {
         </aside>
       </div>
     </div>
+    </EditableSection>
   );
 }
