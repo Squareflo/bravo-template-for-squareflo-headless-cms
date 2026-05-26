@@ -54,10 +54,18 @@ export interface BlogDetailSettings {
   coverLayout: BlogCoverLayout;
 }
 
+export type ServicesLayout = "list" | "grid";
+
+export interface ServicesSettings {
+  layout: ServicesLayout;
+  formSlug: string;
+}
+
 export interface SectionSettings {
   navigation: NavSettings;
   footer: FooterSettings;
   blogDetail: BlogDetailSettings;
+  services: ServicesSettings;
 }
 
 export interface ColorPreset {
@@ -84,6 +92,10 @@ export interface ButtonPreset {
 const DEFAULTS: SectionSettings = {
   blogDetail: {
     coverLayout: "full",
+  },
+  services: {
+    layout: "list",
+    formSlug: "",
   },
   footer: {
     variation: "ft1",
@@ -133,6 +145,7 @@ interface EditModeCtx {
   updateNavSettings: (u: Partial<NavSettings>) => void;
   updateFooterSettings: (u: Partial<FooterSettings>) => void;
   updateBlogDetailSettings: (u: Partial<BlogDetailSettings>) => void;
+  updateServicesSettings: (u: Partial<ServicesSettings>) => void;
   colorPresets: ColorPreset[];
   buttonPresets: ButtonPreset[];
 }
@@ -164,6 +177,7 @@ export default function EditModeProvider({
         const nav = { ...DEFAULTS.navigation, ...parsed.navigation };
         const footer = { ...DEFAULTS.footer, ...parsed.footer };
         const blogDetail = { ...DEFAULTS.blogDetail, ...parsed.blogDetail };
+        const services = { ...DEFAULTS.services, ...parsed.services };
         // Migrate legacy variation names
         if (LEGACY_MAP[nav.variation]) {
           nav.variation = LEGACY_MAP[nav.variation];
@@ -171,7 +185,7 @@ export default function EditModeProvider({
         if (FOOTER_LEGACY_MAP[footer.variation]) {
           footer.variation = FOOTER_LEGACY_MAP[footer.variation];
         }
-        setSettings((s) => ({ ...s, navigation: nav, footer, blogDetail }));
+        setSettings((s) => ({ ...s, navigation: nav, footer, blogDetail, services }));
       }
     } catch {}
     setMounted(true);
@@ -224,6 +238,17 @@ export default function EditModeProvider({
     });
   }, []);
 
+  const updateServicesSettings = useCallback((updates: Partial<ServicesSettings>) => {
+    setSettings((prev) => {
+      const next = {
+        ...prev,
+        services: { ...prev.services, ...updates },
+      };
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
+      return next;
+    });
+  }, []);
+
   return (
     <Ctx.Provider
       value={{
@@ -235,6 +260,7 @@ export default function EditModeProvider({
         updateNavSettings,
         updateFooterSettings,
         updateBlogDetailSettings,
+        updateServicesSettings,
         colorPresets,
         buttonPresets,
       }}

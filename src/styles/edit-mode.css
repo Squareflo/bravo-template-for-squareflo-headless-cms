@@ -268,6 +268,34 @@
   font-weight: 600;
 }
 
+/* --- Text input --- */
+.drawer-input {
+  width: 100%;
+  padding: 10px 14px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #333;
+  background: #fff;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  outline: none;
+  transition: border-color 0.15s;
+}
+.drawer-input:focus {
+  border-color: #22c55e;
+}
+.drawer-input::placeholder {
+  color: #aaa;
+}
+
+/* --- Field hint --- */
+.drawer-field__hint {
+  font-size: 0.75rem;
+  color: #888;
+  margin: 8px 0 0;
+  line-height: 1.4;
+}
+
 /* --- Range slider --- */
 .drawer-slider {
   width: 100%;
