@@ -118,17 +118,17 @@
 .ft-sqf-logo { height: 18px; width: auto; display: inline-block; vertical-align: middle; }
 
 /* --- Shared: Bottom bar (all prefixes) --- */
-.ft1__bottom, .ft3__bottom, .ft4__bottom, .ft5__bottom, .ft6__bottom {
+.ft1__bottom, .ft2__bottom, .ft3__bottom, .ft4__bottom, .ft5__bottom, .ft6__bottom, .ft7__bottom {
   border-top: 1px solid var(--color-border-dark, #3a3a3a); font-size: 0.82rem; color: rgba(255,255,255,0.5);
 }
-.ft1__bottom-inner, .ft3__bottom-inner, .ft4__bottom-inner, .ft5__bottom-inner, .ft6__bottom-inner {
+.ft1__bottom-inner, .ft2__bottom-inner, .ft3__bottom-inner, .ft4__bottom-inner, .ft5__bottom-inner, .ft6__bottom-inner, .ft7__bottom-inner {
   max-width: 1200px; margin: 0 auto; padding: 18px 24px; display: flex; justify-content: space-between;
 }
-.ft1__bottom a, .ft3__bottom a, .ft4__bottom a, .ft5__bottom a, .ft6__bottom a {
+.ft1__bottom a, .ft2__bottom a, .ft3__bottom a, .ft4__bottom a, .ft5__bottom a, .ft6__bottom a, .ft7__bottom a {
   color: rgba(255,255,255,0.5); text-decoration: none;
 }
-.ft1__bottom a:hover, .ft3__bottom a:hover, .ft4__bottom a:hover,
-.ft5__bottom a:hover, .ft6__bottom a:hover { color: var(--color-accent); }
+.ft1__bottom a:hover, .ft2__bottom a:hover, .ft3__bottom a:hover, .ft4__bottom a:hover,
+.ft5__bottom a:hover, .ft6__bottom a:hover, .ft7__bottom a:hover { color: var(--color-accent); }
 
 /* --- Shared: Nav list (all prefixes) --- */
 .ft1__list, .ft3__list, .ft4__list, .ft5__list, .ft6__list {
@@ -292,8 +292,8 @@
 @media (max-width: 767px) {
   .ft1__inner, .ft3__inner, .ft3__utility, .ft4__main-inner,
   .ft5__inner, .ft6__main-inner { grid-template-columns: 1fr; gap: 30px; }
-  .ft1__bottom-inner, .ft3__bottom-inner, .ft4__bottom-inner,
-  .ft5__bottom-inner, .ft6__bottom-inner {
+  .ft1__bottom-inner, .ft2__bottom-inner, .ft3__bottom-inner, .ft4__bottom-inner,
+  .ft5__bottom-inner, .ft6__bottom-inner, .ft7__bottom-inner {
     flex-direction: column; gap: 8px; text-align: center;
   }
   .ft7__list { gap: 16px; }

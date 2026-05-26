@@ -846,6 +846,7 @@
    ========================================================================== */
 .nav-and-content {
   position: relative;
+  flex: 1;
 }
 .nav-overlay-wrap {
   position: absolute;
