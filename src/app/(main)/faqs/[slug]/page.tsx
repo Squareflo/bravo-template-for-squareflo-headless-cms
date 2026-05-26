@@ -3,11 +3,12 @@
  * ==================================================
  * Powered by SquarefloCMS (https://squareflo.com)
  *
- * Fetches a single FAQ by ID and renders the full question and answer
- * with sidebar form and related FAQs.
+ * Fetches a single FAQ by slug (derived from question) and renders
+ * the full question and answer with sidebar form and related FAQs.
  */
 
 import { cms } from "@/lib/cms";
+import { faqSlug } from "@/lib/faq-utils";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import BlogSidebarFormLoader from "@/components/BlogSidebarFormLoader";
@@ -25,7 +26,7 @@ interface FAQ {
 }
 
 interface PageProps {
-  params: Promise<{ id: string }>;
+  params: Promise<{ slug: string }>;
 }
 
 async function fetchAllFaqs(): Promise<{ faqs: FAQ[]; categories: string[] }> {
@@ -37,10 +38,14 @@ async function fetchAllFaqs(): Promise<{ faqs: FAQ[]; categories: string[] }> {
   }
 }
 
+function findFaqBySlug(faqs: FAQ[], slug: string): FAQ | undefined {
+  return faqs.find((f) => faqSlug(f.question) === slug);
+}
+
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const { id } = await params;
+  const { slug } = await params;
   const { faqs } = await fetchAllFaqs();
-  const faq = faqs.find((f) => f.id === id);
+  const faq = findFaqBySlug(faqs, slug);
   if (!faq) return {};
   return {
     title: faq.question,
@@ -49,10 +54,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 export default async function FAQDetailPage({ params }: PageProps) {
-  const { id } = await params;
+  const { slug } = await params;
   const { faqs, categories } = await fetchAllFaqs();
 
-  const faq = faqs.find((f) => f.id === id);
+  const faq = findFaqBySlug(faqs, slug);
   if (!faq) notFound();
 
   // Related FAQs: same category, excluding current
@@ -132,7 +137,7 @@ export default async function FAQDetailPage({ params }: PageProps) {
               <ul className="topic-list">
                 {related.map((r) => (
                   <li key={r.id}>
-                    <a href={`/faqs/${r.id}`}>{r.question}</a>
+                    <a href={`/faqs/${faqSlug(r.question)}`}>{r.question}</a>
                   </li>
                 ))}
               </ul>

@@ -11,6 +11,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useEditMode } from "./EditModeProvider";
 import Pagination from "./Pagination";
+import { faqSlug } from "@/lib/faq-utils";
 
 interface FAQ {
   id: string;
@@ -87,7 +88,7 @@ export default function FAQList({ faqs }: Props) {
             return (
               <article key={faq.id} className="faq-card">
                 <h2 className="faq-card__question">
-                  <a href={`/faqs/${faq.id}`}>{faq.question}</a>
+                  <a href={`/faqs/${faqSlug(faq.question)}`}>{faq.question}</a>
                 </h2>
                 {excerpt && (
                   <p className="faq-card__excerpt">
@@ -95,7 +96,7 @@ export default function FAQList({ faqs }: Props) {
                     {isTruncated && (
                       <>
                         {" "}
-                        <a href={`/faqs/${faq.id}`} className="faq-card__more">
+                        <a href={`/faqs/${faqSlug(faq.question)}`} className="faq-card__more">
                           Read more
                         </a>
                       </>
