@@ -21,6 +21,7 @@ interface FeedEntry {
   title: string;
   slug: string;
   status: string;
+  sort_order?: number;
   data: {
     thumbnail?: string;
     main_image?: string;
@@ -44,7 +45,9 @@ export default async function ServicesPage() {
     const data = await cms<{ entries: FeedEntry[] }>("/feed-entries", {
       module: "services",
     });
-    entries = data.entries || [];
+    entries = (data.entries || []).sort(
+      (a, b) => (a.sort_order ?? 0) - (b.sort_order ?? 0)
+    );
   } catch {}
 
   return <ServicesPageClient entries={entries} />;
