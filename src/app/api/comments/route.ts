@@ -3,8 +3,8 @@
  * ==================================================
  * Powered by SquarefloCMS (https://squareflo.com)
  *
- * GET  /api/comments?module_type=blog&module_item_id=<uuid>
- * POST /api/comments  { module_type, module_item_id, content }
+ * GET  /api/comments?module_type=blog&module_item_id=<uuid>&sort=newest
+ * POST /api/comments  { module_type, module_item_id, content, parent_id? }
  *
  * Proxies to the CMS /comments endpoint, forwarding the user's
  * auth token on POST requests.
@@ -25,7 +25,18 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: "module_type and module_item_id are required" }, { status: 400 });
   }
 
-  const url = `${API_URL}/comments?module_type=${encodeURIComponent(moduleType)}&module_item_id=${encodeURIComponent(moduleItemId)}`;
+  const params = new URLSearchParams({
+    module_type: moduleType,
+    module_item_id: moduleItemId,
+  });
+
+  const sort = sp.get("sort");
+  if (sort) params.set("sort", sort);
+
+  const limit = sp.get("limit");
+  if (limit) params.set("limit", limit);
+
+  const url = `${API_URL}/comments?${params.toString()}`;
   const res = await fetch(url, {
     headers: { "x-api-key": API_KEY },
     cache: "no-store",
