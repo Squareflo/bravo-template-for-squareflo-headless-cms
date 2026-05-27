@@ -350,26 +350,29 @@ export default function BlogComments({ postId, moduleType = "blog" }: Props) {
                 <i className={liked ? "fas fa-heart" : "far fa-heart"} />
                 {c.likes_count > 0 && <span>{c.likes_count}</span>}
               </button>
-              {user && (
-                <button
-                  type="button"
-                  className="comment__action"
-                  onClick={() => {
-                    if (replyingTo === c.id) {
-                      setReplyingTo(null);
-                      setReplyText("");
-                      setReplyError("");
-                    } else {
-                      setReplyingTo(c.id);
-                      setReplyText("");
-                      setReplyError("");
-                    }
-                  }}
-                >
-                  <i className="far fa-comment" />
-                  <span>Reply</span>
-                </button>
-              )}
+              <button
+                type="button"
+                className="comment__action"
+                onClick={() => {
+                  if (!user) {
+                    const returnUrl = `${window.location.pathname}#comments`;
+                    window.location.href = `/sign-in?redirect=${encodeURIComponent(returnUrl)}`;
+                    return;
+                  }
+                  if (replyingTo === c.id) {
+                    setReplyingTo(null);
+                    setReplyText("");
+                    setReplyError("");
+                  } else {
+                    setReplyingTo(c.id);
+                    setReplyText("");
+                    setReplyError("");
+                  }
+                }}
+              >
+                <i className="far fa-comment" />
+                <span>Reply</span>
+              </button>
               {isOwnComment(c, user) && (
                 <button
                   type="button"
@@ -481,10 +484,10 @@ export default function BlogComments({ postId, moduleType = "blog" }: Props) {
             others.
           </p>
           <div className="comment-signin__actions">
-            <a href="/sign-in" className="btn">
+            <a href={`/sign-in?redirect=${encodeURIComponent(typeof window !== "undefined" ? `${window.location.pathname}#comments` : "")}`} className="btn">
               Sign In
             </a>
-            <a href="/sign-up" className="btn btn--outline">
+            <a href={`/sign-up?redirect=${encodeURIComponent(typeof window !== "undefined" ? `${window.location.pathname}#comments` : "")}`} className="btn btn--outline">
               Create Account
             </a>
           </div>
