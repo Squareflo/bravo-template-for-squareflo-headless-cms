@@ -951,6 +951,10 @@
     gap: 12px;
   }
 
+  .recent-post--no-thumb {
+    grid-template-columns: 1fr;
+  }
+
   .recent-post__title {
     font-size: 1rem;
   }
