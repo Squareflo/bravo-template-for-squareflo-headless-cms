@@ -301,4 +301,9 @@
   }
   .ft7__list { gap: 16px; }
   .ft4__locations-grid { grid-template-columns: 1fr; }
+  .ft-powered {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
 }
