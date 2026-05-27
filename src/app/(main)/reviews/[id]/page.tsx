@@ -56,7 +56,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 function formatDate(dateStr: string): string {
-  return new Date(dateStr).toLocaleDateString("en-US", {
+  const parsed = /^\d+$/.test(dateStr)
+    ? new Date(Number(dateStr) * 1000)
+    : new Date(dateStr);
+  if (isNaN(parsed.getTime())) return "";
+  return parsed.toLocaleDateString("en-US", {
     year: "numeric",
     month: "long",
     day: "numeric",

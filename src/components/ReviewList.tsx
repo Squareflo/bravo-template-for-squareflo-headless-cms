@@ -34,7 +34,12 @@ interface Props {
 }
 
 function formatDate(dateStr: string): string {
-  return new Date(dateStr).toLocaleDateString("en-US", {
+  // review_time from Google can be a Unix timestamp (seconds)
+  const parsed = /^\d+$/.test(dateStr)
+    ? new Date(Number(dateStr) * 1000)
+    : new Date(dateStr);
+  if (isNaN(parsed.getTime())) return "";
+  return parsed.toLocaleDateString("en-US", {
     year: "numeric",
     month: "long",
     day: "numeric",
