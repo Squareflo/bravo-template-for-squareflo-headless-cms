@@ -12,6 +12,7 @@ import type { Metadata } from "next";
 import EditableSection from "@/components/EditableSection";
 import BlogSidebarFormLoader from "@/components/BlogSidebarFormLoader";
 import ReviewList from "@/components/ReviewList";
+import ReviewSubmitForm from "@/components/ReviewSubmitForm";
 import "@/styles/reviews.css";
 
 interface Review {
@@ -97,28 +98,12 @@ export default async function ReviewsPage() {
             <h1 className="page-title">Reviews</h1>
             <hr className="page-title-rule page-title-rule--blog" />
 
-            {totalReviews > 0 && (
-              <div className="review-stats">
-                <span className="review-stats__number">
-                  {avgRating.toFixed(1)}
-                </span>
-                <div>
-                  <div className="review-stats__stars">
-                    {"★".repeat(Math.round(avgRating))}
-                    {"☆".repeat(5 - Math.round(avgRating))}
-                  </div>
-                  <span className="review-stats__count">
-                    Based on {totalReviews} review{totalReviews !== 1 ? "s" : ""}
-                  </span>
-                </div>
-              </div>
-            )}
-
             <ReviewList reviews={reviews} />
           </div>
 
           {/* SIDEBAR COLUMN */}
           <aside className="sidebar">
+            <ReviewSubmitForm />
             <BlogSidebarFormLoader settingsKey="reviews" />
           </aside>
         </div>
