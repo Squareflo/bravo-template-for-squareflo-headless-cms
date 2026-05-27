@@ -26,7 +26,7 @@ export default async function SignInPage() {
     <main>
       <div className="auth-wrap">
         <div className="auth-card">
-          <h1 className="auth-card__title">Welcome back</h1>
+          <h1 className="auth-card__title">Sign In</h1>
           <p className="auth-card__subtitle">Sign in to your account</p>
 
           <Suspense>
