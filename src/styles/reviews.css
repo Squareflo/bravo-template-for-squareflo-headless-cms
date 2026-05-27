@@ -1,0 +1,217 @@
+/* ==========================================================================
+   Reviews Styles — SquarefloCMS Bravo Template
+   Powered by SquarefloCMS (https://squareflo.com) — free headless CMS.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   REVIEWS - LIST VIEW
+   -------------------------------------------------------------------------- */
+.review-list {
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+}
+
+.review-card {
+}
+
+.review-card__text {
+  font-size: 1rem;
+  line-height: 1.8;
+  color: var(--color-text);
+  margin: 0 0 20px;
+}
+
+.review-card__more {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  color: var(--color-accent);
+  font-size: 0.95rem;
+  white-space: nowrap;
+}
+
+.review-card__more:hover {
+  color: var(--color-accent-hover);
+}
+
+.review-card__citation {
+  display: grid;
+  grid-template-columns: 56px 1fr;
+  gap: 14px;
+  align-items: center;
+}
+
+.review-card__avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.review-card__avatar--placeholder {
+  background: var(--color-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-muted);
+  font-size: 1.2rem;
+}
+
+.review-card__stars {
+  display: flex;
+  gap: 2px;
+  color: var(--color-accent);
+  font-size: 0.9rem;
+  letter-spacing: 2px;
+  margin-bottom: 2px;
+}
+
+.review-card__name {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 1rem;
+  margin: 0;
+  color: var(--color-text);
+}
+
+.review-card__date {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  margin: 2px 0 0;
+}
+
+.review-card__source {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  margin-left: 8px;
+}
+
+/* --------------------------------------------------------------------------
+   REVIEWS - DETAIL PAGE
+   -------------------------------------------------------------------------- */
+.review-detail__title {
+  font-family: var(--font-heading);
+  font-size: 2.4rem;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--color-text);
+  margin: 0 0 14px;
+}
+
+.review-detail__rule {
+  height: 2px;
+  background: var(--color-accent);
+  border: 0;
+  margin: 0 0 32px;
+}
+
+.review-detail__text {
+  font-size: 1rem;
+  line-height: 1.8;
+  color: var(--color-text);
+  margin-bottom: 36px;
+}
+
+.review-detail__citation {
+  display: grid;
+  grid-template-columns: 70px 1fr;
+  gap: 18px;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.review-detail__avatar {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.review-detail__avatar--placeholder {
+  background: var(--color-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-muted);
+  font-size: 1.6rem;
+}
+
+.review-detail__stars {
+  display: flex;
+  gap: 2px;
+  color: var(--color-accent);
+  font-size: 1.1rem;
+  letter-spacing: 2px;
+  margin-bottom: 4px;
+}
+
+.review-detail__name {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 1.1rem;
+  margin: 0;
+  color: var(--color-text);
+}
+
+.review-detail__date {
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+  margin: 4px 0 0;
+}
+
+/* --------------------------------------------------------------------------
+   REVIEWS - AGGREGATE STATS
+   -------------------------------------------------------------------------- */
+.review-stats {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 32px;
+  padding: 20px 24px;
+  background: var(--color-light);
+  border-radius: 6px;
+}
+
+.review-stats__number {
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: 2.4rem;
+  color: var(--color-text);
+  line-height: 1;
+}
+
+.review-stats__stars {
+  display: flex;
+  gap: 2px;
+  color: var(--color-accent);
+  font-size: 1.1rem;
+  letter-spacing: 2px;
+  margin-bottom: 2px;
+}
+
+.review-stats__count {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}
+
+/* --------------------------------------------------------------------------
+   RESPONSIVE
+   -------------------------------------------------------------------------- */
+@media (max-width: 767px) {
+  .review-detail__title {
+    font-size: 1.6rem;
+  }
+
+  .review-detail__citation {
+    grid-template-columns: 56px 1fr;
+    gap: 14px;
+  }
+
+  .review-detail__avatar {
+    width: 56px;
+    height: 56px;
+  }
+}

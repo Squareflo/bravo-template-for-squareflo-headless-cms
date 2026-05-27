@@ -14,7 +14,7 @@ import { useEditMode } from "./EditModeProvider";
 import BlogSidebarContact from "./BlogSidebarContact";
 
 interface Props {
-  settingsKey: "blog" | "blogDetail" | "services" | "serviceDetail" | "faqs";
+  settingsKey: "blog" | "blogDetail" | "services" | "serviceDetail" | "faqs" | "reviews";
 }
 
 export default function BlogSidebarFormLoader({ settingsKey }: Props) {
