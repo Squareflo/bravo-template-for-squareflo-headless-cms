@@ -93,9 +93,9 @@ export default function ReviewSubmitForm() {
 
   if (authLoading) {
     return (
-      <div className="widget">
+      <div className="widget widget--contact">
         <h2 className="widget__title">Leave a Review</h2>
-        <p style={{ color: "var(--color-text-muted)", fontSize: "0.9rem" }}>Loading...</p>
+        <p className="form-field__label">Loading...</p>
       </div>
     );
   }
@@ -103,14 +103,15 @@ export default function ReviewSubmitForm() {
   // Not signed in
   if (!user) {
     return (
-      <div className="widget">
+      <div className="widget widget--contact">
         <h2 className="widget__title">Leave a Review</h2>
-        <p style={{ color: "var(--color-text-muted)", fontSize: "0.9rem", lineHeight: 1.6, margin: "0 0 16px" }}>
+        <p style={{ color: "var(--color-text-muted)", fontSize: "0.95rem", lineHeight: 1.6, margin: "0 0 16px" }}>
           Sign in to share your experience and leave a review.
         </p>
         <a
           href={`/sign-in?redirect=${encodeURIComponent("/reviews")}`}
-          className="review-form__signin-btn"
+          className="btn"
+          style={{ display: "inline-block", textAlign: "center" }}
         >
           Sign In
         </a>
@@ -121,14 +122,14 @@ export default function ReviewSubmitForm() {
   // Already submitted
   if (existingReview || submitted) {
     return (
-      <div className="widget">
+      <div className="widget widget--contact">
         <h2 className="widget__title">Leave a Review</h2>
         {submitted ? (
           <p style={{ color: "var(--color-text)", fontSize: "0.95rem", lineHeight: 1.6, margin: 0 }}>
             Thank you for your review!
           </p>
         ) : (
-          <p style={{ color: "var(--color-text-muted)", fontSize: "0.9rem", lineHeight: 1.6, margin: 0 }}>
+          <p style={{ color: "var(--color-text-muted)", fontSize: "0.95rem", lineHeight: 1.6, margin: 0 }}>
             You have already submitted a review. Thank you!
           </p>
         )}
@@ -138,39 +139,45 @@ export default function ReviewSubmitForm() {
 
   // Show form
   return (
-    <div className="widget">
+    <div className="widget widget--contact">
       <h2 className="widget__title">Leave a Review</h2>
-      <form onSubmit={handleSubmit} className="review-form">
-        <div className="review-form__stars">
-          {[1, 2, 3, 4, 5].map((star) => (
-            <button
-              key={star}
-              type="button"
-              className={`review-form__star ${star <= (hoverRating || rating) ? "review-form__star--active" : ""}`}
-              onMouseEnter={() => setHoverRating(star)}
-              onMouseLeave={() => setHoverRating(0)}
-              onClick={() => setRating(star)}
-              aria-label={`${star} star${star !== 1 ? "s" : ""}`}
-            >
-              {star <= (hoverRating || rating) ? "★" : "☆"}
-            </button>
-          ))}
+      <form onSubmit={handleSubmit}>
+        <div className="form-field">
+          <label className="form-field__label">Rating</label>
+          <div className="review-form__stars">
+            {[1, 2, 3, 4, 5].map((star) => (
+              <button
+                key={star}
+                type="button"
+                className={`review-form__star ${star <= (hoverRating || rating) ? "review-form__star--active" : ""}`}
+                onMouseEnter={() => setHoverRating(star)}
+                onMouseLeave={() => setHoverRating(0)}
+                onClick={() => setRating(star)}
+                aria-label={`${star} star${star !== 1 ? "s" : ""}`}
+              >
+                {star <= (hoverRating || rating) ? "\u2605" : "\u2606"}
+              </button>
+            ))}
+          </div>
         </div>
 
-        <textarea
-          className="review-form__textarea"
-          placeholder="Tell us about your experience..."
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-          rows={4}
-        />
+        <div className="form-field">
+          <label htmlFor="review-text" className="form-field__label">Your Review</label>
+          <textarea
+            id="review-text"
+            className="form-field__textarea"
+            placeholder="Tell us about your experience..."
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+          />
+        </div>
 
         {error && <p className="review-form__error">{error}</p>}
 
         <button
           type="submit"
           disabled={submitting}
-          className="review-form__submit"
+          className="btn"
         >
           {submitting ? "Submitting..." : "Submit Review"}
         </button>
